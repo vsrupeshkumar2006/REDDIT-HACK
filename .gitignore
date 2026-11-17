@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+.venv/
+env/
+venv/
+dist/
+build/
+*.egg-info/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Devvit & Logs
+.devvit/
+*.log
+scratch/

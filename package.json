@@ -1,0 +1,37 @@
+{
+  "name": "karmacrunch",
+  "version": "2.0.0",
+  "type": "module",
+  "description": "KarmaCrunch: An AI-Powered Reddit Analytics Engine & 100-Level RPG Community Game Suite built for Devvit",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "backend": "uvicorn backend.main:app --reload --port 8080",
+    "test:client": "node tests/test_game.js",
+    "test:backend": "pytest tests/test_backend.py",
+    "test": "npm run test:client && npm run test:backend"
+  },
+  "keywords": [
+    "reddit",
+    "devvit",
+    "reddit-hackathon",
+    "karma",
+    "rpg-game",
+    "threejs",
+    "ai-agent",
+    "openai"
+  ],
+  "authors": [
+    "Rupesh Kumar",
+    "Eshwar Kartik",
+    "Prashant"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@devvit/public-api": "^0.11.0",
+    "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0"
+  }
+}

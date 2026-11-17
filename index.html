@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KarmaCrunch: 1-100 Level Reddit Community Game Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #080d0f;
+      --bg-nav: #0d1518;
+      --bg-card: #121c20;
+      --bg-card-sub: #0a1114;
+      --reddit-orange: #ff4500;
+      --reddit-orange-glow: rgba(255, 69, 0, 0.45);
+      --reddit-blue: #0079d3;
+      --reddit-blue-glow: rgba(0, 121, 211, 0.4);
+      --reddit-gold: #ffd700;
+      --reddit-green: #24a0ed;
+      --health-color: #46d160;
+      --shield-color: #00b0ff;
+      --sarcasm-color: #ff9100;
+      --border: #1e2c31;
+      --border-bright: #2d4149;
+      --text-main: #f0f3f5;
+      --text-muted: #829299;
+      --font-main: 'Outfit', sans-serif;
+      --font-mono: 'Fira Code', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(255, 69, 0, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 121, 211, 0.08) 0%, transparent 40%),
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 28px 28px, 28px 28px;
+    }
+
+    /* Top Navbar */
+    .navbar {
+      height: 60px;
+      background: var(--bg-nav);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--reddit-orange), #ff7700);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 0 16px var(--reddit-orange-glow);
+    }
+
+    .brand-title {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-title span { color: var(--reddit-orange); }
+
+    .badge-devvit {
+      font-size: 10px;
+      font-weight: 800;
+      background: rgba(255, 69, 0, 0.15);
+      color: var(--reddit-orange);
+      border: 1px solid rgba(255, 69, 0, 0.4);
+      padding: 2px 8px;
+      border-radius: 8px;
+      text-transform: uppercase;
+      margin-left: 8px;
+    }
+
+    .nav-stats {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .points-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #142024;
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 14px;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.4);
+    }
+
+    .points-pill span.num {
+      color: var(--reddit-orange);
+      font-family: var(--font-mono);
+      font-size: 16px;
+    }
+
+    .combo-badge {
+      background: var(--reddit-gold);
+      color: #000;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 10px;
+      animation: pulse 1s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.08); }
+    }
+
+    .btn-sound {
+      background: #142024;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .btn-sound:hover { background: #1c2b30; }
+
+    /* Main Container */
+    .main-layout {
+      width: 100%;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 16px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    /* Level 1-100 Progression Bar */
+    .progression-banner {
+      background: linear-gradient(135deg, #101c20 0%, #17282e 100%);
+      border: 2px solid var(--border);
+      border-radius: 18px;
+      padding: 18px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progression-banner::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 250px;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255, 69, 0, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .prog-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .level-badge-large {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .level-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--reddit-orange), #e03d00);
+      color: #fff;
+      font-size: 20px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 16px var(--reddit-orange-glow);
+    }
+
+    .tier-details h2 {
+      font-size: 20px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tier-details p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .role-picker-btn {
+      background: #18272d;
+      border: 1px solid var(--border-bright);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .role-picker-btn:hover {
+      background: #23373f;
+      border-color: var(--reddit-orange);
+      transform: translateY(-2px);
+    }
+
+    .xp-track-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .xp-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+
+    .xp-bar-outer {
+      height: 14px;
+      background: #080e10;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .xp-bar-inner {
+      height: 100%;
+      width: 15%;
+      background: linear-gradient(90deg, #ff4500, #ff8700, #ffd700);
+      border-radius: 7px;
+      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 12px var(--reddit-orange-glow);
+    }
+
+    /* Navigation Tabs */
+    .nav-tabs {
+      display: flex;
+      gap: 10px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 8px;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+    }
+
+    .tab-btn.active {
+      background: #16262c;
+      color: #fff;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    }
+
+    .tab-btn.active span.icon { color: var(--reddit-orange); }
+
+    /* Screen Views */
+    .screen-panel {
+      display: none;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    .screen-panel.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Screen 1: Game & Tycoon */
+    .game-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .game-grid { grid-template-columns: 1fr; }
+    }
+
+    .post-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .sub-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--reddit-orange);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .post-headline {
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.35;
+      color: #fff;
+    }
+
+    .post-content-box {
+      background: var(--bg-card-sub);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 14px;
+      color: #d0dbe0;
+      line-height: 1.55;
+    }
+
+    .post-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+
+    .vote-pill {
+      display: flex;
+      align-items: center;
+      background: #142024;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .vote-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 14px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .vote-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .vote-up:hover, .vote-up.active { color: var(--reddit-orange); }
+    .vote-down:hover, .vote-down.active { color: var(--reddit-blue); }
+
+    .vote-val {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 800;
+      padding: 0 4px;
+      color: #fff;
+    }
+
+    .action-pill {
+      background: #142024;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .action-pill:hover { background: #1c2c31; border-color: var(--border-bright); }
+
+    /* Live Comments */
+    .comments-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+
+    .comment-bubble {
+      background: #0d1619;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--border-bright);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      animation: slideIn 0.2s ease-out;
+    }
+
+    .comment-bubble.hot { border-left-color: var(--reddit-orange); }
+    .comment-bubble.mod { border-left-color: var(--health-color); background: rgba(70, 209, 96, 0.05); }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Tycoon Sidebar */
+    .sidebar-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .box-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .btn-karma-tap {
+      background: linear-gradient(135deg, var(--reddit-orange), #d43800);
+      border: none;
+      color: #fff;
+      padding: 18px;
+      border-radius: 16px;
+      font-size: 18px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 8px 24px var(--reddit-orange-glow);
+      transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .btn-karma-tap:active { transform: scale(0.96); }
+
+    .upgrades-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .upg-item {
+      background: #0d1619;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 12px 14px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .upg-item:hover:not(:disabled) {
+      background: #17272e;
+      border-color: var(--reddit-orange);
+    }
+
+    .upg-item:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    /* Screen 2: Boss Arena */
+    .arena-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    @media (max-width: 800px) {
+      .arena-grid { grid-template-columns: 1fr; }
+    }
+
+    .combat-box {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+    }
+
+    .combat-box.player { border-color: rgba(0, 121, 211, 0.5); }
+    .combat-box.boss { border-color: rgba(255, 69, 0, 0.5); }
+
+    .card-deck {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .card-deck { grid-template-columns: 1fr; }
+    }
+
+    .move-btn {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      cursor: pointer;
+      color: #fff;
+      text-align: left;
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .move-btn:hover:not(:disabled) {
+      transform: translateY(-5px);
+      border-color: var(--reddit-orange);
+      box-shadow: 0 8px 20px var(--reddit-orange-glow);
+    }
+
+    .move-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Screen 3: Reddit AI Agent Chat */
+    .chat-layout {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-height: 520px;
+    }
+
+    .chat-stream {
+      flex: 1;
+      overflow-y: auto;
+      max-height: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-right: 6px;
+    }
+
+    .chat-msg {
+      max-width: 80%;
+      padding: 14px 18px;
+      border-radius: 16px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .chat-msg.user {
+      align-self: flex-end;
+      background: var(--reddit-orange);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-msg.agent {
+      align-self: flex-start;
+      background: #0f181b;
+      border: 1px solid var(--border);
+      color: #d1dde2;
+      border-bottom-left-radius: 4px;
+    }
+
+    .chat-input-bar {
+      display: flex;
+      gap: 10px;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 14px 18px;
+      background: #091012;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .chat-input:focus { border-color: var(--reddit-orange); }
+
+    .btn-send {
+      background: var(--reddit-orange);
+      border: none;
+      color: #fff;
+      padding: 0 24px;
+      border-radius: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 15px;
+      transition: all 0.2s;
+    }
+
+    /* 3D Holographic Builder Tribute Box (Downside) */
+    .builder-3d-wrapper {
+      margin-top: 30px;
+      perspective: 1000px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .builder-card-3d {
+      width: 100%;
+      background: linear-gradient(135deg, #111a1d 0%, #0d1518 100%);
+      border: 2px solid var(--border);
+      border-radius: 24px;
+      padding: 30px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      align-items: center;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      transform-style: preserve-3d;
+      transition: transform 0.2s ease-out, box-shadow 0.2s;
+    }
+
+    @media (max-width: 860px) {
+      .builder-card-3d { grid-template-columns: 1fr; }
+    }
+
+    .builder-info-col {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .builder-headline {
+      font-size: 24px;
+      font-weight: 900;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .builder-headline span { color: var(--reddit-orange); }
+
+    .team-members-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .member-pill {
+      background: #091012;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .member-pill:hover {
+      border-color: var(--reddit-orange);
+      transform: translateX(4px);
+    }
+
+    .member-name {
+      font-weight: 800;
+      font-size: 15px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .member-role {
+      font-size: 12px;
+      color: var(--reddit-gold);
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    .builder-canvas-box {
+      height: 220px;
+      border-radius: 16px;
+      background: #070c0e;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Modal for Role Selection */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.active { display: flex; }
+
+    .modal-sheet {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: 24px;
+      padding: 30px;
+      max-width: 650px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    }
+
+    .role-grid-modal {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+
+    .role-choice-card {
+      background: #0d1619;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .role-choice-card:hover {
+      border-color: var(--reddit-orange);
+      transform: translateY(-3px);
+    }
+
+    .role-choice-card.selected {
+      border-color: var(--reddit-orange);
+      background: #142228;
+    }
+
+    /* Floating points effect */
+    .floater-num {
+      position: fixed;
+      font-weight: 900;
+      font-size: 22px;
+      pointer-events: none;
+      z-index: 999;
+      animation: floatUp 0.8s ease-out forwards;
+    }
+
+    @keyframes floatUp {
+      0% { opacity: 0; transform: translateY(0) scale(0.6); }
+      20% { opacity: 1; transform: translateY(-20px) scale(1.2); }
+      100% { opacity: 0; transform: translateY(-50px) scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAVBAR -->
+  <header class="navbar">
+    <div class="brand">
+      <div class="brand-icon">⚡</div>
+      <div class="brand-title">Karma<span>Crunch</span> <span class="badge-devvit">Devvit 2.0</span></div>
+    </div>
+    <div class="nav-stats">
+      <div class="points-pill" title="Karma Points Earned">
+        <span>▲</span>
+        <span class="num" id="globalPoints">1,420</span>
+        <span class="combo-badge" id="comboBadge" style="display:none;">x2 STREAK</span>
+      </div>
+      <button class="btn-sound" id="btnAudioToggle">🔊 Audio: ON</button>
+    </div>
+  </header>
+
+  <div class="main-layout">
+    <!-- 1-100 PROGRESSIVE LEVEL BAR -->
+    <section class="progression-banner">
+      <div class="prog-top-row">
+        <div class="level-badge-large">
+          <div class="level-circle" id="lvlCircle">1</div>
+          <div class="tier-details">
+            <h2 id="tierTitle">🐾 Wholesome Meadow <span style="font-size:12px; color:var(--reddit-gold); font-family:var(--font-mono);">[Bracket: Lvl 1-10]</span></h2>
+            <p id="tierDesc">Easy play for pups, kittens, and casual lurkers.</p>
+          </div>
+        </div>
+        <button class="role-picker-btn" id="btnOpenRoleModal">
+          <span id="currentRoleEmoji">🐕</span>
+          <span>Role: <strong id="currentRoleName">Wholesome Doge</strong></span>
+          <span style="font-size:11px; opacity:0.6;">(Change)</span>
+        </button>
+      </div>
+
+      <div class="xp-track-wrapper">
+        <div class="xp-labels">
+          <span style="color:var(--reddit-orange);">PROGRESS TO LEVEL <span id="nextLvlText">2</span></span>
+          <span id="xpNumbers">0 / 60 XP</span>
+        </div>
+        <div class="xp-bar-outer">
+          <div class="xp-bar-inner" id="xpBarInner" style="width: 0%;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NAVIGATION TABS -->
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-tab="tab-tycoon">
+        <span class="icon">📱</span> Reddit Life & Karma Tycoon
+      </button>
+      <button class="tab-btn" data-tab="tab-arena">
+        <span class="icon">⚔️</span> 100-Level Boss Arena
+      </button>
+      <button class="tab-btn" data-tab="tab-agent">
+        <span class="icon">🤖</span> Reddit AI Agent Chat & Scraper
+      </button>
+    </nav>
+
+    <!-- ================================================================= -->
+    <!-- SCREEN 1: REDDIT LIFE SIMULATOR & KARMA TYCOON                   -->
+    <!-- ================================================================= -->
+    <section id="tab-tycoon" class="screen-panel active">
+      <div class="game-grid">
+        <div class="post-container">
+          <div class="post-meta">
+            <div class="sub-icon">K</div>
+            <strong style="color:#fff;">r/KarmaCrunch</strong>
+            <span>• Posted by u/SnooMaster 8 minutes ago</span>
+            <span style="margin-left:auto; font-size:11px; color:var(--reddit-gold); background:rgba(255,215,0,0.12); padding:3px 8px; border-radius:8px;">★ OC Masterwork</span>
+          </div>
+
+          <div class="post-headline" id="mainPostTitle">
+            "We built an AI to audit our Reddit account. It analyzed 5,000 comments and delivered the most humbling roast in human history."
+          </div>
+
+          <div class="post-content-box" id="mainPostContent">
+            According to the GPT-4o mini report, our sarcasm score is 84%. The model noted: 'You spend more time debating strangers on r/AskReddit than eating vegetables.' Click Upvote, Farm Karma, or bestow Awards to generate viral momentum!
+          </div>
+
+          <div class="post-controls">
+            <div class="vote-pill">
+              <button class="vote-btn vote-up" id="btnPostUpvote">▲</button>
+              <span class="vote-val" id="postUpvoteCount">1,420</span>
+              <button class="vote-btn vote-down" id="btnPostDownvote">▼</button>
+            </div>
+            <button class="action-pill" id="btnGiveAward">🎁 Give Award (-100 Pts)</button>
+            <button class="action-pill" id="btnDraftNewPost">📝 Create Viral Post</button>
+            <span style="margin-left:auto; font-size:13px; color:var(--text-muted);">💬 <span id="feedCommentCount">24</span> comments</span>
+          </div>
+
+          <div style="font-size:13px; font-weight:800; color:var(--text-muted); margin-top:8px;">
+            LIVE COMMUNITY COMMENT STREAM:
+          </div>
+
+          <div class="comments-feed" id="commentsStream">
+            <div class="comment-bubble hot">
+              <div style="font-size:12px; font-weight:700; color:var(--text-muted);">u/DankMemer99 <span style="color:var(--reddit-orange);">• +482 points</span></div>
+              <div style="font-size:13px; color:#fff;">Bro achieved enlightenment through pure comment combat. Upvoted.</div>
+            </div>
+            <div class="comment-bubble mod">
+              <div style="font-size:12px; font-weight:700; color:var(--health-color);">🛡️ AutoMod <span style="font-size:11px;">• PINNED ANNOUNCEMENT</span></div>
+              <div style="font-size:13px; color:#fff;">Welcome to the Reddit Hackathon Arena. Be civil and don't feed the downvote trolls.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar Tycoon Upgrades -->
+        <div class="sidebar-col">
+          <div class="box-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <h3 style="font-size:16px; font-weight:800; color:#fff;">⚡ Karma Generator</h3>
+              <span style="font-family:var(--font-mono); font-size:12px; color:var(--reddit-orange);">+<span id="ratePerSec">2</span> / sec</span>
+            </div>
+            <p style="font-size:13px; color:var(--text-muted);">Rapidly farm karma, gain XP toward Level 100, and trigger combo streaks!</p>
+            <button class="btn-karma-tap" id="btnFarmKarma">
+              🔥 TAP FOR KARMA (+<span id="ratePerClick">5</span> PTS)
+            </button>
+          </div>
+
+          <div class="box-card">
+            <h3 style="font-size:16px; font-weight:800; color:#fff;">🛠️ Reddit Hackathon Upgrades</h3>
+            <div class="upgrades-col">
+              <button class="upg-item" id="upgBot">
+                <div>
+                  <div style="font-size:13px; font-weight:800;">🤖 Auto-Posting Meme Bot</div>
+                  <div style="font-size:11px; color:var(--text-muted);">+2 Karma Points / second</div>
+                </div>
+                <span style="color:var(--reddit-gold); font-family:var(--font-mono); font-size:12px;" id="costBot">50 Pts</span>
+              </button>
+
+              <button class="upg-item" id="upgSnark">
+                <div>
+                  <div style="font-size:13px; font-weight:800;">💬 Snarky Comeback Engine</div>
+                  <div style="font-size:11px; color:var(--text-muted);">+6 Points per tap</div>
+                </div>
+                <span style="color:var(--reddit-gold); font-family:var(--font-mono); font-size:12px;" id="costSnark">120 Pts</span>
+              </button>
+
+              <button class="upg-item" id="upgMod">
+                <div>
+                  <div style="font-size:13px; font-weight:800;">🛡️ Subreddit Moderator Shield</div>
+                  <div style="font-size:11px; color:var(--text-muted);">+12 Points / sec & Arena Shield</div>
+                </div>
+                <span style="color:var(--reddit-gold); font-family:var(--font-mono); font-size:12px;" id="costMod">350 Pts</span>
+              </button>
+
+              <button class="upg-item" id="upgTernion">
+                <div>
+                  <div style="font-size:13px; font-weight:800;">💎 Cosmic Ternion Relic</div>
+                  <div style="font-size:11px; color:var(--text-muted);">+40 Points / sec & Boss Nuke</div>
+                </div>
+                <span style="color:var(--reddit-gold); font-family:var(--font-mono); font-size:12px;" id="costTernion">1,000 Pts</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- SCREEN 2: 100-LEVEL PROGRESSIVE BOSS ARENA                       -->
+    <!-- ================================================================= -->
+    <section id="tab-arena" class="screen-panel">
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-card); padding:12px 20px; border-radius:14px; border:1px solid var(--border);">
+          <div style="font-family:var(--font-mono); font-size:14px; color:var(--reddit-gold);">
+            ⚔️ ENCOUNTER: <strong id="arenaBossTitle">The Repost Bot 3000 (Lvl 1)</strong>
+          </div>
+          <div id="arenaTurnNotice" style="font-size:13px; font-weight:800; color:var(--health-color); background:#0c171a; padding:4px 12px; border-radius:8px;">
+            YOUR TURN - CHOOSE MOVE
+          </div>
+        </div>
+
+        <div class="arena-grid">
+          <!-- Player Card -->
+          <div class="combat-box player" id="boxPlayer">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="font-size:36px;" id="arenaRoleAvatar">🐕</div>
+              <div>
+                <h3 style="font-size:18px; font-weight:900;" id="arenaRoleName">Wholesome Doge</h3>
+                <div style="font-size:12px; color:var(--text-muted); font-family:var(--font-mono);">Role Tier: Animal / Beginner</div>
+              </div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <div>
+                <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:700;">
+                  <span>❤️ Karma HP</span>
+                  <span id="playerHpText">120 / 120</span>
+                </div>
+                <div class="xp-bar-outer"><div class="xp-bar-inner" id="playerHpBar" style="width:100%; background:var(--health-color);"></div></div>
+              </div>
+              <div>
+                <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:700;">
+                  <span>🛡️ Upvote Shield</span>
+                  <span id="playerShieldText">0 Shield</span>
+                </div>
+                <div class="xp-bar-outer"><div class="xp-bar-inner" id="playerShieldBar" style="width:0%; background:var(--shield-color);"></div></div>
+              </div>
+            </div>
+
+            <div style="font-size:12px; font-style:italic; color:#b0c0c6; background:#080e10; padding:10px; border-radius:8px; border:1px dashed var(--border);" id="playerSpeech">
+              "Much karma, very wholesome! Upvoting everyone in the thread."
+            </div>
+          </div>
+
+          <div style="font-size:18px; font-weight:900; color:var(--reddit-gold); text-align:center;">VS</div>
+
+          <!-- Boss Card -->
+          <div class="combat-box boss" id="boxBoss">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="font-size:36px;" id="bossAvatar">🤖</div>
+              <div>
+                <h3 style="font-size:18px; font-weight:900;" id="bossName">The Repost Bot 3000</h3>
+                <div style="font-size:12px; color:var(--text-muted); font-family:var(--font-mono);" id="bossRole">Automated Content Scraper</div>
+              </div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <div>
+                <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:700;">
+                  <span>🖤 Boss Karma</span>
+                  <span id="bossHpText">75 / 75</span>
+                </div>
+                <div class="xp-bar-outer"><div class="xp-bar-inner" id="bossHpBar" style="width:100%; background:var(--reddit-orange);"></div></div>
+              </div>
+              <div>
+                <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:700;">
+                  <span>🛡️ Bot Plating</span>
+                  <span id="bossShieldText">0 Shield</span>
+                </div>
+                <div class="xp-bar-outer"><div class="xp-bar-inner" id="bossShieldBar" style="width:0%; background:var(--shield-color);"></div></div>
+              </div>
+            </div>
+
+            <div style="font-size:12px; font-style:italic; color:#b0c0c6; background:#080e10; padding:10px; border-radius:8px; border:1px dashed var(--border);" id="bossQuote">
+              "DOWNLOADING MEME FROM 2017... CROPPING WATERMARK..."
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Card Deck -->
+        <div class="card-deck">
+          <button class="move-btn" id="btnMoveAttack">
+            <div style="font-size:24px;">💬</div>
+            <div style="font-weight:800; font-size:15px;">Upvote Strike</div>
+            <div style="font-size:12px; color:var(--text-muted);">Deals base damage + chance of critical hit.</div>
+          </button>
+
+          <button class="move-btn" id="btnMoveShield">
+            <div style="font-size:24px;">🛡️</div>
+            <div style="font-weight:800; font-size:15px;">Ratio Barrier</div>
+            <div style="font-size:12px; color:var(--text-muted);">Grants defense shield to absorb incoming attacks.</div>
+          </button>
+
+          <button class="move-btn" id="btnMoveSpecial">
+            <div style="font-size:24px;">✨</div>
+            <div style="font-weight:800; font-size:15px;" id="specialMoveTitle">Tail Wag Upvote</div>
+            <div style="font-size:12px; color:var(--text-muted);" id="specialMoveDesc">Heals 20 HP and gives +20 Shield!</div>
+          </button>
+        </div>
+
+        <div style="background:#091012; border:1px solid var(--border); border-radius:12px; padding:12px; font-family:var(--font-mono); font-size:12px; height:100px; overflow-y:auto; display:flex; flex-direction:column-reverse; gap:4px;" id="arenaTranscript">
+          <div style="color:var(--text-muted);">⚔️ Ready for duel. Choose an action card above!</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- SCREEN 3: REDDIT AI AGENT CHAT & SCRAPER                         -->
+    <!-- ================================================================= -->
+    <section id="tab-agent" class="screen-panel">
+      <div class="chat-layout">
+        <div>
+          <h2 style="font-size:20px; font-weight:800; color:#fff;">🤖 Reddit AI Agent & Scraper</h2>
+          <p style="font-size:13px; color:var(--text-muted);">
+            Ask questions, scrape user profiles (e.g. <code>u/spez</code>), analyze subreddits (e.g. <code>r/AskReddit</code>), or ask for viral post suggestions.
+          </p>
+        </div>
+
+        <div class="chat-stream" id="chatStream">
+          <div class="chat-msg agent">
+            <strong>🤖 KarmaCrunch AI:</strong> Welcome! I am your Reddit hackathon copilot. You can type queries like:
+            <br>• <code>u/SnooMaster</code> to scrape and audit a profile
+            <br>• <code>r/technology</code> to analyze subreddit sentiment
+            <br>• <code>roast me</code> for a scorched-earth comedy critique
+            <br>• <code>viral title tips</code> for algorithm-optimized headlines
+          </div>
+        </div>
+
+        <div class="chat-input-bar">
+          <input type="text" class="chat-input" id="chatInput" placeholder="Ask Reddit Agent or type u/username or r/subreddit..." spellcheck="false">
+          <button class="btn-send" id="btnSendChat">Send Query 🚀</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- 3D HOLOGRAPHIC BUILDERS TRIBUTE BOX (DOWNSIDE)                   -->
+    <!-- ================================================================= -->
+    <div class="builder-3d-wrapper">
+      <div class="builder-card-3d" id="builderTiltCard">
+        <div class="builder-info-col">
+          <div class="builder-headline">
+            ⚡ Karma<span>Crunch</span> 3D Architecture
+          </div>
+          <p style="font-size:14px; color:var(--text-muted); line-height:1.5;">
+            Engineered for the Reddit Developer Platform Hackathon. Integrating real-time Reddit API scrapers, GPT-4o mini structured outputs, and a 1-100 level progressive community game suite.
+          </p>
+
+          <div style="font-size:12px; font-weight:800; color:var(--reddit-orange); text-transform:uppercase; letter-spacing:0.5px;">
+            BUILT BY:
+          </div>
+
+          <div class="team-members-grid">
+            <div class="member-pill">
+              <div class="member-name"><span>👨‍💻</span> Rupesh Kumar</div>
+              <div class="member-role">Architecture & AI Systems</div>
+            </div>
+            <div class="member-pill">
+              <div class="member-name"><span>⚡</span> Eshwar Kartik</div>
+              <div class="member-role">Game Engine & Full-Stack</div>
+            </div>
+            <div class="member-pill">
+              <div class="member-name"><span>🎨</span> Prashant</div>
+              <div class="member-role">3D Visuals & UI/UX</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D WebGL Canvas Inside Builder Box -->
+        <div class="builder-canvas-box" id="threeCanvasContainer">
+          <!-- Procedural 3D Canvas injected by threeVisuals.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROLE PICKER MODAL -->
+  <div class="modal-backdrop" id="roleModalBackdrop">
+    <div class="modal-sheet">
+      <div>
+        <h2 style="font-size:22px; font-weight:900; color:#fff;">Choose Your Role</h2>
+        <p style="font-size:14px; color:var(--text-muted);">From animal-friendly starter companions to cosmic Reddit wizards:</p>
+      </div>
+      <div class="role-grid-modal" id="rolesGridContainer">
+        <!-- Rendered dynamically from ANIMAL_ROLES -->
+      </div>
+      <div style="display:flex; justify-content:flex-end;">
+        <button class="action-pill" id="btnCloseRoleModal">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOAD MODULAR ENGINES -->
+  <script type="module">
+    import { GameEngine } from './src/engine/gameEngine.js';
+    import { KarmaVisuals3D, setup3dTiltCard } from './src/engine/threeVisuals.js';
+    import { RedditAgent } from './src/engine/redditAgent.js';
+    import { ANIMAL_ROLES } from './src/data/animalRoles.js';
+
+    // Initialize core instances
+    const game = new GameEngine();
+    const agent = new RedditAgent();
+    const visuals = new KarmaVisuals3D('threeCanvasContainer');
+
+    // Attach 3D Gyro Tilt effect to builder card
+    setup3dTiltCard('builderTiltCard');
+    visuals.init();
+
+    // DOM bindings
+    const globalPoints = document.getElementById('globalPoints');
+    const comboBadge = document.getElementById('comboBadge');
+    const lvlCircle = document.getElementById('lvlCircle');
+    const tierTitle = document.getElementById('tierTitle');
+    const tierDesc = document.getElementById('tierDesc');
+    const nextLvlText = document.getElementById('nextLvlText');
+    const xpNumbers = document.getElementById('xpNumbers');
+    const xpBarInner = document.getElementById('xpBarInner');
+
+    const currentRoleEmoji = document.getElementById('currentRoleEmoji');
+    const currentRoleName = document.getElementById('currentRoleName');
+    const arenaRoleAvatar = document.getElementById('arenaRoleAvatar');
+    const arenaRoleName = document.getElementById('arenaRoleName');
+    const playerSpeech = document.getElementById('playerSpeech');
+    const specialMoveTitle = document.getElementById('specialMoveTitle');
+    const specialMoveDesc = document.getElementById('specialMoveDesc');
+
+    const btnFarmKarma = document.getElementById('btnFarmKarma');
+    const btnPostUpvote = document.getElementById('btnPostUpvote');
+    const btnPostDownvote = document.getElementById('btnPostDownvote');
+    const postUpvoteCount = document.getElementById('postUpvoteCount');
+    const btnGiveAward = document.getElementById('btnGiveAward');
+    const btnDraftNewPost = document.getElementById('btnDraftNewPost');
+    const mainPostTitle = document.getElementById('mainPostTitle');
+    const mainPostContent = document.getElementById('mainPostContent');
+    const commentsStream = document.getElementById('commentsStream');
+    const feedCommentCount = document.getElementById('feedCommentCount');
+    const btnAudioToggle = document.getElementById('btnAudioToggle');
+
+    // Arena elements
+    const arenaBossTitle = document.getElementById('arenaBossTitle');
+    const bossAvatar = document.getElementById('bossAvatar');
+    const bossName = document.getElementById('bossName');
+    const bossRole = document.getElementById('bossRole');
+    const bossQuote = document.getElementById('bossQuote');
+    const bossHpText = document.getElementById('bossHpText');
+    const bossHpBar = document.getElementById('bossHpBar');
+    const bossShieldText = document.getElementById('bossShieldText');
+    const bossShieldBar = document.getElementById('bossShieldBar');
+    const playerHpText = document.getElementById('playerHpText');
+    const playerHpBar = document.getElementById('playerHpBar');
+    const playerShieldText = document.getElementById('playerShieldText');
+    const playerShieldBar = document.getElementById('playerShieldBar');
+    const arenaTranscript = document.getElementById('arenaTranscript');
+
+    const btnMoveAttack = document.getElementById('btnMoveAttack');
+    const btnMoveShield = document.getElementById('btnMoveShield');
+    const btnMoveSpecial = document.getElementById('btnMoveSpecial');
+
+    // Upgrades
+    const upgBot = document.getElementById('upgBot');
+    const upgSnark = document.getElementById('upgSnark');
+    const upgMod = document.getElementById('upgMod');
+    const upgTernion = document.getElementById('upgTernion');
+    const costBot = document.getElementById('costBot');
+    const costSnark = document.getElementById('costSnark');
+    const costMod = document.getElementById('costMod');
+    const costTernion = document.getElementById('costTernion');
+    const ratePerSec = document.getElementById('ratePerSec');
+    const ratePerClick = document.getElementById('ratePerClick');
+
+    let passiveSec = 2;
+    let tapKarma = 5;
+    let costObj = { bot: 50, snark: 120, mod: 350, ternion: 1000 };
+
+    // Game state sync
+    game.onStateChange = (state) => {
+      globalPoints.innerText = state.points.toLocaleString();
+      postUpvoteCount.innerText = state.points.toLocaleString();
+      lvlCircle.innerText = state.level;
+      tierTitle.innerHTML = `${state.tier.name} <span style="font-size:12px; color:var(--reddit-gold); font-family:var(--font-mono);">[${state.tier.bracket}]</span>`;
+      tierDesc.innerText = state.tier.desc;
+      nextLvlText.innerText = state.level < 100 ? state.level + 1 : 100;
+      xpNumbers.innerText = `${state.xp} / ${state.nextXp} XP`;
+      xpBarInner.style.width = `${state.progressPercent}%`;
+
+      if (state.combo > 1) {
+        comboBadge.style.display = "inline-block";
+        comboBadge.innerText = `x${state.combo} STREAK`;
+      } else {
+        comboBadge.style.display = "none";
+      }
+
+      // Role info
+      currentRoleEmoji.innerText = state.role.emoji;
+      currentRoleName.innerText = state.role.name;
+      arenaRoleAvatar.innerText = state.role.emoji;
+      arenaRoleName.innerText = state.role.name;
+      specialMoveTitle.innerText = state.role.specialMove.name;
+      specialMoveDesc.innerText = state.role.specialMove.desc;
+
+      // Boss info
+      arenaBossTitle.innerText = state.boss.name;
+      bossAvatar.innerText = state.boss.avatar;
+      bossName.innerText = state.boss.name;
+      bossRole.innerText = state.boss.role;
+      bossQuote.innerText = `"${state.boss.quote}"`;
+
+      bossHpText.innerText = `${state.boss.hp} / ${state.boss.maxHp}`;
+      bossHpBar.style.width = `${Math.max(0, (state.boss.hp / state.boss.maxHp) * 100)}%`;
+      bossShieldText.innerText = `${state.boss.shield} Shield`;
+      bossShieldBar.style.width = `${Math.min(100, (state.boss.shield / 60) * 100)}%`;
+
+      playerHpText.innerText = `${state.playerHp} / ${state.role.baseStats.hp}`;
+      playerHpBar.style.width = `${Math.max(0, (state.playerHp / state.role.baseStats.hp) * 100)}%`;
+      playerShieldText.innerText = `${state.playerShield} Shield`;
+      playerShieldBar.style.width = `${Math.min(100, (state.playerShield / 60) * 100)}%`;
+
+      // Update upgrades buttons
+      upgBot.disabled = state.points < costObj.bot;
+      upgSnark.disabled = state.points < costObj.snark;
+      upgMod.disabled = state.points < costObj.mod;
+      upgTernion.disabled = state.points < costObj.ternion;
+    };
+
+    game.onLevelUp = (lvl, perk) => {
+      alert(`🎉 LEVEL UP! You reached Level ${lvl}!\n${perk ? perk.title + ": " + perk.bonus : "Stats increased!"}`);
+    };
+
+    game.onBossDefeated = (boss, lvl) => {
+      addCombatLog(`🏆 VICTORY! Vanquished ${boss.name}! (+${250 + lvl * 20} Karma Points)`, "var(--reddit-gold)");
+    };
+
+    // Passive points loop
+    setInterval(() => {
+      if (passiveSec > 0) {
+        game.points += passiveSec;
+        game.addXp(Math.max(1, Math.floor(passiveSec * 0.3)));
+        game.triggerState();
+      }
+    }, 1000);
+
+    // Click handler for karma tap
+    btnFarmKarma.addEventListener('click', (e) => {
+      const res = game.addPoints(tapKarma);
+      spawnPointFloater(e.clientX, e.clientY, `+${res.earned}`);
+    });
+
+    btnPostUpvote.addEventListener('click', (e) => {
+      const res = game.addPoints(10);
+      btnPostUpvote.classList.toggle('active');
+      spawnPointFloater(e.clientX, e.clientY, `+${res.earned}`);
+    });
+
+    btnPostDownvote.addEventListener('click', (e) => {
+      game.sound.downvote();
+      game.points = Math.max(0, game.points - 5);
+      game.triggerState();
+      spawnPointFloater(e.clientX, e.clientY, `-5`, '#7193ff');
+    });
+
+    btnGiveAward.addEventListener('click', (e) => {
+      if (game.points >= 100) {
+        game.points -= 100;
+        game.sound.award();
+        game.addXp(80);
+        addComment("u/AwardGiver", "Take my gold award for this top tier post! 🌟", true);
+        spawnPointFloater(e.clientX, e.clientY, `🌟 AWARDED (+80 XP)`, '#ffd700');
+        game.triggerState();
+      } else {
+        alert("You need at least 100 Karma Points to give an award!");
+      }
+    });
+
+    // Upgrade buttons
+    upgBot.addEventListener('click', () => {
+      if (game.points >= costObj.bot) {
+        game.points -= costObj.bot;
+        passiveSec += 2;
+        costObj.bot = Math.floor(costObj.bot * 1.5);
+        costBot.innerText = `${costObj.bot} Pts`;
+        ratePerSec.innerText = passiveSec;
+        game.sound.award();
+        game.triggerState();
+      }
+    });
+
+    upgSnark.addEventListener('click', () => {
+      if (game.points >= costObj.snark) {
+        game.points -= costObj.snark;
+        tapKarma += 6;
+        costObj.snark = Math.floor(costObj.snark * 1.6);
+        costSnark.innerText = `${costObj.snark} Pts`;
+        ratePerClick.innerText = tapKarma;
+        game.sound.award();
+        game.triggerState();
+      }
+    });
+
+    upgMod.addEventListener('click', () => {
+      if (game.points >= costObj.mod) {
+        game.points -= costObj.mod;
+        passiveSec += 12;
+        costObj.mod = Math.floor(costObj.mod * 1.7);
+        costMod.innerText = `${costObj.mod} Pts`;
+        ratePerSec.innerText = passiveSec;
+        game.sound.award();
+        game.triggerState();
+      }
+    });
+
+    upgTernion.addEventListener('click', () => {
+      if (game.points >= costObj.ternion) {
+        game.points -= costObj.ternion;
+        passiveSec += 40;
+        costObj.ternion = Math.floor(costObj.ternion * 2);
+        costTernion.innerText = `${costObj.ternion} Pts`;
+        ratePerSec.innerText = passiveSec;
+        game.sound.award();
+        game.triggerState();
+      }
+    });
+
+    // Post generator
+    const POSTS_SYNTHETIC = [
+      { t: "I ran my entire Reddit post history through GPT-4o mini. It called my debate style 'weaponized pedantry'.", b: "The model analyzed 3,000 comments across r/technology and concluded I have an unyielding urge to correct people who use the word 'literally' metaphorically." },
+      { t: "TIL: You can reach Level 100 on Reddit without ever looking at the sun.", b: "Confirmed in our 1-100 level progression engine. The final boss is the Algorithmic Hivemind itself." },
+      { t: "Our Reddit Devvit game won the hackathon and AutoMod did not even remove it.", b: "Built with passion by Rupesh Kumar, Eshwar Kartik, and Prashant. Clean code, strict schemas, zero mobile timeouts." }
+    ];
+
+    btnDraftNewPost.addEventListener('click', () => {
+      game.sound.upvote();
+      const p = POSTS_SYNTHETIC[Math.floor(Math.random() * POSTS_SYNTHETIC.length)];
+      mainPostTitle.innerText = `"${p.t}"`;
+      mainPostContent.innerText = p.b;
+      game.addPoints(75);
+      addComment("u/ViralHunter", "This is hitting r/all by tonight for sure.", true);
+    });
+
+    function addComment(author, text, isHot = false) {
+      const bubble = document.createElement('div');
+      bubble.className = `comment-bubble ${isHot ? 'hot' : ''}`;
+      bubble.innerHTML = `
+        <div style="font-size:12px; font-weight:700; color:var(--text-muted);">${author} <span style="font-size:11px;">• just now</span></div>
+        <div style="font-size:13px; color:#fff;">${text}</div>
+      `;
+      commentsStream.prepend(bubble);
+      feedCommentCount.innerText = parseInt(feedCommentCount.innerText) + 1;
+    }
+
+    // Battle Actions
+    btnMoveAttack.addEventListener('click', () => {
+      const res = game.executeBattleMove("strike");
+      if (res) {
+        addCombatLog(`👉 [YOU] ${res.text}`, res.crit ? "var(--reddit-gold)" : "#fff");
+        triggerBossCounter();
+      }
+    });
+
+    btnMoveShield.addEventListener('click', () => {
+      const res = game.executeBattleMove("shield");
+      if (res) {
+        addCombatLog(`🛡️ [YOU] ${res.text}`, "var(--shield-color)");
+        triggerBossCounter();
+      }
+    });
+
+    btnMoveSpecial.addEventListener('click', () => {
+      const res = game.executeBattleMove("special");
+      if (res) {
+        addCombatLog(`✨ [YOU] ${res.text}`, "var(--reddit-gold)");
+        triggerBossCounter();
+      }
+    });
+
+    function triggerBossCounter() {
+      if (game.boss.hp <= 0) return;
+      setTimeout(() => {
+        const bRes = game.executeBossTurn();
+        if (bRes) {
+          addCombatLog(`💥 [BOSS] ${bRes.text} (-${bRes.dmg} HP)`, "var(--reddit-orange)");
+          if (bRes.playerHp <= 0) {
+            alert("💀 Your karma collapsed! Regrouping and restoring health...");
+            game.playerHp = game.currentRole.baseStats.hp;
+            game.triggerState();
+          }
+        }
+      }, 700);
+    }
+
+    function addCombatLog(text, color) {
+      const line = document.createElement('div');
+      line.style.color = color;
+      line.innerText = text;
+      arenaTranscript.prepend(line);
+    }
+
+    // Role Selection Modal
+    const roleModalBackdrop = document.getElementById('roleModalBackdrop');
+    const rolesGridContainer = document.getElementById('rolesGridContainer');
+    const btnOpenRoleModal = document.getElementById('btnOpenRoleModal');
+    const btnCloseRoleModal = document.getElementById('btnCloseRoleModal');
+
+    btnOpenRoleModal.addEventListener('click', () => {
+      rolesGridContainer.innerHTML = '';
+      ANIMAL_ROLES.forEach(r => {
+        const c = document.createElement('div');
+        c.className = `role-choice-card ${r.id === game.currentRole.id ? 'selected' : ''}`;
+        c.innerHTML = `
+          <div style="font-size:26px;">${r.emoji}</div>
+          <div style="font-weight:900; font-size:15px; color:#fff;">${r.name}</div>
+          <div style="font-size:11px; color:var(--reddit-gold);">${r.tier}</div>
+          <div style="font-size:12px; color:var(--text-muted); line-height:1.3;">${r.description}</div>
+          <div style="font-size:11px; font-family:var(--font-mono); color:var(--health-color); margin-top:4px;">
+            HP: ${r.baseStats.hp} | ATK: ${r.baseStats.attack} | DEF: ${r.baseStats.defense}
+          </div>
+        `;
+        c.addEventListener('click', () => {
+          game.updateRole(r.id);
+          roleModalBackdrop.classList.remove('active');
+        });
+        rolesGridContainer.appendChild(c);
+      });
+      roleModalBackdrop.classList.add('active');
+    });
+
+    btnCloseRoleModal.addEventListener('click', () => {
+      roleModalBackdrop.classList.remove('active');
+    });
+
+    // Chat Agent System
+    const chatStream = document.getElementById('chatStream');
+    const chatInput = document.getElementById('chatInput');
+    const btnSendChat = document.getElementById('btnSendChat');
+
+    async function handleChatSubmit() {
+      const q = chatInput.value.trim();
+      if (!q) return;
+      chatInput.value = '';
+
+      // User bubble
+      const userBubble = document.createElement('div');
+      userBubble.className = 'chat-msg user';
+      userBubble.innerText = q;
+      chatStream.appendChild(userBubble);
+
+      const agentBubble = document.createElement('div');
+      agentBubble.className = 'chat-msg agent';
+      agentBubble.innerHTML = `<em>Scraping Reddit and synthesizing response...</em>`;
+      chatStream.appendChild(agentBubble);
+      chatStream.scrollTop = chatStream.scrollHeight;
+
+      const reply = await agent.processQuery(q);
+      agentBubble.innerHTML = `<strong>${reply.title}</strong><br>${reply.text.replace(/\n/g, '<br>')}`;
+      chatStream.scrollTop = chatStream.scrollHeight;
+    }
+
+    btnSendChat.addEventListener('click', handleChatSubmit);
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') handleChatSubmit();
+    });
+
+    // Tab Navigation
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.screen-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const target = btn.getAttribute('data-tab');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+
+    // Sound toggle
+    btnAudioToggle.addEventListener('click', () => {
+      game.sound.enabled = !game.sound.enabled;
+      btnAudioToggle.innerText = game.sound.enabled ? "🔊 Audio: ON" : "🔇 Audio: OFF";
+      if (game.sound.enabled) game.sound.upvote();
+    });
+
+    function spawnPointFloater(x, y, text, color = '#ff4500') {
+      const el = document.createElement('div');
+      el.className = 'floater-num';
+      el.innerText = text;
+      el.style.color = color;
+      el.style.left = `${x}px`;
+      el.style.top = `${y}px`;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 750);
+    }
+
+    // Initialize game
+    game.init();
+  </script>
+</body>
+</html>
