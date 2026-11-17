@@ -8,7 +8,7 @@
     "start": "python -m http.server 8000",
     "backend": "uvicorn backend.main:app --reload --port 8080",
     "test:client": "node tests/test_game.js",
-    "test:backend": "pytest tests/test_backend.py",
+    "test:backend": "python -m pytest tests/test_backend.py",
     "test": "npm run test:client && npm run test:backend"
   },
   "keywords": [
