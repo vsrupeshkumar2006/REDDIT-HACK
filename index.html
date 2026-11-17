@@ -441,6 +441,91 @@
       background: var(--reddit-orange);
     }
 
+    /* GTA Real-time Telemetry & Cockpit HUD */
+    .gta-telemetry {
+      position: absolute;
+      bottom: 86px;
+      right: 18px;
+      background: rgba(10, 15, 22, 0.88);
+      border: 1px solid rgba(255, 69, 0, 0.45);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.7), inset 0 0 16px rgba(255, 69, 0, 0.12);
+      backdrop-filter: blur(12px);
+      border-radius: 14px;
+      padding: 10px 14px;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 175px;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .gta-speed-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .gta-speed-val {
+      font-family: var(--font-mono);
+      font-size: 26px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -1px;
+    }
+    .gta-gear-badge {
+      background: var(--reddit-orange);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      box-shadow: 0 0 8px rgba(255, 69, 0, 0.5);
+    }
+    .gta-bar-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .gta-bar-label {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .gta-progress-track {
+      height: 6px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .gta-rpm-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #2ecc71, #f1c40f 65%, #e74c3c 90%);
+      width: 25%;
+      transition: width 0.06s ease-out;
+    }
+    .gta-nos-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #00d2d3, #54a0ff);
+      box-shadow: 0 0 8px #00d2d3;
+      width: 100%;
+      transition: width 0.06s ease-out;
+    }
+    .drift-alert-badge {
+      background: linear-gradient(135deg, #ff9f43, #ee5253);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 3px 6px;
+      border-radius: 6px;
+      text-align: center;
+      box-shadow: 0 0 12px rgba(238, 82, 83, 0.6);
+      display: none;
+    }
+
     /* Game Over / Start Overlay */
     .surfers-menu-overlay {
       position: absolute;
@@ -987,7 +1072,7 @@
     <!-- NAVIGATION TABS -->
     <nav class="nav-tabs">
       <button class="tab-btn active" data-tab="tab-surfers">
-        <span class="icon">🏃</span> 3D Karma Surfers (Runner)
+        <span class="icon">🏎️</span> 3D GTA Freeway Pursuit
       </button>
       <button class="tab-btn" data-tab="tab-tycoon">
         <span class="icon">📱</span> Reddit Life & Karma Tycoon
@@ -1001,7 +1086,7 @@
     </nav>
 
     <!-- ================================================================= -->
-    <!-- TAB 1: 3D KARMA SURFERS (THREE.JS RUNNER)                        -->
+    <!-- TAB 1: 3D KARMA SURFERS & GTA HIGHWAY PURSUIT                    -->
     <!-- ================================================================= -->
     <section id="tab-surfers" class="screen-panel active">
       <div class="surfers-3d-wrapper">
@@ -1010,7 +1095,7 @@
           <!-- WebGL Canvas injected here -->
         </div>
 
-        <!-- In-game HUD -->
+        <!-- In-game Top HUD -->
         <div class="surfers-hud">
           <div class="hud-stat-box">
             <span>KARMA SCORE</span>
@@ -1025,25 +1110,48 @@
           </div>
         </div>
 
-        <!-- On-screen Touch Controls -->
+        <!-- GTA Real-time Telemetry & Cockpit Cluster -->
+        <div class="gta-telemetry" id="gtaTelemetry">
+          <div class="gta-speed-row">
+            <span class="gta-speed-val" id="gtaSpeed">0 MPH</span>
+            <span class="gta-gear-badge" id="gtaGear">GEAR 1</span>
+          </div>
+          <div class="gta-bar-wrap">
+            <div class="gta-bar-label"><span>TACHOMETER</span><span id="gtaRpmText">1200 RPM</span></div>
+            <div class="gta-progress-track">
+              <div class="gta-rpm-fill" id="gtaRpmFill"></div>
+            </div>
+          </div>
+          <div class="gta-bar-wrap">
+            <div class="gta-bar-label"><span>NITROUS (NOS)</span><span id="gtaNosText">100%</span></div>
+            <div class="gta-progress-track">
+              <div class="gta-nos-fill" id="gtaNosFill"></div>
+            </div>
+          </div>
+          <div class="drift-alert-badge" id="driftBadge">⚡ DRIFTING x1.0!</div>
+        </div>
+
+        <!-- On-screen GTA Touch & Keyboard Controls Overlay -->
         <div class="surfers-controls-overlay">
-          <button class="ctrl-key-btn" id="ctrlLeft" title="Left (A / ←)">◀</button>
-          <button class="ctrl-key-btn" id="ctrlJump" title="Jump (W / Space / ↑)">▲</button>
-          <button class="ctrl-key-btn" id="ctrlSlide" title="Slide (S / ↓)">▼</button>
-          <button class="ctrl-key-btn" id="ctrlRight" title="Right (D / →)">▶</button>
+          <button class="ctrl-key-btn" id="ctrlLeft" title="Steer Left (A / ←)">◀</button>
+          <button class="ctrl-key-btn" id="ctrlRight" title="Steer Right (D / →)">▶</button>
+          <button class="ctrl-key-btn" id="ctrlBrake" title="Brake / Reverse (S / ↓)" style="background:rgba(231,76,60,0.8);">🛑</button>
+          <button class="ctrl-key-btn" id="ctrlDrift" title="Handbrake Drift (Space)" style="background:rgba(243,156,18,0.8);">💨</button>
+          <button class="ctrl-key-btn" id="ctrlBoost" title="Nitrous NOS Boost (Shift / W)" style="background:rgba(0,210,211,0.8);">⚡</button>
+          <button class="ctrl-key-btn" id="ctrlCam" title="Toggle Camera (C)" style="font-size:16px;">🎥</button>
         </div>
 
         <!-- Start / Game Over Overlay -->
         <div class="surfers-menu-overlay" id="surfersOverlay">
-          <h1 style="font-size:34px; font-weight:900; color:#fff;" id="overlayTitle">⚡ 3D KARMA SURFERS</h1>
-          <p style="font-size:15px; color:#d0dbe0; max-width:480px;" id="overlayDesc">
-            Dodge Downvote Spikes, slide under AutoMod Banhammers, and collect glowing Upvotes across 100 progressive levels!
+          <h1 style="font-size:32px; font-weight:900; color:#fff;" id="overlayTitle">🏎️ ONLYSONS 3D: GTA FREEWAY</h1>
+          <p style="font-size:14px; color:#d0dbe0; max-width:520px; line-height:1.5;" id="overlayDesc">
+            Drive the ONLYSONS High-Performance 3D Supercar across 100 progressive levels! Features realistic 6-DOF vehicle dynamics, drift physics, nitrous boost, stunt jump ramps, and procedural AI traffic!
           </p>
           <button class="btn-play-surfers" id="btnStartSurfers">
-            RUN LEVEL <span id="overlayLevelNum">1</span> 🚀
+            START MISSION <span id="overlayLevelNum">1</span> 🚀
           </button>
           <div style="font-size:12px; color:var(--text-muted); font-family:var(--font-mono); margin-top:8px;">
-            Controls: Arrow Keys / WASD / Space / Touch buttons
+            🎮 <strong>Controls:</strong> WASD / Arrows to Drive & Steer | [SPACE] Drift | [SHIFT] Nitro NOS | [C] Camera Mode
           </div>
         </div>
       </div>
@@ -1306,6 +1414,14 @@
     const hudDistance = document.getElementById('hudDistance');
     const hudPowerups = document.getElementById('hudPowerups');
 
+    const gtaSpeed = document.getElementById('gtaSpeed');
+    const gtaGear = document.getElementById('gtaGear');
+    const gtaRpmText = document.getElementById('gtaRpmText');
+    const gtaRpmFill = document.getElementById('gtaRpmFill');
+    const gtaNosText = document.getElementById('gtaNosText');
+    const gtaNosFill = document.getElementById('gtaNosFill');
+    const driftBadge = document.getElementById('driftBadge');
+
     let currentSurferLevel = 1;
 
     const surfers = new KarmaSurfers3D(
@@ -1315,6 +1431,21 @@
         hudScore.innerText = data.score.toLocaleString();
         hudDistance.innerText = `${data.distance} / ${data.targetDistance} m`;
 
+        if (gtaSpeed) gtaSpeed.innerText = `${data.speedMph} MPH`;
+        if (gtaGear) gtaGear.innerText = `GEAR ${data.gear}`;
+        if (gtaRpmText) gtaRpmText.innerText = `${data.rpm} RPM`;
+        if (gtaRpmFill) gtaRpmFill.style.width = `${Math.min(100, (data.rpm / 8000) * 100)}%`;
+        if (gtaNosText) gtaNosText.innerText = `${data.nitroPercent}%`;
+        if (gtaNosFill) gtaNosFill.style.width = `${data.nitroPercent}%`;
+        if (driftBadge) {
+          if (data.isDrifting) {
+            driftBadge.style.display = 'block';
+            driftBadge.innerText = `⚡ DRIFT x${data.driftMult}!`;
+          } else {
+            driftBadge.style.display = 'none';
+          }
+        }
+
         let powHtml = '';
         if (data.hasShield) powHtml += `<span class="powerup-pill">🛡️ SHIELD ACTIVE</span>`;
         if (data.multiplier > 1) powHtml += `<span class="powerup-pill" style="border-color:#46d160; background:rgba(70,209,96,0.25);">⚡ 2x POINTS</span>`;
@@ -1323,9 +1454,9 @@
       // Game Over callback
       (finalScore, finalCoins, dist) => {
         game.sound.defeat();
-        overlayTitle.innerText = "💥 DOWNVOTE COLLISION!";
-        overlayDesc.innerText = `You survived ${dist} meters and earned ${finalScore} score points and ${finalCoins} gold coins!`;
-        btnStartSurfers.innerText = "TRY AGAIN 🔄";
+        overlayTitle.innerText = "💥 TRAFFIC IMPACT / CRASH!";
+        overlayDesc.innerText = `You drove ${dist} meters at high speed and earned ${finalScore} score points and ${finalCoins} gold coins!`;
+        btnStartSurfers.innerText = "RESTART RUN 🔄";
         surfersOverlay.classList.remove('hidden');
 
         // Add points and check achievements
@@ -1336,13 +1467,13 @@
       // Level Complete callback
       (lvl, finalScore, finalCoins) => {
         game.sound.levelUp();
-        overlayTitle.innerText = `🎉 LEVEL ${lvl} CLEARED!`;
-        overlayDesc.innerText = `Spectacular run! You earned ${finalScore} points and ${finalCoins} gold coins. Ready for Level ${lvl + 1}!`;
+        overlayTitle.innerText = `🎉 MISSION ${lvl} CLEARED!`;
+        overlayDesc.innerText = `Incredible driving! You earned ${finalScore} points and ${finalCoins} gold coins. Ready for Mission ${lvl + 1}!`;
         currentSurferLevel = Math.min(100, lvl + 1);
         levelMap.setUnlockedLevel(currentSurferLevel);
         levelMap.setLevelStars(lvl, 3);
         overlayLevelNum.innerText = currentSurferLevel;
-        btnStartSurfers.innerText = `START LEVEL ${currentSurferLevel} 🚀`;
+        btnStartSurfers.innerText = `START MISSION ${currentSurferLevel} 🚀`;
         surfersOverlay.classList.remove('hidden');
 
         game.addPoints(finalScore + 500);
@@ -1350,7 +1481,8 @@
         if (lvl >= 10) achievements.unlock("level_10");
         if (lvl >= 50) achievements.unlock("level_50");
         if (lvl >= 100) achievements.unlock("level_100");
-      }
+      },
+      game.sound
     );
 
     surfers.init();
@@ -1360,11 +1492,22 @@
       surfers.start(currentSurferLevel);
     });
 
-    // Touch controls
-    document.getElementById('ctrlLeft').addEventListener('click', () => surfers.moveLane(-1));
-    document.getElementById('ctrlRight').addEventListener('click', () => surfers.moveLane(1));
-    document.getElementById('ctrlJump').addEventListener('click', () => surfers.jump());
-    document.getElementById('ctrlSlide').addEventListener('click', () => surfers.slide());
+    // GTA Controller Event Listeners
+    const bindBtn = (id, onDown, onUp) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('mousedown', onDown);
+      el.addEventListener('mouseup', onUp);
+      el.addEventListener('touchstart', (e) => { e.preventDefault(); onDown(); });
+      el.addEventListener('touchend', (e) => { e.preventDefault(); onUp(); });
+    };
+
+    bindBtn('ctrlLeft', () => surfers.keys.left = true, () => surfers.keys.left = false);
+    bindBtn('ctrlRight', () => surfers.keys.right = true, () => surfers.keys.right = false);
+    bindBtn('ctrlBrake', () => surfers.keys.down = true, () => surfers.keys.down = false);
+    bindBtn('ctrlDrift', () => surfers.keys.handbrake = true, () => surfers.keys.handbrake = false);
+    bindBtn('ctrlBoost', () => surfers.keys.nitro = true, () => surfers.keys.nitro = false);
+    document.getElementById('ctrlCam')?.addEventListener('click', () => surfers.toggleCameraMode());
 
     // 100-Level Map Setup
     const levelMap = new LevelMapEngine('levelMapTrack', (selectedLvl) => {

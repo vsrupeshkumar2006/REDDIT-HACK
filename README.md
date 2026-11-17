@@ -114,14 +114,26 @@ flowchart LR
 
 ## 🎮 Game Modes & Features
 
-### 1. 🏃 3D Karma Surfers (Three.js WebGL Runner)
-* **True 3D Perspective & Physics:** 3-lane continuous runner built with WebGL Three.js. Smooth lane switching (`A`/`D` or `←`/`→`), jumping over Downvote Spikes (`Space`/`W`/`↑`), and sliding under AutoMod Banhammers (`S`/`↓`).
-* **Deep 3D Environment:** Flanked by illuminated 3D monolith buildings, overhead track archways, and particle speed trails.
-* **Family Power-Ups:**
-  * 🧲 **Ancestral Karma Magnet:** Draws all nearby upvotes toward you for 6 seconds.
-  * ⚡ **2x Sibling Multiplier:** Doubles all score earnings during fever streaks.
-  * 🛡️ **AutoMod Shield:** Protective energy bubble absorbing 1 fatal collision.
-* **100% Offline Three.js:** Bundled locally (`src/engine/three.min.js`) with zero external CDN dependency.
+### 1. 🏎️ Realistic 3D GTA Freeway Pursuit & Physics Engine
+* **Photorealistic Procedural PBR Textures (0 External Asset Dependencies):**
+  * **Highway Asphalt:** High-res canvas-generated aggregate grain, tar seams, double continuous yellow dividers, dashed white lane markers, and tire friction tracks.
+  * **Concrete Sidewalks:** Segmented expansion joints, drainage gutters, and beveled curbs.
+  * **Architectural Skyscrapers:** 32-story modern high-rise facades with randomly illuminated warm yellow & cyan office window grids, rooftop AC chiller units, water towers, and blinking red aviation hazard beacons.
+  * **Highway Billboards:** Glowing neon Devvit, Reddit, and Onlysons dynasty billboards.
+* **Full 6-DOF Vehicle Dynamics & Physics:**
+  * **6-Speed Transmission & RPM:** Realistic engine torque curve, automatic shifting across Gears 1 through 6, and revving up to 8,200 RPM with procedural Web Audio engine harmonics.
+  * **Aerodynamic Drag & Suspension:** Air resistance drag, body roll tilting away from turns, pitch squat on acceleration, and nose-dive on heavy braking.
+  * **Tire Drift & Power-Slide Mechanics:** Pressing Handbrake (`Space` / `S`) breaks rear tire grip, triggering oversteer drift, continuous tire screech audio, billowing white smoke puffs, and real 3D rubber skid marks laid down on the asphalt.
+  * **Nitrous Oxide (NOS) Supercharge:** Pressing `Shift` unleashes hyper-acceleration, twin cyan exhaust backfire flames, and dynamic camera FOV expansion (65° to 78°) for an intense high-speed warp effect.
+  * **Ballistic 3D Stunt Jump Ramps:** Hitting highway stunt ramps launches the vehicle into a true 3D parabolic aerial trajectory with mid-air pitch/roll rotation, gravity acceleration, and high-impact landing suspension compression with metallic spark showers!
+* **Procedural AI Highway Traffic:**
+  * Autonomous traffic vehicles cruising along highway lanes: **Los Santos Yellow Taxis**, **Executive Black SUVs**, and **Highway Patrol Police Cruisers** with active red-and-blue rooftop LED strobe flashers!
+* **GTA Multi-View Dynamic Camera (`C` key):**
+  * **GTA Dynamic Chase (Default):** Smooth spring-damper inertia follow, corner banking, high-speed pull-back, and trauma impact shake.
+  * **Hood / Bumper Cam:** Asphalt-skimming high-velocity first-person perspective.
+  * **Aerial Pursuit Cam:** High-angle helicopter/drone pursuit view.
+* **GTA V Cockpit Telemetry HUD:**
+  * Real-time digital Speedometer (MPH), analog Tachometer bar (RPM), Gear Badge (`GEAR 1`–`GEAR 6`), Nitrous NOS charge bar, and real-time Drift Multiplier badge (`DRIFT x3.2!`).
 
 ### 2. 📱 The Family Council & Karma Tycoon
 * **Live Interactive Reddit Thread (`r/OnlysonsDynasty`):** Functional upvote, downvote, and award mechanics.
