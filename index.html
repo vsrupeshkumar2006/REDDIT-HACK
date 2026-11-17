@@ -2385,6 +2385,178 @@
       border: 1px solid var(--border);
       word-break: break-all;
     }
+
+    /* FORZA HORIZON TELEMETRY HUD & ACTION CONTROLS */
+    .forza-hud-bottom {
+      position: absolute;
+      bottom: 18px;
+      right: 18px;
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      z-index: 15;
+      pointer-events: none;
+    }
+
+    .telemetry-cluster {
+      background: rgba(10, 16, 26, 0.9);
+      border: 1px solid var(--border-bright);
+      backdrop-filter: blur(12px);
+      border-radius: 18px;
+      padding: 12px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 220px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    }
+
+    .cluster-speed-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .cluster-speed-num {
+      font-family: var(--font-mono);
+      font-size: 34px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .cluster-gear-badge {
+      background: var(--reddit-orange);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-weight: 900;
+      font-size: 18px;
+      padding: 4px 12px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px var(--reddit-orange-glow);
+    }
+
+    .cluster-bar-wrap {
+      width: 100%;
+      height: 6px;
+      background: #1e293b;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .cluster-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.08s ease;
+    }
+
+    .openworld-hud-actions {
+      position: absolute;
+      top: 60px;
+      right: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 15;
+    }
+
+    .btn-hud-tool {
+      background: rgba(15, 23, 34, 0.88);
+      border: 1px solid var(--border-bright);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
+    }
+
+    .btn-hud-tool:hover {
+      background: var(--reddit-orange);
+      border-color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px var(--reddit-orange-glow);
+    }
+
+    /* SPY CAMPAIGN & SOCIAL MODALS */
+    .story-dialogue-box {
+      background: #121c24;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .dialogue-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 10px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 10px;
+    }
+
+    .dialogue-speaker-icon {
+      font-size: 26px;
+      background: #1a2530;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .reels-feed-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      max-height: 480px;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+
+    .reel-card {
+      background: #0e1520;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .reel-video-preview {
+      width: 100%;
+      height: 200px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 14px;
+      color: #fff;
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.6);
+    }
+
+    .reddit-post-card {
+      background: #101824;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
   </style>
 </head>
 <body>
@@ -2475,30 +2647,90 @@
     <section id="tab-world" class="screen-panel active">
       <div class="openworld-viewport-wrap">
         <div id="openWorldCanvasContainer"></div>
-        <!-- HUD -->
+
+        <!-- HUD TOP -->
         <div class="openworld-hud-top">
           <div class="telemetry-pill-world">
-            <span>📍 COORDS: <strong id="worldCoords">X: 0, Z: 0</strong></span>
-            <span>⚡ SPEED: <strong id="worldSpeed">0 m/s</strong></span>
+            <span>📍 <strong id="worldCoords">X: -12, Z: 14</strong></span>
+            <span>⚡ <strong id="worldSpeed">0 MPH</strong></span>
+            <span style="color:var(--reddit-orange); border-left:1px solid #334155; padding-left:8px;" id="hudModeBadge">🚶 ON-FOOT (AYAAN MALIK)</span>
           </div>
           <div class="telemetry-pill-world" style="border-color:#ff4500;">
-            <span>👑 3D ALL-IN-ONE ROAMABLE REALM</span>
+            <span id="hudBiomeBadge">🏙️ Cyber City & Plaza</span>
+            <span style="color:#94a3b8; font-size:10px;">[F] Car • [C] Cam • [M] Reels</span>
           </div>
         </div>
-        <!-- Floating Interactive Prompt -->
-        <div class="in-world-interaction-banner" id="inWorldPrompt">
-          <span style="font-size:20px;" id="promptEmoji">✨</span>
-          <span id="promptText">[E] ENTER DISTRICT</span>
+
+        <!-- QUICK ACCESS TOOLBAR (TOP RIGHT) -->
+        <div class="openworld-hud-actions">
+          <button class="btn-hud-tool" id="btnOpenSpyStory" title="Open Rashid's Garage & 6-Act Spy Campaign">
+            <span>🔧</span> Rashid's Garage
+          </button>
+          <button class="btn-hud-tool" id="btnOpenCharacterModal" title="Character Archetypes & Photo Face">
+            <span>👤</span> Character & Face
+          </button>
+          <button class="btn-hud-tool" id="btnOpenSocialModal" title="In-Game Reels & Reddit Discussion Feed">
+            <span>📱</span> Reels & Reddit
+          </button>
         </div>
-        <!-- Minimap Radar -->
+
+        <!-- FLOATING PROMPT BANNER -->
+        <div class="in-world-interaction-banner" id="inWorldPrompt">
+          <span style="font-size:20px;" id="promptEmoji">🏎️</span>
+          <span id="promptText">[F] ENTER FORZA GT RACER</span>
+        </div>
+
+        <!-- MINIMAP RADAR -->
         <div class="minimap-radar">
           <div class="radar-crosshair-v"></div>
           <div class="radar-crosshair-h"></div>
           <div class="radar-player-dot" id="radarPlayerDot"></div>
         </div>
+
+        <!-- FORZA HORIZON TELEMETRY CLUSTER (BOTTOM RIGHT) -->
+        <div class="forza-hud-bottom">
+          <div class="telemetry-cluster" id="forzaCluster">
+            <div class="cluster-speed-row">
+              <div>
+                <span class="cluster-speed-num" id="forzaSpeedNum">0</span>
+                <span style="font-size:12px; font-weight:800; color:#94a3b8; margin-left:4px;">MPH</span>
+              </div>
+              <div class="cluster-gear-badge" id="forzaGearBadge">1</div>
+            </div>
+
+            <!-- RPM Bar -->
+            <div style="display:flex; justify-content:space-between; font-size:10px; font-family:var(--font-mono); color:#94a3b8;">
+              <span>TACHOMETER</span>
+              <span id="forzaRpmText">900 RPM</span>
+            </div>
+            <div class="cluster-bar-wrap">
+              <div class="cluster-bar-fill" id="forzaRpmBar" style="width: 15%; background: #00d2d3;"></div>
+            </div>
+
+            <!-- NOS Fuel Bar -->
+            <div style="display:flex; justify-content:space-between; font-size:10px; font-family:var(--font-mono); color:#94a3b8; margin-top:2px;">
+              <span style="color:#ff4500;">NITROUS OXIDE</span>
+              <span id="forzaNosText">100%</span>
+            </div>
+            <div class="cluster-bar-wrap">
+              <div class="cluster-bar-fill" id="forzaNosBar" style="width: 100%; background: linear-gradient(90deg, #ff4500, #ff9100);"></div>
+            </div>
+
+            <!-- Suspicion & Family Trust -->
+            <div style="display:flex; justify-content:space-between; font-size:10px; font-family:var(--font-mono); margin-top:4px;">
+              <span style="color:#e74c3c;">SUSPICION: <strong id="hudSuspicionVal">15%</strong></span>
+              <span style="color:#2ecc71;">TRUST: <strong id="hudTrustVal">85%</strong></span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:10px; color:#94a3b8; margin-top:2px;">
+              <span>CAM: <strong id="hudCameraPill" style="color:#fff;">CHASE</strong></span>
+              <span style="color:#ffd700;">MALIK TUNED V8</span>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div style="font-size:12px; color:var(--text-muted); font-family:var(--font-mono); margin-top:8px; text-align:center;">
-        🎮 <strong>Open World Controls:</strong> WASD / Arrows to Walk & Turn | [SHIFT] Sprint | [SPACE] Jump | [E] Enter District
+        🎮 <strong>Master Controls:</strong> WASD / Arrows to Drive or Walk | [F] Enter/Exit Car | [C] Cycle 5 Cameras | [M] Phone | [SPACE] Drift / Jump | [SHIFT] Nitrous / Sprint | [E] Interact
       </div>
     </section>
 
@@ -2820,6 +3052,147 @@
     </div>
   </div>
 
+  <!-- RASHID'S GARAGE & 6-ACT SPY CAMPAIGN MODAL -->
+  <div class="modal-backdrop" id="spyStoryModalBackdrop">
+    <div class="modal-sheet" style="max-width: 680px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <div>
+          <span style="font-size:12px; font-weight:800; color:var(--reddit-orange); text-transform:uppercase; letter-spacing:1px;" id="spyActBadge">ACT I: THE MIDNIGHT SPRINT</span>
+          <h2 style="font-size:22px; font-weight:900; color:#fff;" id="spyStoryTitle">🔧 Rashid's Performance Garage</h2>
+          <p style="font-size:13px; color:var(--text-muted);" id="spyStorySubtitle">Ayaan Malik Undercover Racer Saga • "Dhurandhar" Inspired Spy Thriller</p>
+        </div>
+        <button class="btn-sound" id="btnSpeakDialogue" style="cursor:pointer;" title="Listen to Voice Synthesis">🔊 Listen</button>
+      </div>
+
+      <!-- Family Trust & Suspicion Meters -->
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; background:#0e1520; padding:12px; border-radius:12px; border:1px solid var(--border);">
+        <div>
+          <span style="font-size:10px; color:#94a3b8; font-family:var(--font-mono);">FAMILY TRUST</span>
+          <div style="font-size:16px; font-weight:900; color:#2ecc71;" id="modalFamilyTrust">85%</div>
+        </div>
+        <div>
+          <span style="font-size:10px; color:#94a3b8; font-family:var(--font-mono);">SYNDICATE SUSPICION</span>
+          <div style="font-size:16px; font-weight:900; color:#e74c3c;" id="modalSuspicion">15%</div>
+        </div>
+        <div>
+          <span style="font-size:10px; color:#94a3b8; font-family:var(--font-mono);">AGENCY RATING</span>
+          <div style="font-size:16px; font-weight:900; color:#00d2d3;" id="modalAgency">80%</div>
+        </div>
+      </div>
+
+      <!-- Dialogue Conversation -->
+      <div class="story-dialogue-box" id="spyDialogueContainer" style="max-height: 240px; overflow-y: auto;">
+        <!-- Injected dynamically -->
+      </div>
+
+      <!-- Mission Objective & Decision Choices -->
+      <div style="background:#090d14; border:1px solid var(--border); border-radius:12px; padding:14px; display:flex; flex-direction:column; gap:8px;">
+        <span style="font-size:11px; font-weight:800; color:#ffd700;">🎯 ACTIVE MISSION OBJECTIVE</span>
+        <p style="font-size:13px; color:#fff;" id="spyObjectiveText">Win the Midnight Street Sprint in Father Rashid's tuned car.</p>
+        <div style="display:flex; gap:10px; margin-top:6px;">
+          <button class="action-pill" id="btnChoiceFamily" style="background:#1e293b; border-color:#2ecc71; flex:1; font-size:11px;">Choice A: Protect Family [Trust +15, Suspicion +10]</button>
+          <button class="action-pill" id="btnChoiceAgency" style="background:#1e293b; border-color:#00d2d3; flex:1; font-size:11px;">Choice B: Prioritize Cover [Suspicion -15, Agency +15]</button>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <button class="btn-primary" id="btnAdvanceStoryAct" style="padding:10px 20px; font-weight:900;">Advance Mission ➔</button>
+        <button class="action-pill" id="btnCloseSpyModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARACTER CUSTOMIZATION & PHOTO FACE MODAL -->
+  <div class="modal-backdrop" id="characterCustomModalBackdrop">
+    <div class="modal-sheet" style="max-width: 620px;">
+      <div>
+        <h2 style="font-size:22px; font-weight:900; color:#fff;">👤 Character Archetype & Customization</h2>
+        <p style="font-size:13px; color:var(--text-muted);">Switch between Human, Full Android, and Cyber Hybrid archetypes, or map your photo onto the 3D model!</p>
+      </div>
+
+      <!-- Archetype Selector -->
+      <div>
+        <label style="font-size:12px; font-weight:800; color:var(--reddit-orange); text-transform:uppercase;">1. Select Playable Archetype</label>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:8px;">
+          <button class="pill-btn active" id="btnArchHuman" style="flex-direction:column; padding:12px 8px; text-align:center;">
+            <span style="font-size:22px;">🏎️</span>
+            <strong style="font-size:12px; margin-top:4px;">Ayaan Malik (Human)</strong>
+            <span style="font-size:10px; color:#94a3b8;">Leather Jacket, Beard</span>
+          </button>
+          <button class="pill-btn" id="btnArchAndroid" style="flex-direction:column; padding:12px 8px; text-align:center;">
+            <span style="font-size:22px;">🤖</span>
+            <strong style="font-size:12px; margin-top:4px;">Unit-07 (Android)</strong>
+            <span style="font-size:10px; color:#94a3b8;">Titanium Frame, LED Visor</span>
+          </button>
+          <button class="pill-btn" id="btnArchHybrid" style="flex-direction:column; padding:12px 8px; text-align:center;">
+            <span style="font-size:22px;">⚡</span>
+            <strong style="font-size:12px; margin-top:4px;">Ayaan Cyber-Hybrid</strong>
+            <span style="font-size:10px; color:#94a3b8;">Cyber Arm, Neural Spine</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Photo-to-Playable Face Pipeline -->
+      <div style="background:#0e1520; border:1px solid var(--border); border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:8px;">
+        <label style="font-size:12px; font-weight:800; color:#00d2d3; text-transform:uppercase;">2. Photo-to-Playable-Character Face Mapping</label>
+        <p style="font-size:12px; color:var(--text-muted);">Upload your face or avatar image. The neural texture pipeline will composite it directly onto the 3D character mesh!</p>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <input type="file" id="facePhotoInput" accept="image/*" style="display:none;" />
+          <button class="action-pill" id="btnUploadFacePhoto" style="background:var(--reddit-blue); border-color:#00d2d3;">📷 Upload Photo</button>
+          <button class="action-pill" id="btnResetFaceDefault">Reset to Ayaan Preset</button>
+        </div>
+      </div>
+
+      <!-- Forza GT Paint Color Chips -->
+      <div>
+        <label style="font-size:12px; font-weight:800; color:#ffd700; text-transform:uppercase;">3. Forza Supercar Paint Colors</label>
+        <div style="display:flex; gap:10px; margin-top:8px;">
+          <button class="action-pill btn-car-color" data-color="#d91e18" style="background:#d91e18; color:#fff;">Crimson</button>
+          <button class="action-pill btn-car-color" data-color="#0984e3" style="background:#0984e3; color:#fff;">Apex Blue</button>
+          <button class="action-pill btn-car-color" data-color="#ff4500" style="background:#ff4500; color:#fff;">Cyber Orange</button>
+          <button class="action-pill btn-car-color" data-color="#111116" style="background:#111116; color:#fff; border-color:#444;">Obsidian</button>
+          <button class="action-pill btn-car-color" data-color="#f5f6fa" style="background:#f5f6fa; color:#000;">Pure White</button>
+          <button class="action-pill btn-car-color" data-color="#00b894" style="background:#00b894; color:#fff;">Emerald</button>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end;">
+        <button class="action-pill" id="btnCloseCharacterModal">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- IN-GAME SOCIAL MEDIA (REELS & REDDIT DYNASTY FEED) MODAL -->
+  <div class="modal-backdrop" id="socialMediaModalBackdrop">
+    <div class="modal-sheet" style="max-width: 720px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <h2 style="font-size:22px; font-weight:900; color:#fff;">📱 Onlysons Dynasty Smartphone</h2>
+          <p style="font-size:13px; color:var(--text-muted);">Trending Reels, Viral Drift Clips, & Reddit Underground Community</p>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="tab-btn active" id="btnTabSocialReels" style="padding:6px 14px; font-size:12px;">📹 Reels (3)</button>
+          <button class="tab-btn" id="btnTabSocialReddit" style="padding:6px 14px; font-size:12px;">💬 Reddit Feed (3)</button>
+        </div>
+      </div>
+
+      <!-- Trending Hashtags Ticker -->
+      <div style="display:flex; gap:8px; overflow-x:auto; padding:6px 0;" id="socialTrendingTags">
+        <!-- Injected dynamically -->
+      </div>
+
+      <!-- Dynamic Feed Container -->
+      <div id="socialFeedContainer" style="max-height: 440px; overflow-y:auto;">
+        <!-- Injected dynamically -->
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-size:12px; color:var(--reddit-orange); font-family:var(--font-mono);">▲ Total Social Karma: <strong id="socialKarmaTotal">0</strong></span>
+        <button class="action-pill" id="btnCloseSocialModal">Close</button>
+      </div>
+    </div>
+  </div>
+
   <!-- LOAD SCRIPTS -->
   <script type="module">
     import { GameEngine } from './src/engine/gameEngine.js';
@@ -2833,6 +3206,8 @@
     import { OpenWorld3D } from './src/engine/openWorld3D.js';
     import { FintechEngine } from './src/engine/fintechEngine.js';
     import { AgentCouncilEngine } from './src/engine/agentCouncil.js';
+    import { SpyStoryEngine } from './src/engine/spyStoryEngine.js';
+    import { SocialMediaEngine } from './src/engine/socialMediaEngine.js';
 
     // Core instances
     const game = new GameEngine();
@@ -2841,6 +3216,10 @@
     const arcade = new OnlySonsArcade('arcadeMasterContainer', game);
     const fintech = new FintechEngine('fintechMasterContainer', game);
     const council = new AgentCouncilEngine('councilMasterContainer', game);
+    const spyStory = new SpyStoryEngine();
+    const socialMedia = new SocialMediaEngine((karma, reason) => {
+      game.addPoints(karma);
+    });
     const achievements = new AchievementManager((ach) => {
       alert(`🏆 ACHIEVEMENT UNLOCKED: ${ach.name}!\nReward: +${ach.reward} Karma Points!`);
       game.addPoints(ach.reward);
@@ -2855,16 +3234,31 @@
     // 3D Roamable Open World Setup (All-in-One Merged Realm)
     const worldCoords = document.getElementById('worldCoords');
     const worldSpeed = document.getElementById('worldSpeed');
+    const hudModeBadge = document.getElementById('hudModeBadge');
+    const hudBiomeBadge = document.getElementById('hudBiomeBadge');
     const inWorldPrompt = document.getElementById('inWorldPrompt');
     const promptEmoji = document.getElementById('promptEmoji');
     const promptText = document.getElementById('promptText');
     const radarDot = document.getElementById('radarPlayerDot');
 
+    // Forza Telemetry elements
+    const forzaSpeedNum = document.getElementById('forzaSpeedNum');
+    const forzaGearBadge = document.getElementById('forzaGearBadge');
+    const forzaRpmText = document.getElementById('forzaRpmText');
+    const forzaRpmBar = document.getElementById('forzaRpmBar');
+    const forzaNosText = document.getElementById('forzaNosText');
+    const forzaNosBar = document.getElementById('forzaNosBar');
+    const hudCameraPill = document.getElementById('hudCameraPill');
+    const hudSuspicionVal = document.getElementById('hudSuspicionVal');
+    const hudTrustVal = document.getElementById('hudTrustVal');
+
     const openWorld = new OpenWorld3D(
       'openWorldCanvasContainer',
-      // Interaction callback: when entering a district
+      // Interaction callback: when entering a district or garage
       (zone) => {
-        if (zone.type === 'tarot_limbo' || zone.type === 'mines_chicken' || zone.type === 'plinko_dice' || zone.type === 'crash_keno') {
+        if (zone.id === 'rashid_garage' || zone.type === 'spy_garage') {
+          openSpyStoryModal();
+        } else if (zone.type === 'tarot_limbo' || zone.type === 'mines_chicken' || zone.type === 'plinko_dice' || zone.type === 'crash_keno') {
           // Switch to Arcade and open that son's game
           document.querySelector('[data-tab="tab-arcade"]').click();
           if (zone.id === 'wizard') arcade.openGame('tarot');
@@ -2878,28 +3272,388 @@
       // Stats update callback
       (stats) => {
         if (worldCoords) worldCoords.innerText = `X: ${stats.x}, Z: ${stats.z}`;
-        if (worldSpeed) worldSpeed.innerText = `${stats.speed} m/s`;
+        if (worldSpeed) worldSpeed.innerText = `${stats.speedMph} MPH`;
+        if (hudBiomeBadge) hudBiomeBadge.innerText = stats.currentBiome;
 
-        // Update radar
+        if (hudModeBadge) {
+          hudModeBadge.innerText = stats.isDriving ? "🚗 DRIVING FORZA GT" : "🚶 ON-FOOT (AYAAN MALIK)";
+          hudModeBadge.style.color = stats.isDriving ? "#00d2d3" : "var(--reddit-orange)";
+        }
+
+        // Radar position
         if (radarDot) {
-          const normX = (stats.x / 80) * 44;
-          const normZ = (stats.z / 80) * 44;
+          const normX = (stats.x / 180) * 44;
+          const normZ = (stats.z / 180) * 44;
           radarDot.style.transform = `translate(${normX}px, ${normZ}px)`;
         }
 
-        if (stats.activeZone) {
+        // Telemetry
+        if (stats.vehicleTelemetry) {
+          const telem = stats.vehicleTelemetry;
+          if (forzaSpeedNum) forzaSpeedNum.innerText = telem.speedMph;
+          if (forzaGearBadge) forzaGearBadge.innerText = telem.gear;
+          if (forzaRpmText) forzaRpmText.innerText = `${telem.rpm} RPM`;
+          if (forzaRpmBar) {
+            const rpmPct = Math.min(100, (telem.rpm / 8500) * 100);
+            forzaRpmBar.style.width = `${rpmPct}%`;
+            forzaRpmBar.style.background = rpmPct > 85 ? '#e74c3c' : (rpmPct > 60 ? '#f1c40f' : '#00d2d3');
+          }
+          if (forzaNosText) forzaNosText.innerText = `${telem.nitroPercent}%`;
+          if (forzaNosBar) forzaNosBar.style.width = `${telem.nitroPercent}%`;
+          if (hudCameraPill) hudCameraPill.innerText = telem.cameraMode.toUpperCase();
+        }
+
+        // Suspicion & Trust from Spy Story Engine
+        const spyState = spyStory.getState();
+        if (hudSuspicionVal) hudSuspicionVal.innerText = `${spyState.syndicateSuspicion}%`;
+        if (hudTrustVal) hudTrustVal.innerText = `${spyState.familyTrust}%`;
+
+        // Interactive Prompt Banner
+        if (stats.canEnterCar && !stats.isDriving) {
+          inWorldPrompt.style.display = 'flex';
+          promptEmoji.innerText = '🏎️';
+          promptText.innerText = '[F] ENTER FORZA GT RACER';
+        } else if (stats.activeZone) {
           inWorldPrompt.style.display = 'flex';
           promptEmoji.innerText = stats.activeZone.emoji;
           promptText.innerText = `[E] ENTER ${stats.activeZone.name.toUpperCase()}`;
         } else {
           inWorldPrompt.style.display = 'none';
         }
-      }
+      },
+      game.sound
     );
     openWorld.init();
 
     inWorldPrompt?.addEventListener('click', () => {
-      openWorld.triggerCurrentInteraction();
+      if (!openWorld.isDriving && openWorld.character && openWorld.vehicle && openWorld.character.canEnterVehicle(openWorld.vehicle)) {
+        openWorld.toggleVehicleState();
+      } else {
+        openWorld.triggerInteraction();
+      }
+    });
+
+    // =========================================================================
+    // MODAL HANDLERS: SPY CAMPAIGN, CHARACTER CUSTOMIZATION & SOCIAL MEDIA
+    // =========================================================================
+
+    // 1. RASHID'S GARAGE & 6-ACT SPY CAMPAIGN
+    const spyStoryModalBackdrop = document.getElementById('spyStoryModalBackdrop');
+    const btnOpenSpyStory = document.getElementById('btnOpenSpyStory');
+    const btnCloseSpyModal = document.getElementById('btnCloseSpyModal');
+    const spyActBadge = document.getElementById('spyActBadge');
+    const spyStoryTitle = document.getElementById('spyStoryTitle');
+    const spyStorySubtitle = document.getElementById('spyStorySubtitle');
+    const modalFamilyTrust = document.getElementById('modalFamilyTrust');
+    const modalSuspicion = document.getElementById('modalSuspicion');
+    const modalAgency = document.getElementById('modalAgency');
+    const spyDialogueContainer = document.getElementById('spyDialogueContainer');
+    const spyObjectiveText = document.getElementById('spyObjectiveText');
+    const btnSpeakDialogue = document.getElementById('btnSpeakDialogue');
+    const btnAdvanceStoryAct = document.getElementById('btnAdvanceStoryAct');
+    const btnChoiceFamily = document.getElementById('btnChoiceFamily');
+    const btnChoiceAgency = document.getElementById('btnChoiceAgency');
+
+    let activeSpyChoice = 0; // 0 = Family, 1 = Agency
+
+    function openSpyStoryModal() {
+      const state = spyStory.getState();
+      const mission = state.activeMission;
+
+      if (spyActBadge) spyActBadge.innerText = `ACT ${mission.actNumber}: ${mission.title}`;
+      if (spyStoryTitle) spyStoryTitle.innerText = `🔧 ${mission.subtitle}`;
+      if (spyStorySubtitle) spyStorySubtitle.innerText = `Location: ${mission.location}`;
+      if (modalFamilyTrust) modalFamilyTrust.innerText = `${state.familyTrust}%`;
+      if (modalSuspicion) modalSuspicion.innerText = `${state.syndicateSuspicion}%`;
+      if (modalAgency) modalAgency.innerText = `${state.agencyRating}%`;
+      if (spyObjectiveText) spyObjectiveText.innerText = `${mission.objective} (Reward: +${mission.rewardKarma} Karma)`;
+
+      // Render dialogue
+      if (spyDialogueContainer) {
+        spyDialogueContainer.innerHTML = mission.dialogue.map(d => {
+          const spk = spyStory.characters[d.speaker] || { name: d.speaker, emoji: '💬' };
+          return `
+            <div class="dialogue-item">
+              <div class="dialogue-speaker-icon">${spk.emoji}</div>
+              <div>
+                <strong style="color:var(--reddit-orange); font-size:13px;">${spk.name}</strong>
+                <p style="font-size:13px; color:#f0f3f5; margin-top:3px; line-height:1.4;">"${d.text}"</p>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      spyStoryModalBackdrop.classList.add('active');
+    }
+
+    btnOpenSpyStory?.addEventListener('click', openSpyStoryModal);
+    btnCloseSpyModal?.addEventListener('click', () => spyStoryModalBackdrop.classList.remove('active'));
+
+    btnSpeakDialogue?.addEventListener('click', () => {
+      const state = spyStory.getState();
+      if (state.activeMission && state.activeMission.dialogue.length > 0) {
+        state.activeMission.dialogue.forEach((d, idx) => {
+          setTimeout(() => spyStory.speakDialogue(d), idx * 4500);
+        });
+      }
+    });
+
+    btnChoiceFamily?.addEventListener('click', () => {
+      activeSpyChoice = 0;
+      btnChoiceFamily.style.background = 'rgba(46, 204, 113, 0.3)';
+      btnChoiceAgency.style.background = '#1e293b';
+    });
+
+    btnChoiceAgency?.addEventListener('click', () => {
+      activeSpyChoice = 1;
+      btnChoiceAgency.style.background = 'rgba(0, 210, 211, 0.3)';
+      btnChoiceFamily.style.background = '#1e293b';
+    });
+
+    btnAdvanceStoryAct?.addEventListener('click', async () => {
+      const curMission = spyStory.activeMission;
+      const nextState = spyStory.advanceMission(activeSpyChoice);
+
+      // Reward points
+      game.addPoints(curMission.rewardKarma);
+      game.addXp(400);
+
+      // Persist to backend SQLite
+      try {
+        await fetch('/api/spy/campaign/advance', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            act_number: curMission.actNumber,
+            mission_title: curMission.title,
+            family_trust: nextState.familyTrust,
+            syndicate_suspicion: nextState.syndicateSuspicion,
+            agency_rating: nextState.agencyRating,
+            choice_index: activeSpyChoice,
+            points: curMission.rewardKarma
+          })
+        });
+      } catch (err) {
+        console.warn("Backend spy campaign sync:", err);
+      }
+
+      alert(`🎉 MISSION COMPLETED: ${curMission.title}!\n+${curMission.rewardKarma} Karma Points earned! Now entering Act ${nextState.currentAct}!`);
+      openSpyStoryModal();
+    });
+
+    // 2. CHARACTER CUSTOMIZATION & PHOTO FACE MODAL
+    const characterCustomModalBackdrop = document.getElementById('characterCustomModalBackdrop');
+    const btnOpenCharacterModal = document.getElementById('btnOpenCharacterModal');
+    const btnCloseCharacterModal = document.getElementById('btnCloseCharacterModal');
+    const btnArchHuman = document.getElementById('btnArchHuman');
+    const btnArchAndroid = document.getElementById('btnArchAndroid');
+    const btnArchHybrid = document.getElementById('btnArchHybrid');
+    const btnUploadFacePhoto = document.getElementById('btnUploadFacePhoto');
+    const facePhotoInput = document.getElementById('facePhotoInput');
+    const btnResetFaceDefault = document.getElementById('btnResetFaceDefault');
+
+    btnOpenCharacterModal?.addEventListener('click', () => characterCustomModalBackdrop.classList.add('active'));
+    btnCloseCharacterModal?.addEventListener('click', () => characterCustomModalBackdrop.classList.remove('active'));
+
+    const setArchetype = (type) => {
+      if (openWorld && openWorld.character) {
+        openWorld.character.setArchetype(type);
+      }
+      [btnArchHuman, btnArchAndroid, btnArchHybrid].forEach(b => b?.classList.remove('active'));
+      if (type === 'human') btnArchHuman?.classList.add('active');
+      else if (type === 'android') btnArchAndroid?.classList.add('active');
+      else if (type === 'hybrid') btnArchHybrid?.classList.add('active');
+
+      fetch('/api/character/profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ archetype: type })
+      }).catch(e => console.warn(e));
+    };
+
+    btnArchHuman?.addEventListener('click', () => setArchetype('human'));
+    btnArchAndroid?.addEventListener('click', () => setArchetype('android'));
+    btnArchHybrid?.addEventListener('click', () => setArchetype('hybrid'));
+
+    btnUploadFacePhoto?.addEventListener('click', () => facePhotoInput?.click());
+    facePhotoInput?.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (re) => {
+          const dataUrl = re.target.result;
+          if (openWorld && openWorld.character) {
+            openWorld.character.setCustomPhoto(dataUrl);
+            alert("✅ Face photo mapped onto 3D character head mesh successfully!");
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    btnResetFaceDefault?.addEventListener('click', () => {
+      if (openWorld && openWorld.character) {
+        openWorld.character.generateFaceTexture('ayaan');
+        alert("Face reset to Ayaan Malik signature portrait.");
+      }
+    });
+
+    // Car Color chips
+    document.querySelectorAll('.btn-car-color').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const color = btn.getAttribute('data-color');
+        if (openWorld && openWorld.vehicle) {
+          openWorld.vehicle.setPaintColor(color);
+        }
+      });
+    });
+
+    // 3. IN-GAME SOCIAL MEDIA (REELS & REDDIT FEED)
+    const socialMediaModalBackdrop = document.getElementById('socialMediaModalBackdrop');
+    const btnOpenSocialModal = document.getElementById('btnOpenSocialModal');
+    const btnCloseSocialModal = document.getElementById('btnCloseSocialModal');
+    const btnTabSocialReels = document.getElementById('btnTabSocialReels');
+    const btnTabSocialReddit = document.getElementById('btnTabSocialReddit');
+    const socialTrendingTags = document.getElementById('socialTrendingTags');
+    const socialFeedContainer = document.getElementById('socialFeedContainer');
+    const socialKarmaTotal = document.getElementById('socialKarmaTotal');
+
+    let activeSocialTab = 'reels';
+
+    function renderSocialFeed() {
+      const state = socialMedia.getState();
+      if (socialKarmaTotal) socialKarmaTotal.innerText = state.userKarma;
+
+      // Trending tags
+      if (socialTrendingTags) {
+        socialTrendingTags.innerHTML = state.trendingTags.map(t => `
+          <div style="background:#141b26; border:1px solid var(--border); padding:4px 10px; border-radius:12px; font-size:11px; white-space:nowrap;">
+            <strong style="color:var(--reddit-orange);">${t.tag}</strong>
+            <span style="color:#94a3b8; margin-left:4px;">${t.posts}</span>
+          </div>
+        `).join('');
+      }
+
+      if (!socialFeedContainer) return;
+
+      if (activeSocialTab === 'reels') {
+        socialFeedContainer.innerHTML = `
+          <div class="reels-feed-container">
+            ${state.reels.map(r => `
+              <div class="reel-card">
+                <div class="reel-video-preview" style="background: ${r.bgGradient};">
+                  <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="background:rgba(0,0,0,0.6); padding:4px 8px; border-radius:8px; font-size:11px; font-weight:800;">${r.avatar} ${r.handle}</span>
+                    <span style="font-size:11px;">🎵 ${r.soundTrack}</span>
+                  </div>
+                  <div style="text-align:center; font-weight:900; font-size:16px; text-shadow:0 2px 8px rgba(0,0,0,0.8);">
+                    ${r.previewClipText}
+                  </div>
+                  <div style="display:flex; justify-content:space-between; font-size:12px;">
+                    <span>❤️ ${r.likes.toLocaleString()}</span>
+                    <span>💬 ${r.commentsCount}</span>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 style="font-size:14px; font-weight:800; color:#fff;">${r.title}</h4>
+                  <p style="font-size:12px; color:var(--text-muted); margin-top:4px;">${r.description}</p>
+                </div>
+
+                <div style="display:flex; gap:8px;">
+                  <button class="action-pill btn-like-reel" data-id="${r.id}" style="background:${r.isLiked ? 'var(--reddit-orange)' : '#1e293b'}; color:#fff; flex:1;">
+                    ${r.isLiked ? '❤️ Liked' : '🤍 Like (+50 Karma)'}
+                  </button>
+                </div>
+
+                <!-- Recent Comments -->
+                <div style="background:#090d14; border-radius:10px; padding:8px; display:flex; flex-direction:column; gap:6px; font-size:11px;">
+                  ${r.comments.map(c => `
+                    <div><strong style="color:var(--reddit-blue);">${c.user}:</strong> <span style="color:#f0f3f5;">${c.text}</span></div>
+                  `).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+
+        document.querySelectorAll('.btn-like-reel').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            socialMedia.likeReel(id);
+            renderSocialFeed();
+          });
+        });
+
+      } else {
+        // Reddit Posts Tab
+        socialFeedContainer.innerHTML = `
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            ${state.redditPosts.map(p => `
+              <div class="reddit-post-card">
+                <div style="display:flex; align-items:center; gap:8px; font-size:11px;">
+                  <span style="background:${p.flairColor}; color:#fff; padding:2px 8px; border-radius:6px; font-weight:800;">${p.flair}</span>
+                  <strong style="color:#00d2d3;">${p.subreddit}</strong>
+                  <span style="color:#94a3b8;">Posted by ${p.author}</span>
+                </div>
+                <h4 style="font-size:15px; font-weight:800; color:#fff;">${p.title}</h4>
+                <p style="font-size:13px; color:#cbd5e1; line-height:1.4;">${p.body}</p>
+                <div style="display:flex; align-items:center; gap:16px; margin-top:6px;">
+                  <div style="display:flex; align-items:center; gap:6px; background:#1e293b; padding:4px 12px; border-radius:16px;">
+                    <button class="btn-vote-post" data-id="${p.id}" data-dir="1" style="background:none; border:none; color:${p.userVote === 1 ? 'var(--reddit-orange)' : '#94a3b8'}; cursor:pointer; font-size:14px;">▲</button>
+                    <strong style="color:#fff; font-size:12px;">${p.upvotes}</strong>
+                    <button class="btn-vote-post" data-id="${p.id}" data-dir="-1" style="background:none; border:none; color:${p.userVote === -1 ? 'var(--reddit-blue)' : '#94a3b8'}; cursor:pointer; font-size:14px;">▼</button>
+                  </div>
+                  <span style="font-size:12px; color:#94a3b8;">💬 ${p.commentsCount} Comments</span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+
+        document.querySelectorAll('.btn-vote-post').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            const dir = parseInt(btn.getAttribute('data-dir'), 10);
+            socialMedia.voteRedditPost(id, dir);
+            renderSocialFeed();
+          });
+        });
+      }
+    }
+
+    btnOpenSocialModal?.addEventListener('click', () => {
+      renderSocialFeed();
+      socialMediaModalBackdrop.classList.add('active');
+    });
+
+    btnCloseSocialModal?.addEventListener('click', () => socialMediaModalBackdrop.classList.remove('active'));
+
+    btnTabSocialReels?.addEventListener('click', () => {
+      activeSocialTab = 'reels';
+      btnTabSocialReels.classList.add('active');
+      btnTabSocialReddit.classList.remove('active');
+      renderSocialFeed();
+    });
+
+    btnTabSocialReddit?.addEventListener('click', () => {
+      activeSocialTab = 'reddit';
+      btnTabSocialReddit.classList.add('active');
+      btnTabSocialReels.classList.remove('active');
+      renderSocialFeed();
+    });
+
+    // Hotkey: [M] toggles Social Media Phone Drawer
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'm' || e.key === 'M') {
+        if (socialMediaModalBackdrop.classList.contains('active')) {
+          socialMediaModalBackdrop.classList.remove('active');
+        } else {
+          renderSocialFeed();
+          socialMediaModalBackdrop.classList.add('active');
+        }
+      }
     });
 
     // 3D Surfers Game Setup

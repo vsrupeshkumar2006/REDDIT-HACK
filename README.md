@@ -12,7 +12,7 @@
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI_0.110-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![OpenAI GPT-4o mini](https://img.shields.io/badge/AI-OpenAI_GPT--4o_mini-412991?logo=openai&logoColor=white)](https://openai.com)
 [![Three.js 3D](https://img.shields.io/badge/Graphics-3D_WebGL_&_CSS3D-black?logo=three.js)](https://threejs.org)
-[![Tests Passing](https://img.shields.io/badge/Tests-5/5_Passed-46D160.svg)](tests/)
+[![Tests Passing](https://img.shields.io/badge/Tests-13/13_Passed-46D160.svg)](tests/)
 
 ---
 
@@ -114,7 +114,98 @@ flowchart LR
 
 ## 🎮 Game Modes & Features
 
-### 1. 🌍 3D Roamable Open World ("All-In-One" Merged Realm)
+### 1. 🏎️ Forza Horizon-Grade Automotive Architecture & Dynamics
+Built to professional AAA simulation standards (Porsche/GT-R performance grade):
+* **Exterior Architecture & Modeling:**
+  * Aerodynamic low-slung GT monocoque chassis with beveled hood air extractor vents and power bulge.
+  * Front carbon fiber splitter, bumper dive canards, and honeycomb radiator intake grille.
+  * Xenon projector headlights with active Three.js `SpotLight` night illumination beams.
+  * Full-width rear glowing LED taillight bar with **active brake lights** that dynamically intensify on braking/reversing.
+  * Quad stainless steel exhaust pipes with dynamic Nitrous flame particle bursts.
+  * High-downforce elevated GT race wing spoiler and rear aerodynamic diffuser.
+  * Modeled wheel arches with interior fender liners, side mirrors, door seams, and recessed door handles.
+  * Dark tinted aerodynamic greenhouse glass and windshield.
+* **Modeled Interior Cockpit Architecture:**
+  * Detailed racing dashboard with digital gauge cluster (speedometer, tachometer, gear, boost).
+  * Twin racing bucket seats and lightweight roll cage tubes.
+  * **Articulated 3-Spoke Sport Steering Wheel:** Dynamically turns and rotates with driver steering input!
+* **Mechanical Physics & Dynamics Engine (`vehicleDynamics.js`):**
+  * **4-Wheel Independent Raycast Suspension:** Hooke's spring force with damping ($F = -k \cdot x - c \cdot v$), dynamic chassis roll during cornering, and pitch/dive on acceleration and braking.
+  * **Wheel Rotation Physics:** Four wheels rotate at angular velocity $\omega = v / r$ directly proportional to ground velocity.
+  * **High-Performance Radial Tires:** Procedural rubber tread textures with realistic directional water channels, chrome multi-spoke alloy rims, cross-drilled ventilated brake discs, and red Brembo-style brake calipers.
+  * **Ackermann Steering Geometry:** Front wheels physically steer with velocity-sensitive high-speed stability damping.
+  * **6-Speed Transmission & RPM Engine Sound:** Realistic gear ratios (1st to 6th + Reverse), automatic shift logic, RPM calculation (800 to 8,500 RPM), and Web Audio API engine revving.
+  * **Tire Traction & Drift Mechanics:** Handbrake drift slip angles, tire smoke particle emitters, and rubber skid marks on asphalt.
+* **5 Dynamic Camera Modes (Cycle with `[C]` Key):**
+  1. **Chase View:** 3rd-person dynamic follow with velocity zoom and camera shake.
+  2. **Cockpit View:** 1st-person driver interior looking through the windshield at the turning steering wheel and glowing cluster!
+  3. **Hood View:** Low forward-mounted camera for high-speed intensity.
+  4. **Cinematic View:** Dramatic revolving orbit camera capturing the car in motion.
+  5. **Free Drone View:** Overhead inspection camera for exploring the terrain.
+
+### 2. 🌍 Expansive 5-Biome Open World Architecture (`openWorld3D.js`)
+A continuous 400m x 400m interconnected 3D landscape with elevation, vegetation, and landmarks:
+* **Biome A — Cyber City & Rashid's Performance Garage:** Neon skyscrapers, paved streets, automated robot security patrols, and Rashid's Garage (dyno lift, tool racks, neon signboard).
+* **Biome B — Grasslands & Rolling Hills:** Lush green hills, procedural pine trees, rustic wooden fences, and dirt trails.
+* **Biome C — Desert Dunes & Abandoned Outpost:** Rolling golden sand dunes, dynamic dust trails, reduced vehicle traction on loose sand, and rusty abandoned shipping containers.
+* **Biome D — Mountain Canyon Pass & Tunnels:** Towering rocky peaks, elevated winding roads, illuminated stone tunnel, and mountain atmospheric mist.
+* **Biome E — Ancient Lost Empires & Ruins:** Monolithic stone temples, ruined pillars, monumental gates, and secret underground vault entrance.
+* **Arterial Highway Network:** 4-lane paved asphalt highways with yellow divider lines linking all 5 biomes together!
+
+### 3. 👤 Playable Character Architecture (`characterController.js`)
+* **Protagonist: Ayaan Malik (~25):** Talented underground street racer, master automotive engineer, and brother in the Onlysons family. Features a handsome bearded face, dark racing jacket with "Malik Garage" badge, tactical cargo pants, and boots.
+* **3 Playable Archetypes (Switch Anytime in HUD):**
+  1. **Human (Ayaan Malik):** Natural skin tone, leather jacket, styled hair, trimmed beard.
+  2. **Full Android (Unit-07):** Titanium chassis, cyan glowing LED optical visor, robotic sound effects.
+  3. **Human-Android Hybrid:** Ayaan's human face with augmented cybernetic left arm and glowing neural spine interface.
+* **Procedural Animation Controller:**
+  * Idle breathing and posture swaying.
+  * Walking, running, and sprinting with realistic leg/arm swinging and forward torso lean.
+  * In-air jumping and landing with knee flexion shock absorption.
+  * Sitting / driving posture when inside the vehicle.
+  * Story dialogue talking gestures.
+* **Photo-to-Playable-Character Pipeline:**
+  * Upload your personal face photo or avatar via the UI.
+  * Neural canvas texture generator composites your face directly onto the 3D character mesh in real time!
+* **Seamless Vehicle Enter / Exit (`[F]` Key):**
+  * Walk up to the Forza GT Racer (< 4.2m) ➔ HUD prompt `[F] ENTER CAR` appears.
+  * Press `[F]` ➔ Ayaan enters the driver seat, doors close, engine ignites, controls transfer to Forza vehicle dynamics!
+  * While driving, press `[F]` ➔ Car stops, Ayaan steps out on foot, camera returns to 3rd-person character follow!
+
+### 4. 🕵️ Undercover Spy Racer Narrative ("Dhurandhar" Indian Spy Thriller Inspired)
+Integrated directly into the Onlysons saga via `spyStoryEngine.js`:
+* **The Malik Family Ensemble at Rashid's Garage:**
+  * **Father Rashid Malik (🔧):** Master mechanic, proud patriarch. Believes Ayaan is tuning cars to save the family workshop from foreclosure.
+  * **Mother Sana (🧕):** Emotional anchor, worried about Ayaan's late nights and suspicious calls.
+  * **Sister Zara Malik (📰):** Fearless investigative journalist tracking corporate corruption and the "Syndicate Apex" cartel. Unknowingly investigating the very syndicate Ayaan is infiltrating!
+  * **Brother Hamza Malik (🎮):** Streamer, gamer, and drone technician. Edits Ayaan's viral drift reels and monitors telemetry.
+  * **Uncle Farooq (📦):** Customs agent and logistics informant who knows all the mountain and desert bypasses.
+  * **Agent Kabir (🕶️):** National Intelligence handler delivering encrypted orders via dead-drops.
+* **The 6-Act Campaign:**
+  * **Act I: The Midnight Sprint:** Win the street race in Father Rashid's tuned V8 to save Malik Garage.
+  * **Act II: The Shadow Contract:** Secret dead-drop behind the Ancient Ruins with Agent Kabir. Take the undercover pledge.
+  * **Act III: The Desert Infiltration:** Drive the high-speed desert convoy across sand dunes without triggering syndicate drones.
+  * **Act IV: The Double Life & Suspicion Crisis:** Balance family dinner tensions with covert data extraction. Manage **Suspicion Meter < 100%**!
+  * **Act V: Mountain Pass Ambush:** Sister Zara's car is intercepted by Syndicate enforcers! High-speed mountain pursuit to extract her safely.
+  * **Act VI: The Grand Reckoning:** Final raid on Syndicate Headquarters, delivering cryptographic proof to the Central Vault.
+* **Branching Choices & Voice Synthesis:**
+  * Interactive dialogue choices ("Choice A: Protect Family [Trust +15, Suspicion +10]" vs "Choice B: Prioritize Cover [Suspicion -15, Agency +15]").
+  * "🔊 Listen" button activates Web Speech API voice synthesis with customized character tones.
+  * State and rewards persisted in SQLite backend (`/api/spy/campaign/advance`).
+
+### 5. 📱 In-Game Social Media Platform (Reels & Reddit Dynasty Feed)
+Built directly via `socialMediaEngine.js` (accessible via `[M]` key or HUD button):
+* **Vertical 9:16 In-Game Reels & Shorts:**
+  * Watch viral 360° drift clips, Father Rashid tuning the 950HP dyno monster, and Zara's drone surveillance leaks.
+  * Interactive "Like" button (+50 Karma) and live comment threads ("Bhai kya drift tha yaar!! 🔥", "Bro thinks he's in Dhurandhar 💀").
+* **Reddit Community Threads (r/OnlySons, r/Cars, r/CityMysteries):**
+  * Megathreads on the "Ghost Racer" Ayaan Malik, mechanic advice from Father Rashid, and leaked financial lineage.
+  * Upvote and downvote posts to earn Karma.
+* **Trending Hashtags:** `#AyaanMalik`, `#MalikGarage`, `#GhostRacer`, `#MidnightDrift`, `#SyndicateExposed`.
+
+---
+
+### 6. 🌍 3D Roamable Open World ("All-In-One" Merged Realm)
 * **360-Degree Free Roaming City Plaza:** Full 3D environment built with Three.js. Roam freely using `WASD`/Arrows, sprint with `Shift`, and jump with `Space`.
 * **5 Interactive Brother Districts:**
   * 🧙‍♂️ **District I: Mod Wizard's Arcane Spire** – Provably Fair Cryptographic Oracle & Tarot Altar.
@@ -126,7 +217,7 @@ flowchart LR
 * **In-Game Brainrot Memes & Surveillance:** Native in-world holographic LED billboards displaying *Giga Doge*, *Skibidi AutoMod*, and *WSB Diamond Hands* directly inside the 3D scene.
 * **Minimap Radar:** Real-time HUD radar tracking coordinates (`X, Z`), velocity, and active landmark zones.
 
-### 2. 💼 Fintech & GPU Cloud Billing Infrastructure (MOA Architecture)
+### 7. 💼 Fintech & GPU Cloud Billing Infrastructure (MOA Architecture)
 Built directly from the MOA cloud auditor specification (as featured in production agent workflows):
 * **4-Stage Automated Reconciliation Pipeline:**
   * `Invoice`: Ingests vendor invoices (e.g., `HEL-2026-10-118-L3` from Lambda Labs GPU Cloud).

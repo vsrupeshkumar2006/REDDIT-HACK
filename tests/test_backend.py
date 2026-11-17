@@ -127,3 +127,54 @@ def test_provably_fair_verify():
     assert resp.status_code == 200
     assert resp.json()["verified"] is True
     assert len(resp.json()["computed_hash"]) == 64
+
+def test_spy_campaign():
+    # Fetch campaign state
+    resp = client.get("/api/spy/campaign")
+    assert resp.status_code == 200
+    assert "act_number" in resp.json()
+    assert "family_trust" in resp.json()
+
+    # Advance campaign
+    payload = {
+        "act_number": 1,
+        "mission_title": "Act I: The Midnight Sprint",
+        "family_trust": 90,
+        "syndicate_suspicion": 20,
+        "agency_rating": 85,
+        "choice_index": 0,
+        "points": 2500
+    }
+    adv_resp = client.post("/api/spy/campaign/advance", json=payload)
+    assert adv_resp.status_code == 200
+    assert adv_resp.json()["status"] == "advanced"
+    assert adv_resp.json()["campaign"]["family_trust"] == 90
+
+def test_social_interact():
+    payload = {
+        "item_id": "reel_01",
+        "item_type": "reel",
+        "action": "like",
+        "karma_awarded": 50
+    }
+    resp = client.post("/api/social/interact", json=payload)
+    assert resp.status_code == 200
+    assert resp.json()["status"] == "recorded"
+    assert resp.json()["interaction"]["item_id"] == "reel_01"
+
+def test_character_profile():
+    # Save profile
+    save_payload = {
+        "archetype": "human",
+        "custom_photo_url": None,
+        "paint_color": "#ff4500"
+    }
+    save_resp = client.post("/api/character/profile", json=save_payload)
+    assert save_resp.status_code == 200
+    assert save_resp.json()["status"] == "saved"
+
+    # Get profile
+    get_resp = client.get("/api/character/profile")
+    assert get_resp.status_code == 200
+    assert get_resp.json()["archetype"] == "human"
+    assert get_resp.json()["paint_color"] == "#ff4500"

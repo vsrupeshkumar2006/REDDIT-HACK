@@ -157,6 +157,26 @@ class AgentMemoryRequest(BaseModel):
     val: str
     priority: int = 1
 
+class AdvanceCampaignRequest(BaseModel):
+    act_number: int
+    mission_title: str
+    family_trust: int
+    syndicate_suspicion: int
+    agency_rating: int
+    choice_index: Optional[int] = 0
+    points: Optional[int] = 2500
+
+class SocialInteractRequest(BaseModel):
+    item_id: str
+    item_type: str
+    action: str
+    karma_awarded: int = 50
+
+class CharacterProfileRequest(BaseModel):
+    archetype: str
+    custom_photo_url: Optional[str] = None
+    paint_color: Optional[str] = "#d91e18"
+
 @app.get("/api/tasks/history")
 def get_task_history(limit: int = 50):
     return {"tasks": DatabaseManager.get_task_history(limit)}
@@ -290,3 +310,53 @@ def verify_provably_fair(req: ProvablyFairVerifyRequest):
         "client_seed": req.client_seed,
         "mathematical_fairness": "100% Cryptographically Audited"
     }
+
+# -------------------------------------------------------------
+# UNDERCOVER SPY CAMPAIGN, SOCIAL MEDIA & CHARACTER PROFILE
+# -------------------------------------------------------------
+@app.get("/api/spy/campaign")
+def get_spy_campaign():
+    return DatabaseManager.get_spy_campaign()
+
+@app.post("/api/spy/campaign/advance")
+def advance_spy_campaign(req: AdvanceCampaignRequest):
+    record = DatabaseManager.advance_spy_campaign(
+        act_number=req.act_number,
+        mission_title=req.mission_title,
+        family_trust=req.family_trust,
+        syndicate_suspicion=req.syndicate_suspicion,
+        agency_rating=req.agency_rating,
+        choice_index=req.choice_index
+    )
+    # Reward Karma points for completing spy mission
+    DatabaseManager.log_task(
+        task_id=f"spy_act_{req.act_number}",
+        task_name=f"Spy Mission: {req.mission_title}",
+        category="spy_campaign",
+        points=req.points,
+        details={"act": req.act_number, "suspicion": req.syndicate_suspicion}
+    )
+    return {"status": "advanced", "campaign": record}
+
+@app.post("/api/social/interact")
+def social_interact(req: SocialInteractRequest):
+    record = DatabaseManager.log_social_interaction(
+        item_id=req.item_id,
+        item_type=req.item_type,
+        action=req.action,
+        karma_awarded=req.karma_awarded
+    )
+    return {"status": "recorded", "interaction": record}
+
+@app.get("/api/character/profile")
+def get_character_profile():
+    return DatabaseManager.get_character_customization()
+
+@app.post("/api/character/profile")
+def save_character_profile(req: CharacterProfileRequest):
+    record = DatabaseManager.save_character_customization(
+        archetype=req.archetype,
+        custom_photo_url=req.custom_photo_url,
+        paint_color=req.paint_color
+    )
+    return {"status": "saved", "profile": record}

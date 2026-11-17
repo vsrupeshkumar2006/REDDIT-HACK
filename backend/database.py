@@ -83,6 +83,44 @@ def init_db():
     );
     """)
 
+    # 5. Undercover Spy Campaign Progress ("Dhurandhar" Indian Spy Narrative)
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS spy_campaign_progress (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        act_number INTEGER NOT NULL,
+        mission_title TEXT NOT NULL,
+        status TEXT NOT NULL,
+        family_trust INTEGER NOT NULL,
+        syndicate_suspicion INTEGER NOT NULL,
+        agency_rating INTEGER NOT NULL,
+        choice_index INTEGER DEFAULT 0,
+        timestamp REAL NOT NULL
+    );
+    """)
+
+    # 6. Social Media Reels & Reddit Interactions
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS social_media_interactions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        item_id TEXT NOT NULL,
+        item_type TEXT NOT NULL,
+        action TEXT NOT NULL,
+        karma_awarded INTEGER NOT NULL,
+        timestamp REAL NOT NULL
+    );
+    """)
+
+    # 7. Character Customization & Photo Avatar
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS character_customization (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        archetype TEXT NOT NULL,
+        custom_photo_url TEXT,
+        paint_color TEXT,
+        timestamp REAL NOT NULL
+    );
+    """)
+
     conn.commit()
     conn.close()
 
@@ -243,4 +281,108 @@ class DatabaseManager:
             "result": result,
             "proof_hash": proof_hash,
             "timestamp": now
+        }
+
+    @staticmethod
+    def get_spy_campaign() -> Dict[str, Any]:
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM spy_campaign_progress ORDER BY id DESC LIMIT 1")
+        row = cursor.fetchone()
+        conn.close()
+        if not row:
+            return {
+                "act_number": 1,
+                "mission_title": "Act I: The Midnight Sprint",
+                "status": "active",
+                "family_trust": 85,
+                "syndicate_suspicion": 15,
+                "agency_rating": 80,
+                "choice_index": 0
+            }
+        return {
+            "act_number": row["act_number"],
+            "mission_title": row["mission_title"],
+            "status": row["status"],
+            "family_trust": row["family_trust"],
+            "syndicate_suspicion": row["syndicate_suspicion"],
+            "agency_rating": row["agency_rating"],
+            "choice_index": row["choice_index"]
+        }
+
+    @staticmethod
+    def advance_spy_campaign(act_number: int, mission_title: str, family_trust: int, syndicate_suspicion: int, agency_rating: int, choice_index: int = 0) -> Dict[str, Any]:
+        conn = get_connection()
+        cursor = conn.cursor()
+        now = time.time()
+        cursor.execute("""
+            INSERT INTO spy_campaign_progress (act_number, mission_title, status, family_trust, syndicate_suspicion, agency_rating, choice_index, timestamp)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """, (act_number, mission_title, "completed", family_trust, syndicate_suspicion, agency_rating, choice_index, now))
+        conn.commit()
+        conn.close()
+        return {
+            "act_number": act_number,
+            "mission_title": mission_title,
+            "family_trust": family_trust,
+            "syndicate_suspicion": syndicate_suspicion,
+            "agency_rating": agency_rating,
+            "status": "completed",
+            "timestamp": now
+        }
+
+    @staticmethod
+    def log_social_interaction(item_id: str, item_type: str, action: str, karma_awarded: int) -> Dict[str, Any]:
+        conn = get_connection()
+        cursor = conn.cursor()
+        now = time.time()
+        cursor.execute("""
+            INSERT INTO social_media_interactions (item_id, item_type, action, karma_awarded, timestamp)
+            VALUES (?, ?, ?, ?, ?)
+        """, (item_id, item_type, action, karma_awarded, now))
+        conn.commit()
+        conn.close()
+        return {
+            "item_id": item_id,
+            "item_type": item_type,
+            "action": action,
+            "karma_awarded": karma_awarded,
+            "timestamp": now
+        }
+
+    @staticmethod
+    def save_character_customization(archetype: str, custom_photo_url: str = None, paint_color: str = "#d91e18") -> Dict[str, Any]:
+        conn = get_connection()
+        cursor = conn.cursor()
+        now = time.time()
+        cursor.execute("""
+            INSERT INTO character_customization (archetype, custom_photo_url, paint_color, timestamp)
+            VALUES (?, ?, ?, ?)
+        """, (archetype, custom_photo_url, paint_color, now))
+        conn.commit()
+        conn.close()
+        return {
+            "archetype": archetype,
+            "custom_photo_url": custom_photo_url,
+            "paint_color": paint_color,
+            "timestamp": now
+        }
+
+    @staticmethod
+    def get_character_customization() -> Dict[str, Any]:
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM character_customization ORDER BY id DESC LIMIT 1")
+        row = cursor.fetchone()
+        conn.close()
+        if not row:
+            return {
+                "archetype": "human",
+                "custom_photo_url": None,
+                "paint_color": "#d91e18"
+            }
+        return {
+            "archetype": row["archetype"],
+            "custom_photo_url": row["custom_photo_url"],
+            "paint_color": row["paint_color"]
         }
