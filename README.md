@@ -3,9 +3,9 @@
 > **Built for the Reddit Developer Platform Hackathon**  
 >
 > ### 👥 Project Creators & Core Contributors
-> 1. **Prashant** – *Visualization and the Entire Game Development*
-> 2. **Rishir Kartik** – *Game Engine and Full-Stack Development*
-> 3. **Rupesh Kumar** – *Architecture and AI System Development with System-Level Deep Integration*
+> 1. **eshwar Karthik** – *Game Engine and Full-Stack Development*
+> 2.  **Prashanth** – *Visualization and the Entire Game Development*
+> 2. **Rupesh Kumar** – *Architecture and AI System Development*
 
 [![Reddit Devvit](https://img.shields.io/badge/Platform-Reddit_Devvit_2.0-FF4500?logo=reddit&logoColor=white)](https://developers.reddit.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-0079D3.svg)](LICENSE)
