@@ -3110,35 +3110,55 @@
         <p style="font-size:13px; color:var(--text-muted);">Switch between Human, Full Android, and Cyber Hybrid archetypes, or map your photo onto the 3D model!</p>
       </div>
 
-      <!-- Archetype Selector -->
+      <!-- Real Human Face Presets Gallery -->
       <div>
-        <label style="font-size:12px; font-weight:800; color:var(--reddit-orange); text-transform:uppercase;">1. Select Playable Archetype</label>
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:8px;">
-          <button class="pill-btn active" id="btnArchHuman" style="flex-direction:column; padding:12px 8px; text-align:center;">
+        <label style="font-size:12px; font-weight:800; color:var(--reddit-orange); text-transform:uppercase;">1. Choose Real Human Face or Archetype</label>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px; margin-top:8px;">
+          <button class="pill-btn active btn-face-preset" data-preset="ayaan" style="flex-direction:column; padding:10px 6px; text-align:center;">
             <span style="font-size:22px;">🏎️</span>
-            <strong style="font-size:12px; margin-top:4px;">Ayaan Malik (Human)</strong>
-            <span style="font-size:10px; color:#94a3b8;">Leather Jacket, Beard</span>
+            <strong style="font-size:12px; margin-top:4px;">Ayaan Malik</strong>
+            <span style="font-size:10px; color:#94a3b8;">Designer Beard</span>
           </button>
-          <button class="pill-btn" id="btnArchAndroid" style="flex-direction:column; padding:12px 8px; text-align:center;">
+          <button class="pill-btn btn-face-preset" data-preset="rashid" style="flex-direction:column; padding:10px 6px; text-align:center;">
+            <span style="font-size:22px;">🔧</span>
+            <strong style="font-size:12px; margin-top:4px;">Father Rashid</strong>
+            <span style="font-size:10px; color:#94a3b8;">Silver Beard, 52yo</span>
+          </button>
+          <button class="pill-btn btn-face-preset" data-preset="zara" style="flex-direction:column; padding:10px 6px; text-align:center;">
+            <span style="font-size:22px;">📰</span>
+            <strong style="font-size:12px; margin-top:4px;">Sister Zara</strong>
+            <span style="font-size:10px; color:#94a3b8;">Radiant, Dark Eyes</span>
+          </button>
+          <button class="pill-btn btn-face-preset" data-preset="hamza" style="flex-direction:column; padding:10px 6px; text-align:center;">
+            <span style="font-size:22px;">🎮</span>
+            <strong style="font-size:12px; margin-top:4px;">Brother Hamza</strong>
+            <span style="font-size:10px; color:#94a3b8;">Youthful, Streamer</span>
+          </button>
+          <button class="pill-btn btn-face-preset" data-preset="kabir" style="flex-direction:column; padding:10px 6px; text-align:center;">
+            <span style="font-size:22px;">🕶️</span>
+            <strong style="font-size:12px; margin-top:4px;">Agent Kabir</strong>
+            <span style="font-size:10px; color:#94a3b8;">Tactical Handler</span>
+          </button>
+          <button class="pill-btn btn-face-preset" data-preset="android" style="flex-direction:column; padding:10px 6px; text-align:center;">
             <span style="font-size:22px;">🤖</span>
-            <strong style="font-size:12px; margin-top:4px;">Unit-07 (Android)</strong>
-            <span style="font-size:10px; color:#94a3b8;">Titanium Frame, LED Visor</span>
+            <strong style="font-size:12px; margin-top:4px;">Unit-07</strong>
+            <span style="font-size:10px; color:#94a3b8;">Titanium Visor</span>
           </button>
-          <button class="pill-btn" id="btnArchHybrid" style="flex-direction:column; padding:12px 8px; text-align:center;">
+          <button class="pill-btn btn-face-preset" data-preset="hybrid" style="flex-direction:column; padding:10px 6px; text-align:center;">
             <span style="font-size:22px;">⚡</span>
-            <strong style="font-size:12px; margin-top:4px;">Ayaan Cyber-Hybrid</strong>
-            <span style="font-size:10px; color:#94a3b8;">Cyber Arm, Neural Spine</span>
+            <strong style="font-size:12px; margin-top:4px;">Cyber Hybrid</strong>
+            <span style="font-size:10px; color:#94a3b8;">Human + Machine</span>
           </button>
         </div>
       </div>
 
       <!-- Photo-to-Playable Face Pipeline -->
       <div style="background:#0e1520; border:1px solid var(--border); border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:8px;">
-        <label style="font-size:12px; font-weight:800; color:#00d2d3; text-transform:uppercase;">2. Photo-to-Playable-Character Face Mapping</label>
-        <p style="font-size:12px; color:var(--text-muted);">Upload your face or avatar image. The neural texture pipeline will composite it directly onto the 3D character mesh!</p>
+        <label style="font-size:12px; font-weight:800; color:#00d2d3; text-transform:uppercase;">2. Photo-to-Playable Real Human Face Upload</label>
+        <p style="font-size:12px; color:var(--text-muted);">Upload ANY real human face or selfie. Our neural UV pipeline will map your real human features directly onto the 3D character mesh in real time!</p>
         <div style="display:flex; gap:10px; align-items:center;">
           <input type="file" id="facePhotoInput" accept="image/*" style="display:none;" />
-          <button class="action-pill" id="btnUploadFacePhoto" style="background:var(--reddit-blue); border-color:#00d2d3;">📷 Upload Photo</button>
+          <button class="action-pill" id="btnUploadFacePhoto" style="background:var(--reddit-blue); border-color:#00d2d3;">📷 Upload Real Photo</button>
           <button class="action-pill" id="btnResetFaceDefault">Reset to Ayaan Preset</button>
         </div>
       </div>
@@ -3472,9 +3492,23 @@
       }).catch(e => console.warn(e));
     };
 
-    btnArchHuman?.addEventListener('click', () => setArchetype('human'));
-    btnArchAndroid?.addEventListener('click', () => setArchetype('android'));
-    btnArchHybrid?.addEventListener('click', () => setArchetype('hybrid'));
+    // Preset face selector
+    document.querySelectorAll('.btn-face-preset').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const preset = btn.getAttribute('data-preset');
+        if (openWorld && openWorld.character) {
+          openWorld.character.setFacePreset(preset);
+        }
+        document.querySelectorAll('.btn-face-preset').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        fetch('/api/character/profile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ archetype: preset })
+        }).catch(e => console.warn(e));
+      });
+    });
 
     btnUploadFacePhoto?.addEventListener('click', () => facePhotoInput?.click());
     facePhotoInput?.addEventListener('change', (e) => {
@@ -3485,7 +3519,7 @@
           const dataUrl = re.target.result;
           if (openWorld && openWorld.character) {
             openWorld.character.setCustomPhoto(dataUrl);
-            alert("✅ Face photo mapped onto 3D character head mesh successfully!");
+            alert("✅ Real human face photo mapped onto 3D character head mesh successfully!");
           }
         };
         reader.readAsDataURL(file);
@@ -3494,7 +3528,9 @@
 
     btnResetFaceDefault?.addEventListener('click', () => {
       if (openWorld && openWorld.character) {
-        openWorld.character.generateFaceTexture('ayaan');
+        openWorld.character.setFacePreset('ayaan');
+        document.querySelectorAll('.btn-face-preset').forEach(b => b.classList.remove('active'));
+        document.querySelector('.btn-face-preset[data-preset="ayaan"]')?.classList.add('active');
         alert("Face reset to Ayaan Malik signature portrait.");
       }
     });

@@ -152,23 +152,33 @@ A continuous 400m x 400m interconnected 3D landscape with elevation, vegetation,
 * **Biome E — Ancient Lost Empires & Ruins:** Monolithic stone temples, ruined pillars, monumental gates, and secret underground vault entrance.
 * **Arterial Highway Network:** 4-lane paved asphalt highways with yellow divider lines linking all 5 biomes together!
 
-### 3. 👤 Playable Character Architecture (`characterController.js`)
-* **Protagonist: Ayaan Malik (~25):** Talented underground street racer, master automotive engineer, and brother in the Onlysons family. Features a handsome bearded face, dark racing jacket with "Malik Garage" badge, tactical cargo pants, and boots.
-* **3 Playable Archetypes (Switch Anytime in HUD):**
-  1. **Human (Ayaan Malik):** Natural skin tone, leather jacket, styled hair, trimmed beard.
-  2. **Full Android (Unit-07):** Titanium chassis, cyan glowing LED optical visor, robotic sound effects.
-  3. **Human-Android Hybrid:** Ayaan's human face with augmented cybernetic left arm and glowing neural spine interface.
-* **Procedural Animation Controller:**
-  * Idle breathing and posture swaying.
-  * Walking, running, and sprinting with realistic leg/arm swinging and forward torso lean.
-  * In-air jumping and landing with knee flexion shock absorption.
-  * Sitting / driving posture when inside the vehicle.
-  * Story dialogue talking gestures.
-* **Photo-to-Playable-Character Pipeline:**
-  * Upload your personal face photo or avatar via the UI.
-  * Neural canvas texture generator composites your face directly onto the 3D character mesh in real time!
+### 3. 👤 Real Human & Android Character Architecture (`characterController.js`)
+* **3D Anatomical Human Head & Facial Mesh:**
+  * Modeled rounded cranium with natural proportions, contoured cheekbones, and defined jawline/chin.
+  * 3D protruding nose bridge, nasal tip, and modeled nostrils extending outward from the face plane.
+  * 3D modeled upper & lower lips with Cupid's bow vermilion curvature and philtrum indentation.
+  * 3D modeled ears with anatomical outer helix and earlobe geometry.
+  * 3D styled hair volume with fade detailing and directional parting.
+* **1024x1024 Ultra-Realistic Photographic Face Texture Generator:**
+  * Multi-layer dermal color blending (subsurface blood flow warmth, T-zone highlights, micro-pore grain).
+  * True photographic human eyes: ivory sclera with micro-capillary red veins, multi-layered iris stromal fibers, dark limbal ring, deep black pupil, dual studio specular light glints, and feathered hair-by-hair eyebrows.
+  * Follicle simulation beard: thousands of individual directional micro-stubble hair strokes with gradient density fading naturally at the cheekbones.
+  * Vermilion lip texture with vertical micro-creases and natural moisture specular sheen.
+* **Real Human Face Presets Gallery (One-Click Selection in HUD):**
+  1. **Ayaan Malik (🏎️ Protagonist):** Realistic 25yo Indian underground racer & master mechanic, designer beard, warm amber-brown eyes, black hair fade.
+  2. **Father Rashid Malik (🔧 Patriarch):** Realistic 52yo veteran mechanic, distinguished silver-streaked salt-and-pepper beard, gentle laugh lines.
+  3. **Sister Zara Malik (📰 Journalist):** Realistic 23yo investigative journalist, intelligent dark gaze, smooth radiant skin tone.
+  4. **Brother Hamza Malik (🎮 Gamer):** Realistic 19yo streamer, modern textured crop fade, headset collar.
+  5. **Agent Kabir (🕶️ Handler):** Realistic 38yo intelligence operative, sharp tactical square jawline.
+  6. **Unit-07 Full Android (🤖):** Polished brushed titanium faceplate with luminous cyan optical lens arrays.
+  7. **Ayaan Cyber-Hybrid (⚡):** Seamless organic human face merging into a titanium neural frame.
+* **Photo-to-Playable Real Human Face Pipeline:**
+  * Upload ANY real human photo or selfie via the in-game UI.
+  * Neural UV texture pipeline projects and blends your real photo onto the 3D character mesh in real time!
+* **Procedural Skeletal Animation Controller:**
+  * Idle breathing, walking, running, sprinting, in-air jumping/landing, sitting/driving, and dialogue talking gestures.
 * **Seamless Vehicle Enter / Exit (`[F]` Key):**
-  * Walk up to the Forza GT Racer (< 4.2m) ➔ HUD prompt `[F] ENTER CAR` appears.
+  * Walk up to the Forza GT Racer (< 4.2m) ➔ HUD prompt `[F] ENTER FORZA GT RACER` appears.
   * Press `[F]` ➔ Ayaan enters the driver seat, doors close, engine ignites, controls transfer to Forza vehicle dynamics!
   * While driving, press `[F]` ➔ Car stops, Ayaan steps out on foot, camera returns to 3rd-person character follow!
 

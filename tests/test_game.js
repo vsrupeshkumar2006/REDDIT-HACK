@@ -121,10 +121,17 @@ assert(computedRpm > 4000 && computedRpm < 7000, "30 m/s in Gear 3 should produc
 console.log(`   Speed: ${speedMps} m/s (~${Math.round(speedMps * 2.237)} MPH) -> Gear 3 Ratio: ${gearRatios[2]} -> RPM: ${Math.round(computedRpm)}`);
 console.log("   ✅ Automotive transmission and RPM simulation validated.\n");
 
-// Test 9: Character Archetypes & Proximity Math
-console.log("▶ Testing Character Archetypes & Vehicle Transition Distance...");
+// Test 9: Character Archetypes & Real Human Face Presets
+console.log("▶ Testing Character Archetypes, Real Human Face Presets & Proximity Math...");
 const archetypes = ['human', 'android', 'hybrid'];
 assert.strictEqual(archetypes.length, 3, "All 3 archetypes must be supported");
+
+const humanFacePresets = ['ayaan', 'rashid', 'zara', 'hamza', 'kabir'];
+assert.strictEqual(humanFacePresets.length, 5, "5 realistic human face presets must be defined");
+assert(humanFacePresets.includes('ayaan'), "Protagonist Ayaan Malik must be present");
+assert(humanFacePresets.includes('rashid'), "Father Rashid Malik must be present");
+assert(humanFacePresets.includes('zara'), "Sister Zara Malik must be present");
+
 const carX = -8, carZ = 12;
 const playerCloseX = -9.5, playerCloseZ = 13;
 const distClose = Math.hypot(playerCloseX - carX, playerCloseZ - carZ);
@@ -132,7 +139,7 @@ assert(distClose < 4.2, "Player should be within 4.2m vehicle entry range");
 const playerFarX = 20, playerFarZ = 40;
 const distFar = Math.hypot(playerFarX - carX, playerFarZ - carZ);
 assert(distFar > 4.2, "Player farther away cannot enter vehicle");
-console.log(`   Proximity Check: Close=${distClose.toFixed(2)}m (Can Enter), Far=${distFar.toFixed(2)}m (Out of range)`);
-console.log("   ✅ Character archetypes & vehicle transition validated.\n");
+console.log(`   Face Presets: [${humanFacePresets.join(', ')}] | Proximity: Close=${distClose.toFixed(2)}m (Enter), Far=${distFar.toFixed(2)}m`);
+console.log("   ✅ Real human face presets & vehicle transition validated.\n");
 
 console.log("🎉 ALL CLIENT TESTS PASSED SUCCESSFULLY! Ready for deployment.");

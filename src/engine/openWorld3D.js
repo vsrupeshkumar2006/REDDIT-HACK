@@ -319,20 +319,6 @@ export class OpenWorld3D {
     signMesh.position.set(0, 7.5, 9.05);
     garageGroup.add(signMesh);
 
-    // Father Rashid NPC Mascot Avatar standing by the garage door
-    const rashidNpc = new THREE.Group();
-    rashidNpc.position.set(-4, 0, 10.5);
-
-    const rBody = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.5, 1.4, 12), new THREE.MeshStandardMaterial({ color: 0x3d3d3d }));
-    rBody.position.y = 0.9;
-    const rHead = new THREE.Mesh(new THREE.SphereGeometry(0.35, 12, 12), new THREE.MeshStandardMaterial({ color: 0xb38059 }));
-    rHead.position.y = 1.85;
-    const wrench = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.45, 0.08), new THREE.MeshStandardMaterial({ color: 0xdcdde1, metalness: 0.9 }));
-    wrench.position.set(0.42, 1.1, 0.2);
-    wrench.rotation.z = 0.4;
-    rashidNpc.add(rBody, rHead, wrench);
-    garageGroup.add(rashidNpc);
-
     // Interactive Hologram Beacon
     const beacon = new THREE.Mesh(
       new THREE.CylinderGeometry(0.3, 0.3, 3.5),
@@ -341,7 +327,141 @@ export class OpenWorld3D {
     beacon.position.set(0, 2.0, 10.5);
     garageGroup.add(beacon);
 
+    // Realistic Human NPCs at Rashid's Garage (Father Rashid, Sister Zara, Brother Hamza)
+    this.createFamilyNpc(garageGroup, 'rashid', -4, 10.5, 0x3d434d, '🔧 Wrench');
+    this.createFamilyNpc(garageGroup, 'zara', 4, 10.5, 0x1e272e, '📷 Camera');
+    this.createFamilyNpc(garageGroup, 'hamza', 6, 8.5, 0x2c3e50, '🎮 Drone Remote');
+
     this.scene.add(garageGroup);
+  }
+
+  createFamilyNpc(parentGroup, preset, x, z, outfitColor, propType) {
+    const npcGroup = new THREE.Group();
+    npcGroup.position.set(x, 0, z);
+
+    const skinMat = new THREE.MeshStandardMaterial({ color: 0xb47e56, roughness: 0.6 });
+    const clothMat = new THREE.MeshStandardMaterial({ color: outfitColor, roughness: 0.7 });
+
+    // 1. Torso
+    const torso = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.88, 0.42), clothMat);
+    torso.position.y = 1.34;
+    torso.castShadow = true;
+    npcGroup.add(torso);
+
+    // 2. Neck & Anatomical Head
+    const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.16, 0.22, 12), skinMat);
+    neck.position.y = 0.52;
+    torso.add(neck);
+
+    const headGroup = new THREE.Group();
+    headGroup.position.y = 0.92;
+
+    const cranium = new THREE.Mesh(new THREE.SphereGeometry(0.3, 20, 16), skinMat);
+    cranium.scale.set(0.88, 1.05, 0.96);
+    headGroup.add(cranium);
+
+    // Real Human Face Texture Generator for NPC
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 512;
+    const ctx = canvas.getContext('2d');
+
+    // Dermal base & features
+    const skinGrad = ctx.createRadialGradient(256, 240, 50, 256, 256, 260);
+    skinGrad.addColorStop(0, '#cb9168');
+    skinGrad.addColorStop(0.7, '#b47e56');
+    skinGrad.addColorStop(1, '#96633e');
+    ctx.fillStyle = skinGrad;
+    ctx.fillRect(0, 0, 512, 512);
+
+    // Eye sockets & Eyes
+    [-75, 75].forEach(ex => {
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath(); ctx.ellipse(256 + ex, 220, 32, 16, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#3a2211';
+      ctx.beginPath(); ctx.arc(256 + ex, 220, 14, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#050505';
+      ctx.beginPath(); ctx.arc(256 + ex, 220, 6, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath(); ctx.arc(256 + ex - 3, 217, 2.5, 0, Math.PI * 2); ctx.fill();
+      // Brow
+      ctx.strokeStyle = '#18120e';
+      ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.moveTo(256 + ex - 36, 185); ctx.lineTo(256 + ex + 36, 185); ctx.stroke();
+    });
+
+    // Nose & Lips
+    ctx.fillStyle = 'rgba(180, 80, 60, 0.3)';
+    ctx.beginPath(); ctx.arc(256, 305, 14, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#1e1008';
+    ctx.beginPath(); ctx.ellipse(240, 312, 7, 4, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(272, 312, 7, 4, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#8e4b3c';
+    ctx.beginPath(); ctx.ellipse(256, 360, 42, 14, 0, 0, Math.PI * 2); ctx.fill();
+
+    // Beard for Father Rashid
+    if (preset === 'rashid') {
+      ctx.fillStyle = '#4a4646';
+      ctx.beginPath();
+      ctx.moveTo(140, 310);
+      ctx.quadraticCurveTo(256, 490, 372, 310);
+      ctx.quadraticCurveTo(256, 390, 140, 310);
+      ctx.fill();
+    }
+
+    const faceTex = new THREE.CanvasTexture(canvas);
+    const facePlane = new THREE.Mesh(
+      new THREE.PlaneGeometry(0.5, 0.58),
+      new THREE.MeshStandardMaterial({ map: faceTex, roughness: 0.6 })
+    );
+    facePlane.position.set(0, 0.02, -0.27);
+    facePlane.rotation.y = Math.PI;
+    headGroup.add(facePlane);
+
+    // 3D Nose & Ears
+    const nose = new THREE.Mesh(new THREE.ConeGeometry(0.04, 0.12, 4), skinMat);
+    nose.position.set(0, 0.02, -0.31);
+    nose.rotation.x = -Math.PI / 2;
+    headGroup.add(nose);
+
+    [-0.28, 0.28].forEach(earX => {
+      const ear = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.12, 0.07), skinMat);
+      ear.position.set(earX, 0.02, -0.02);
+      headGroup.add(ear);
+    });
+
+    // 3D Hair
+    const hair = new THREE.Mesh(
+      new THREE.BoxGeometry(0.52, 0.16, 0.52),
+      new THREE.MeshStandardMaterial({ color: preset === 'rashid' ? 0x444242 : 0x110f0f, roughness: 0.85 })
+    );
+    hair.position.set(0, 0.26, -0.02);
+    headGroup.add(hair);
+
+    torso.add(headGroup);
+
+    // 3. Arms & Legs
+    [-0.44, 0.44].forEach(ax => {
+      const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.09, 0.62, 10), clothMat);
+      arm.position.set(ax, -0.25, 0);
+      torso.add(arm);
+    });
+
+    [-0.18, 0.18].forEach(lx => {
+      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.1, 0.78, 10), new THREE.MeshStandardMaterial({ color: 0x1a212d }));
+      leg.position.set(lx, 0.44, 0);
+      npcGroup.add(leg);
+    });
+
+    // Prop
+    if (preset === 'rashid') {
+      const wrench = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.42, 0.07), new THREE.MeshStandardMaterial({ color: 0xdcdde1, metalness: 0.9 }));
+      wrench.position.set(0.44, 1.0, 0.22);
+      wrench.rotation.z = 0.4;
+      npcGroup.add(wrench);
+    }
+
+    parentGroup.add(npcGroup);
   }
 
   // ===========================================================================
