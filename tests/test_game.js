@@ -1,6 +1,6 @@
 /**
  * KarmaCrunch Client Progression & Game Logic Tests
- * Built by Rupesh Kumar, Eshwar Kartik, and Prashant
+ * Built by Eshwar Karthik, Prashanth, and Rupesh Kumar
  */
 
 import assert from 'assert';

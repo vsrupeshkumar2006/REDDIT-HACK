@@ -1,6 +1,6 @@
 """
 Backend Test Suite for KarmaCrunch
-Built by Rupesh Kumar, Eshwar Kartik, and Prashant
+Built by Eshwar Karthik, Prashanth, and Rupesh Kumar
 """
 
 import pytest
@@ -15,8 +15,8 @@ def test_root():
     assert response.status_code == 200
     data = response.json()
     assert data["app"] == "ONLYSONS"
-    assert "Prashant" in data["authors"]
-    assert "Rishir Kartik" in data["authors"]
+    assert "Eshwar Karthik" in data["authors"]
+    assert "Prashanth" in data["authors"]
     assert "Rupesh Kumar" in data["authors"]
 
 def test_health():

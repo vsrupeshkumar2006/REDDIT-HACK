@@ -1,6 +1,6 @@
 """
 KarmaCrunch High-Performance FastAPI Server
-Built by Rupesh Kumar, Eshwar Kartik, and Prashant
+Built by Eshwar Karthik, Prashanth, and Rupesh Kumar
 """
 
 import asyncio

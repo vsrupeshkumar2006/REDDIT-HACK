@@ -1,6 +1,6 @@
 /**
  * KarmaCrunch: 3D Holographic Visuals & Tilt Engine
- * Built by Rupesh Kumar, Eshwar Kartik, and Prashant
+ * Built by Eshwar Karthik, Prashanth, and Rupesh Kumar
  * Features WebGL 3D Karma Core & Dynamic Interactive 3D Depth Card
  */
 

@@ -1,6 +1,6 @@
 """
 KarmaCrunch Pydantic Data Models & Strict Schemas
-Built by Rupesh Kumar, Eshwar Kartik, and Prashant
+Built by Eshwar Karthik, Prashanth, and Rupesh Kumar
 """
 
 from typing import List, Optional

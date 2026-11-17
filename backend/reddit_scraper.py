@@ -1,6 +1,6 @@
 """
 KarmaCrunch Reddit Scraper Engine
-Built by Rupesh Kumar, Eshwar Kartik, and Prashant
+Built by Eshwar Karthik, Prashanth, and Rupesh Kumar
 Provides real-time scraping via PRAW / public endpoints with smart caching and demo fallbacks.
 """
 

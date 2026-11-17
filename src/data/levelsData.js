@@ -1,6 +1,6 @@
 /**
  * KarmaCrunch: 1-100 Level Progression & Scaling Engine
- * Built by Rupesh Kumar, Eshwar Kartik, and Prashant
+ * Built by Eshwar Karthik, Prashanth, and Rupesh Kumar
  */
 
 export function calculateXpForLevel(level) {

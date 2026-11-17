@@ -1,6 +1,6 @@
 """
 KarmaCrunch AI Agent & Structured Output Engine
-Built by Rupesh Kumar, Eshwar Kartik, and Prashant
+Built by Eshwar Karthik, Prashanth, and Rupesh Kumar
 """
 
 import json

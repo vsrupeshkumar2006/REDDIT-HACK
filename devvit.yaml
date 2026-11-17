@@ -14,8 +14,8 @@ permissions:
   - redis:all
   - http:fetch
 authors:
-  - "Prashant"
-  - "Rishir Kartik"
+  - "Eshwar Karthik"
+  - "Prashanth"
   - "Rupesh Kumar"
 postTypes:
   - customPost:

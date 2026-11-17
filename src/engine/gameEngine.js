@@ -1,6 +1,6 @@
 /**
  * KarmaCrunch: Master Game Engine (1-100 Levels & Points System)
- * Built by Rupesh Kumar, Eshwar Kartik, and Prashant
+ * Built by Eshwar Karthik, Prashanth, and Rupesh Kumar
  */
 
 import { RetroSoundEngine } from './soundEngine.js';

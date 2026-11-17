@@ -1,6 +1,6 @@
 /**
  * ONLYSONS Procedural Audio Synthesizer: 8-Bit Chiptune & Realistic GTA Vehicle Engine
- * Built by Rupesh Kumar, Eshwar Kartik, and Prashant
+ * Built by Eshwar Karthik, Prashanth, and Rupesh Kumar
  * 100% Procedural Web Audio API — Zero external audio files required.
  */
 

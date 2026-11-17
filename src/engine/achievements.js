@@ -1,6 +1,6 @@
 /**
  * KarmaCrunch: Quests & Achievements Engine
- * Built by Rupesh Kumar, Eshwar Kartik, and Prashant
+ * Built by Eshwar Karthik, Prashanth, and Rupesh Kumar
  */
 
 export const ACHIEVEMENTS_LIST = [

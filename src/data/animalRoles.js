@@ -1,6 +1,6 @@
 /**
  * ONLYSONS: The Five Brothers of the Reddit Dynasty
- * Built by Prashant, Rishir Kartik, and Rupesh Kumar
+ * Built by Eshwar Karthik, Prashanth, and Rupesh Kumar
  */
 
 export const ANIMAL_ROLES = [

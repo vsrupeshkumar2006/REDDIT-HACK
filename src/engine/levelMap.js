@@ -1,6 +1,6 @@
 /**
  * KarmaCrunch: Interactive 100-Level World Map Engine
- * Built by Rupesh Kumar, Eshwar Kartik, and Prashant
+ * Built by Eshwar Karthik, Prashanth, and Rupesh Kumar
  */
 
 export class LevelMapEngine {

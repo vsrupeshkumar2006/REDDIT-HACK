@@ -1,6 +1,6 @@
 """
 KarmaCrunch Configuration Module
-Built by Rupesh Kumar, Eshwar Kartik, and Prashant
+Built by Eshwar Karthik, Prashanth, and Rupesh Kumar
 """
 
 import os
@@ -9,7 +9,7 @@ from pydantic import BaseModel
 class Settings(BaseModel):
     APP_NAME: str = "ONLYSONS"
     VERSION: str = "2.0.0"
-    AUTHORS: list[str] = ["Prashant", "Rishir Kartik", "Rupesh Kumar"]
+    AUTHORS: list[str] = ["Eshwar Karthik", "Prashanth", "Rupesh Kumar"]
     
     # OpenAI Settings
     OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "mock-openai-key")

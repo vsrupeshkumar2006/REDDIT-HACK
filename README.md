@@ -3,9 +3,9 @@
 > **Built for the Reddit Developer Platform Hackathon**  
 >
 > ### 👥 Project Creators & Core Contributors
-> 1. **Prashant** – *Visualization and the Entire Game Development*
-> 2. **Rishir Kartik** – *Game Engine and Full-Stack Development*
-> 3. **Rupesh Kumar** – *Architecture and AI System Development with System-Level Deep Integration*
+> 1. **Eshwar Karthik** – *Game Engine and Full-Stack Development*
+> 2. **Prashanth** – *Visualization and the Entire Game Development*
+> 3. **Rupesh Kumar** – *Architecture and AI System Development*
 
 [![Reddit Devvit](https://img.shields.io/badge/Platform-Reddit_Devvit_2.0-FF4500?logo=reddit&logoColor=white)](https://developers.reddit.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-0079D3.svg)](LICENSE)
@@ -151,7 +151,7 @@ flowchart LR
 * Request scorch-earth comedy roasts or viral post headline recommendations.
 
 ### 5. 📐 3D Builder Tribute Architecture (Downside)
-* An interactive 3D Isometric Depth Card situated at the bottom of the app with mouse-tracking gyro tilt physics, celebrating creators **Prashant**, **Rishir Kartik**, and **Rupesh Kumar**.
+* An interactive 3D Isometric Depth Card situated at the bottom of the app with mouse-tracking gyro tilt physics, celebrating creators **Eshwar Karthik**, **Prashanth**, and **Rupesh Kumar**.
 
 ---
 
@@ -301,9 +301,9 @@ pytest tests/test_backend.py -v
 ## 👥 Authors & Team Credits
 
 Built with pride for the Reddit Community:
-1. **Prashant** – *Visualization and the entire game development*
-2. **Rishir Kartik** – *Game engine and full-stack development*
-3. **Rupesh Kumar** – *Architecture and AI system development with system-level deep integration*
+1. **Eshwar Karthik** – *Game Engine and Full-Stack Development*
+2. **Prashanth** – *Visualization and the Entire Game Development*
+3. **Rupesh Kumar** – *Architecture and AI System Development*
 
 ---
 

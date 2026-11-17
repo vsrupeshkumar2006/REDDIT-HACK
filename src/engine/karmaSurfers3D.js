@@ -1,6 +1,6 @@
 /**
  * ONLYSONS 3D: Realistic GTA-Grade 3D City Highway & Vehicle Physics Engine
- * Built by Rupesh Kumar, Eshwar Kartik, and Prashant
+ * Built by Eshwar Karthik, Prashanth, and Rupesh Kumar
  * Features:
  *  - Photorealistic procedural PBR textures (Asphalt, Sidewalk, Skyscrapers, Billboards)
  *  - Full 6-DOF Vehicle Dynamics: Gears 1-6, RPM, Drag, Suspension Roll & Pitch

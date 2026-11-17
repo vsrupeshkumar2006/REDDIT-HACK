@@ -1,6 +1,6 @@
 /**
  * KarmaCrunch: Interactive Reddit AI Agent & Scraper Engine
- * Built by Rupesh Kumar, Eshwar Kartik, and Prashant
+ * Built by Eshwar Karthik, Prashanth, and Rupesh Kumar
  */
 
 export class RedditAgent {
