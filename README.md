@@ -1,14 +1,18 @@
 # ⚡ ONLYSONS: 1-100 Level Reddit Community Game & AI Suite
 
+> **Built for the Reddit Developer Platform Hackathon**  
+>
+> ### 👥 Project Creators & Core Contributors
+> 1. **Prashant** – *Visualization and the Entire Game Development*
+> 2. **Rishir Kartik** – *Game Engine and Full-Stack Development*
+> 3. **Rupesh Kumar** – *Architecture and AI System Development with System-Level Deep Integration*
+
 [![Reddit Devvit](https://img.shields.io/badge/Platform-Reddit_Devvit_2.0-FF4500?logo=reddit&logoColor=white)](https://developers.reddit.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-0079D3.svg)](LICENSE)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI_0.110-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![OpenAI GPT-4o mini](https://img.shields.io/badge/AI-OpenAI_GPT--4o_mini-412991?logo=openai&logoColor=white)](https://openai.com)
 [![Three.js 3D](https://img.shields.io/badge/Graphics-3D_WebGL_&_CSS3D-black?logo=three.js)](https://threejs.org)
 [![Tests Passing](https://img.shields.io/badge/Tests-5/5_Passed-46D160.svg)](tests/)
-
-> **Built for the Reddit Developer Platform Hackathon**  
-> **Creators & Architects:** **Eshwar Karthik**, **Prashanth** and **Rupesh Kumar**
 
 ---
 
@@ -280,9 +284,9 @@ pytest tests/test_backend.py -v
 ## 👥 Authors & Team Credits
 
 Built with pride for the Reddit Community:
-* **Rupesh Kumar** – *Architecture & AI Systems*
-* **Eshwar Kartik** – *3D Game Engine & Full-Stack*
-* **Prashant** – *3D Visuals & UI/UX*
+1. **Prashant** – *Visualization and the entire game development*
+2. **Rishir Kartik** – *Game engine and full-stack development*
+3. **Rupesh Kumar** – *Architecture and AI system development with system-level deep integration*
 
 ---
 

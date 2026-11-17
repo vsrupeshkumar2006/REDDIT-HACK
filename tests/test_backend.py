@@ -15,9 +15,9 @@ def test_root():
     assert response.status_code == 200
     data = response.json()
     assert data["app"] == "KarmaCrunch"
-    assert "Rupesh Kumar" in data["authors"]
-    assert "Eshwar Kartik" in data["authors"]
     assert "Prashant" in data["authors"]
+    assert "Rishir Kartik" in data["authors"]
+    assert "Rupesh Kumar" in data["authors"]
 
 def test_health():
     response = client.get("/api/health")

@@ -7,9 +7,9 @@ name = "karmacrunch"
 version = "2.0.0"
 description = "KarmaCrunch: An AI-Powered Reddit Analytics Engine & 100-Level RPG Community Game Suite"
 authors = [
-    { name = "Rupesh Kumar" },
-    { name = "Eshwar Kartik" },
-    { name = "Prashant" }
+    { name = "Prashant" },
+    { name = "Rishir Kartik" },
+    { name = "Rupesh Kumar" }
 ]
 readme = "README.md"
 requires-python = ">=3.10"

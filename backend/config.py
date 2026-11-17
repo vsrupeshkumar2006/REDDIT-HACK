@@ -9,7 +9,7 @@ from pydantic import BaseModel
 class Settings(BaseModel):
     APP_NAME: str = "KarmaCrunch"
     VERSION: str = "2.0.0"
-    AUTHORS: list[str] = ["Rupesh Kumar", "Eshwar Kartik", "Prashant"]
+    AUTHORS: list[str] = ["Prashant", "Rishir Kartik", "Rupesh Kumar"]
     
     # OpenAI Settings
     OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "mock-openai-key")

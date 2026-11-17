@@ -14,9 +14,9 @@ permissions:
   - redis:all
   - http:fetch
 authors:
-  - "Rupesh Kumar"
-  - "Eshwar Kartik"
   - "Prashant"
+  - "Rishir Kartik"
+  - "Rupesh Kumar"
 postTypes:
   - customPost:
       title: "KarmaCrunch: Level 1-100 Community Battle Royale"

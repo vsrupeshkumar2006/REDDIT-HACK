@@ -22,9 +22,9 @@
     "openai"
   ],
   "authors": [
-    "Rupesh Kumar",
-    "Eshwar Kartik",
-    "Prashant"
+    "Prashant",
+    "Rishir Kartik",
+    "Rupesh Kumar"
   ],
   "license": "MIT",
   "dependencies": {
