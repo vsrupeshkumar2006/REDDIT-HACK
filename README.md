@@ -3,7 +3,7 @@
 > **Built for the Reddit Developer Platform Hackathon**  
 >
 > ### 👥 Project Creators & Core Contributors
-> 1. **eshwar Karthik** – *Game Engine and Full-Stack Development*
+> 1. **Eshwar Karthik** – *Game Engine and Full-Stack Development*
 > 2.  **Prashanth** – *Visualization and the Entire Game Development*
 > 2. **Rupesh Kumar** – *Architecture and AI System Development*
 
