@@ -1013,6 +1013,750 @@
       gap: 20px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.8);
     }
+    /* =========================================================================
+       ONLYSONS ARCADE LOBBY & 8 MINI-GAMES STYLING (REDDIT DARK UX)
+       ========================================================================= */
+    .onlysons-arcade-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 10px 0;
+    }
+
+    .arcade-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .arcade-search-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #161e27;
+      border: 1px solid var(--border-bright);
+      border-radius: 28px;
+      padding: 8px 18px;
+      flex: 1;
+      max-width: 520px;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.4);
+    }
+
+    .arcade-search-box input {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      width: 100%;
+      outline: none;
+    }
+
+    .arcade-dynasty-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(255, 69, 0, 0.15), rgba(255, 215, 0, 0.15));
+      border: 1px solid rgba(255, 69, 0, 0.4);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+
+    .arcade-filter-pills {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .arcade-filter-pills::-webkit-scrollbar { display: none; }
+
+    .arcade-filter-pills .pill-btn {
+      background: #16202a;
+      border: 1px solid var(--border);
+      color: #d0dbe0;
+      padding: 8px 16px;
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .arcade-filter-pills .pill-btn:hover {
+      border-color: var(--reddit-orange);
+      color: #fff;
+    }
+
+    .arcade-filter-pills .pill-btn.active {
+      background: var(--reddit-orange);
+      border-color: var(--reddit-orange);
+      color: #fff;
+      box-shadow: 0 0 12px rgba(255, 69, 0, 0.4);
+    }
+
+    .arcade-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .section-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title-wrap h2 {
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .section-arrows {
+      display: flex;
+      gap: 6px;
+    }
+
+    .scroll-arrow {
+      width: 32px;
+      height: 32px;
+      background: #16202a;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s;
+    }
+    .scroll-arrow:hover { background: var(--reddit-orange); border-color: var(--reddit-orange); }
+
+    /* GAME CARDS GRID (Matches Screenshot) */
+    .arcade-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+
+    .arcade-game-card {
+      background: #141c26;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+
+    .arcade-game-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: var(--reddit-orange);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.6), 0 0 16px rgba(255, 69, 0, 0.25);
+    }
+
+    .card-hero-visual {
+      height: 155px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .game-big-emoji {
+      font-size: 46px;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.5));
+      transition: transform 0.2s;
+    }
+    .arcade-game-card:hover .game-big-emoji {
+      transform: scale(1.15) rotate(4deg);
+    }
+
+    .game-card-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+      margin-top: 6px;
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+    }
+
+    .game-sub-tag {
+      font-size: 9px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-top: 2px;
+    }
+
+    .card-footer-info {
+      padding: 10px 12px;
+      background: #10161f;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .online-dot-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .live-green-dot {
+      width: 7px;
+      height: 7px;
+      background: #2ecc71;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #2ecc71;
+    }
+
+    .player-count {
+      font-size: 11px;
+      font-weight: 700;
+      color: #95afc0;
+    }
+
+    .son-owner-name {
+      font-size: 11px;
+      font-weight: 800;
+      color: #d0dbe0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ACTIVE GAME VIEW */
+    .active-game-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background: #0d121a;
+      border: 1px solid var(--border-bright);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.7);
+    }
+
+    .game-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .back-to-lobby-btn {
+      background: #1a2330;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .back-to-lobby-btn:hover {
+      background: var(--reddit-orange);
+      border-color: var(--reddit-orange);
+    }
+
+    .game-meta-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .game-icon-bubble {
+      font-size: 28px;
+      background: #1a2330;
+      padding: 6px 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+
+    .game-headline {
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .game-owner-sub {
+      font-size: 12px;
+      color: var(--reddit-orange);
+      font-weight: 700;
+    }
+
+    .karma-balance-pill {
+      background: #16202c;
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 16px;
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 14px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* GAME WORKSPACE DUAL-PANEL LAYOUT */
+    .dice-game-layout, .mines-game-layout, .plinko-game-layout,
+    .crash-game-layout, .chicken-game-layout, .tarot-game-layout,
+    .keno-game-layout, .limbo-game-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 860px) {
+      .dice-game-layout, .mines-game-layout, .plinko-game-layout,
+      .crash-game-layout, .chicken-game-layout, .tarot-game-layout,
+      .keno-game-layout, .limbo-game-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .game-control-panel {
+      background: #131924;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .control-label {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    .bet-input-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .bet-input-row input {
+      flex: 1;
+      background: #0a0e14;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 800;
+      outline: none;
+    }
+    .bet-input-row input:focus { border-color: var(--reddit-orange); }
+
+    .quick-bet-btn {
+      background: #1e2837;
+      border: 1px solid var(--border);
+      color: #fff;
+      border-radius: 8px;
+      padding: 0 10px;
+      font-weight: 800;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .quick-bet-btn:hover { background: var(--reddit-orange); }
+
+    .dice-mode-toggle {
+      display: flex;
+      background: #0a0e14;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .mode-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #95afc0;
+      padding: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .mode-btn.active {
+      background: var(--reddit-orange);
+      color: #fff;
+    }
+
+    .stat-readout-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .stat-readout {
+      background: #0a0e14;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .stat-readout span { font-size: 9px; font-weight: 800; color: var(--text-muted); }
+    .stat-readout strong { font-size: 15px; font-family: var(--font-mono); color: #fff; }
+
+    .action-play-btn {
+      background: linear-gradient(135deg, #ff4500, #ff6b35);
+      border: none;
+      color: #fff;
+      padding: 14px;
+      border-radius: 12px;
+      font-weight: 900;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(255, 69, 0, 0.4);
+      transition: all 0.15s;
+    }
+    .action-play-btn:hover { transform: scale(1.02); box-shadow: 0 6px 20px rgba(255, 69, 0, 0.6); }
+
+    .action-cashout-btn {
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
+      border: none;
+      color: #fff;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 900;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(46, 204, 113, 0.4);
+    }
+    .action-cashout-btn:hover { transform: scale(1.02); }
+
+    .mines-select {
+      background: #0a0e14;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      outline: none;
+    }
+
+    /* GAME STAGE PANELS */
+    .game-stage-panel {
+      background: #111722;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 420px;
+      position: relative;
+    }
+
+    .dice-stage-visual {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .dice-result-sphere {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: #0d121a;
+      border: 3px solid #9b59b6;
+      box-shadow: 0 0 24px rgba(155, 89, 182, 0.4), inset 0 0 18px rgba(155, 89, 182, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 900;
+      font-family: var(--font-mono);
+      color: #fff;
+    }
+
+    .dice-slider-track {
+      width: 100%;
+      position: relative;
+    }
+    .dice-slider-track input[type="range"] {
+      width: 100%;
+      accent-color: var(--reddit-orange);
+      height: 10px;
+      cursor: pointer;
+    }
+    .slider-scale-row {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+    }
+
+    .dice-status-banner {
+      margin-top: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    /* MINES 5x5 GRID */
+    .mines-grid-5x5 {
+      display: grid;
+      grid-template-columns: repeat(5, 62px);
+      gap: 10px;
+    }
+
+    .mine-tile {
+      width: 62px;
+      height: 62px;
+      background: #1a2332;
+      border: 2px solid var(--border-bright);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .mine-tile:hover {
+      transform: scale(1.06);
+      border-color: #00d2d3;
+      background: #202b3d;
+    }
+    .mine-tile.revealed-gem {
+      background: rgba(0, 210, 211, 0.2);
+      border-color: #00d2d3;
+      box-shadow: 0 0 14px rgba(0, 210, 211, 0.5);
+    }
+    .mine-tile.revealed-bomb, .mine-tile.detonated {
+      background: rgba(231, 76, 60, 0.25);
+      border-color: #e74c3c;
+      box-shadow: 0 0 18px rgba(231, 76, 60, 0.6);
+    }
+
+    /* PLINKO BOARD */
+    .plinko-board-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #plinkoCanvas {
+      background: #0a0e16;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+    .plinko-buckets-row {
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      width: 480px;
+      gap: 4px;
+      margin-top: 8px;
+    }
+    .bucket-cell {
+      background: #1a2332;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 0;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 900;
+      font-family: var(--font-mono);
+      color: #fff;
+    }
+    .bucket-cell.gold {
+      background: rgba(241, 196, 15, 0.2);
+      border-color: #f1c40f;
+      color: #f1c40f;
+    }
+
+    /* CRASH STAGE */
+    .crash-stage-canvas-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #crashCanvas {
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+    .crash-center-multiplier {
+      position: absolute;
+      font-size: 52px;
+      font-weight: 900;
+      font-family: var(--font-mono);
+      color: #fff;
+      text-shadow: 0 4px 18px rgba(0,0,0,0.8);
+      pointer-events: none;
+    }
+
+    /* CHICKEN HIGHWAY */
+    .chicken-highway-track {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 8px;
+      width: 100%;
+      max-width: 420px;
+    }
+    .highway-lane {
+      background: #141b27;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 800;
+      transition: all 0.2s;
+    }
+    .highway-lane.cleared {
+      background: rgba(46, 204, 113, 0.2);
+      border-color: #2ecc71;
+    }
+    .highway-lane.crashed {
+      background: rgba(231, 76, 60, 0.25);
+      border-color: #e74c3c;
+    }
+
+    /* TAROT CARDS STAGE */
+    .tarot-cards-stage {
+      display: flex;
+      gap: 16px;
+      perspective: 800px;
+    }
+    .tarot-card {
+      width: 120px;
+      height: 180px;
+      border-radius: 14px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer;
+    }
+    .tarot-card.flipped { transform: rotateY(180deg); }
+    .card-back, .card-front {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 14px;
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      text-align: center;
+      border: 2px solid var(--border-bright);
+    }
+    .card-back {
+      background: linear-gradient(135deg, #1b122c, #0a0e16);
+      color: #9b59b6;
+      font-weight: 900;
+      font-size: 16px;
+    }
+    .card-front {
+      background: linear-gradient(135deg, #1a2233, #0d121c);
+      transform: rotateY(180deg);
+    }
+
+    /* KENO GRID 40 */
+    .keno-grid-40 {
+      display: grid;
+      grid-template-columns: repeat(8, 44px);
+      gap: 6px;
+    }
+    .keno-tile {
+      width: 44px;
+      height: 44px;
+      background: #16202c;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s;
+    }
+    .keno-tile:hover { border-color: var(--reddit-orange); }
+    .keno-tile.selected { background: var(--reddit-orange); color: #fff; border-color: #fff; }
+    .keno-tile.drawn { background: #2c3e50; color: #bdc3c7; }
+    .keno-tile.match { background: #2ecc71; color: #fff; box-shadow: 0 0 10px #2ecc71; }
+
+    /* LIMBO STAGE */
+    .limbo-visual-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .limbo-big-roll {
+      font-size: 72px;
+      font-weight: 900;
+      font-family: var(--font-mono);
+      color: #fff;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+    }
+    .limbo-target-badge {
+      background: #1a2332;
+      border: 1px solid var(--border);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 13px;
+      color: #f1c40f;
+    }
   </style>
 </head>
 <body>
@@ -1071,7 +1815,10 @@
 
     <!-- NAVIGATION TABS -->
     <nav class="nav-tabs">
-      <button class="tab-btn active" data-tab="tab-surfers">
+      <button class="tab-btn active" data-tab="tab-arcade">
+        <span class="icon">🎰</span> Only Sons Arcade (8 Games)
+      </button>
+      <button class="tab-btn" data-tab="tab-surfers">
         <span class="icon">🏎️</span> 3D GTA Freeway Pursuit
       </button>
       <button class="tab-btn" data-tab="tab-tycoon">
@@ -1086,9 +1833,16 @@
     </nav>
 
     <!-- ================================================================= -->
+    <!-- TAB 0: ONLY SONS DYNASTY ARCADE (8 FULLY WORKING MINI-GAMES)      -->
+    <!-- ================================================================= -->
+    <section id="tab-arcade" class="screen-panel active">
+      <div id="arcadeMasterContainer"></div>
+    </section>
+
+    <!-- ================================================================= -->
     <!-- TAB 1: 3D KARMA SURFERS & GTA HIGHWAY PURSUIT                    -->
     <!-- ================================================================= -->
-    <section id="tab-surfers" class="screen-panel active">
+    <section id="tab-surfers" class="screen-panel">
       <div class="surfers-3d-wrapper">
         <!-- 3D Canvas Viewport -->
         <div class="surfers-viewport" id="surfersContainer">
@@ -1391,11 +2145,13 @@
     import { LevelMapEngine } from './src/engine/levelMap.js';
     import { AchievementManager } from './src/engine/achievements.js';
     import { ANIMAL_ROLES } from './src/data/animalRoles.js';
+    import { OnlySonsArcade } from './src/engine/onlySonsArcade.js';
 
     // Core instances
     const game = new GameEngine();
     const agent = new RedditAgent();
     const visuals = new KarmaVisuals3D('threeCanvasContainer');
+    const arcade = new OnlySonsArcade('arcadeMasterContainer', game);
     const achievements = new AchievementManager((ach) => {
       alert(`🏆 ACHIEVEMENT UNLOCKED: ${ach.name}!\nReward: +${ach.reward} Karma Points!`);
       game.addPoints(ach.reward);
@@ -1403,6 +2159,7 @@
 
     setup3dTiltCard('builderTiltCard');
     visuals.init();
+    arcade.init();
 
     // 3D Surfers Game Setup
     const surfersOverlay = document.getElementById('surfersOverlay');
@@ -1578,6 +2335,8 @@
       upgSnark.disabled = state.points < costObj.snark;
       upgMod.disabled = state.points < costObj.mod;
       upgTernion.disabled = state.points < costObj.ternion;
+
+      arcade.updateKarmaDisplay();
     };
 
     // Passive loop

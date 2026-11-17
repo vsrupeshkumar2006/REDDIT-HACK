@@ -114,7 +114,36 @@ flowchart LR
 
 ## 🎮 Game Modes & Features
 
-### 1. 🏎️ Realistic 3D GTA Freeway Pursuit & Physics Engine
+### 1. 🎰 Only Sons Dynasty Arcade (8 Fully Working Dynamic Mini-Games)
+Built in the signature Reddit Dark UX style (matching the community mini-game arcade standard). In the story, each of the **Five Onlysons** brothers oversees their own games to amass Karma points to rescue their father **u/PatriarchPrime**:
+
+1. 🎲 **KARMA DICE (Son III: Wholesome Doge):**
+   * Predict Roll Over or Roll Under on an interactive 0–100 target slider.
+   * Real-time win chance % calculation and dynamic payout scaling ($Multiplier = 99.0 / WinChance$).
+   * Animated rapid-roll counter with Doge audio blessings.
+2. 💣 **AUTOMOD MINES (Son II: Chaos Cat):**
+   * 5x5 Infiltration Matrix (25 interactive tiles) with selectable Downvote Bomb difficulty (1, 3, 5, 10, or 24 bombs).
+   * Uncover Upvote Diamonds to escalate the live cashout multiplier. Cash out at any time or risk hitting an AutoMod bomb!
+3. 🟡 **PLINKO OF DESTINY (Son III: Wholesome Doge):**
+   * Canvas pegboard physics simulation featuring an 8-row pin pyramid.
+   * Drop glowing golden Karma Coins with real 2D gravitational deflection, pin collision chimes, and 9 multiplier landing buckets ($0.2\times$ up to $12.0\times$ Jackpot).
+4. 🚀 **MOON CRASH (Son IV: WSB Ape):**
+   * The iconic `r/wallstreetbets` rocket curve! Watch the rocket soar with an exponential real-time multiplier curve.
+   * Live pulsing "CASH OUT" button. Time your exit perfectly before the Hedge Fund / SEC rug pull!
+5. 🐔 **CHICKEN HIGHWAY CROSSING (Son II: Chaos Cat):**
+   * Multi-lane highway survival game across 6 lanes.
+   * Each successful step leaps from $1.35\times \to 1.95\times \to 3.2\times \to 6.5\times \to 15\times \to 50.0\times$ Grand Jackpot!
+6. 🔮 **MOD TAROT OF DESTINY (Son I: Mod Wizard):**
+   * 3D Card-Flip divination with 8 ancient Reddit Arcana (*The Upvote Sun*, *Patriarch Prime*, *Automod Aegis*, *Viral Spike*, *Cosmic Ternion*).
+   * Combines 3 drawn cards into an aggregate dynasty multiplier with mystical sound synthesis.
+7. 💎 **STONK KENO (Son IV: WSB Ape):**
+   * 40-tile number matrix. Select 1 to 10 lucky stonks.
+   * 10 winning numbers drawn sequentially with flashing highlights and scaled matching rewards (up to $50\times$).
+8. 🎯 **LIMBO MULTIPLIER (Son I: Mod Wizard):**
+   * Set your custom target multiplier anywhere from $1.05\times$ to $1000.0\times$.
+   * Instant hyper-speed roll with mathematically fair probability distribution.
+
+### 2. 🏎️ Realistic 3D GTA Freeway Pursuit & Physics Engine
 * **Photorealistic Procedural PBR Textures (0 External Asset Dependencies):**
   * **Highway Asphalt:** High-res canvas-generated aggregate grain, tar seams, double continuous yellow dividers, dashed white lane markers, and tire friction tracks.
   * **Concrete Sidewalks:** Segmented expansion joints, drainage gutters, and beveled curbs.
@@ -135,22 +164,22 @@ flowchart LR
 * **GTA V Cockpit Telemetry HUD:**
   * Real-time digital Speedometer (MPH), analog Tachometer bar (RPM), Gear Badge (`GEAR 1`–`GEAR 6`), Nitrous NOS charge bar, and real-time Drift Multiplier badge (`DRIFT x3.2!`).
 
-### 2. 📱 The Family Council & Karma Tycoon
+### 3. 📱 The Family Council & Karma Tycoon
 * **Live Interactive Reddit Thread (`r/OnlysonsDynasty`):** Functional upvote, downvote, and award mechanics.
 * **Family Banter Stream:** Live comments from the Onlysons brothers, reacting in real-time as you play and level up.
 * **Fast-Karma Upgrades:** Upgrade Meme Bots, Snark Comeback Engines, Moderator Shields, and Cosmic Ternions.
 
-### 3. 🗺️ 100-Level Interactive World Map
+### 4. 🗺️ 100-Level Interactive World Map
 * Full visual roadmap of all 100 levels with 3-star performance ratings and boss checkpoints at Levels 10, 25, 50, 75, and 100.
 * Click any unlocked node to jump directly into that level's 3D runner track!
 
-### 4. 🤖 Reddit AI Agent & Family Arbiter
+### 5. 🤖 Reddit AI Agent & Family Arbiter
 * Chat directly with the AI copilot powered by GPT-4o mini.
 * Type `u/username` to scrape user histories and evaluate which Onlyson brother's archetype they belong to.
 * Type `r/subreddit` to perform live sentiment and trend audits.
 * Request scorch-earth comedy roasts or viral post headline recommendations.
 
-### 5. 📐 3D Builder Tribute Architecture (Downside)
+### 6. 📐 3D Builder Tribute Architecture (Downside)
 * An interactive 3D Isometric Depth Card situated at the bottom of the app with mouse-tracking gyro tilt physics, celebrating creators **Eshwar Karthik**, **Prashanth**, and **Rupesh Kumar**.
 
 ---
@@ -162,7 +191,8 @@ flowchart TD
     subgraph Client["Frontend Client (Devvit Interactive Post)"]
         UI["Master UI (index.html)"]
         subgraph EngineGroup["Game Engines"]
-            SURF["3D Karma Surfers (karmaSurfers3D.js)"]
+            ARCADE["Only Sons Arcade 8 Games (onlySonsArcade.js)"]
+            SURF["3D GTA Freeway Pursuit (karmaSurfers3D.js)"]
             MAP["100-Level World Map (levelMap.js)"]
             GE["Points & Combo Core (gameEngine.js)"]
             SE["Web Audio Synthesizer (soundEngine.js)"]

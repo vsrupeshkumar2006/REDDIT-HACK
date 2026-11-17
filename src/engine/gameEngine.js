@@ -57,6 +57,18 @@ export class GameEngine {
     return { earned, combo: this.combo, multiplier };
   }
 
+  spendPoints(amount) {
+    if (this.points >= amount) {
+      this.points -= amount;
+      this.triggerState();
+      return true;
+    }
+    // Grant beginner family emergency stipend if points run out
+    this.points = Math.max(150, this.points);
+    this.triggerState();
+    return true;
+  }
+
   addXp(amount) {
     this.xp += amount;
     const requiredXp = calculateXpForLevel(this.level + 1);

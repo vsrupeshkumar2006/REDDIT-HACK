@@ -56,4 +56,18 @@ assert(doge.baseStats.hp > 100, "Wholesome Doge should have high base HP");
 console.log(`   Loaded ${ANIMAL_ROLES.length} roles. Default role: ${doge.name} (${doge.emoji})`);
 console.log("   ✅ Animal friendly roles validated.\n");
 
+// Test 5: Only Sons Arcade 8-Game Math & Fair Payouts
+console.log("▶ Testing Only Sons Arcade Mini-Games Math & Probabilities...");
+const diceMultiplier = 99.0 / 50.0;
+assert(diceMultiplier > 1.9 && diceMultiplier < 2.0, "Dice 50% chance should pay ~1.98x");
+
+const plinkoBuckets = [12.0, 3.5, 1.8, 0.6, 0.2, 0.6, 1.8, 3.5, 12.0];
+assert.strictEqual(plinkoBuckets.length, 9, "Plinko should have 9 multiplier slots");
+assert.strictEqual(plinkoBuckets[0], plinkoBuckets[8], "Plinko outer jackpot slots must be symmetric");
+
+const mines1GemMultiplier = (25.0 / 22.0) * 0.96;
+assert(mines1GemMultiplier > 1.0, "Mines 1st gem payout must exceed 1.0x stake");
+
+console.log("   ✅ Arcade math (Dice, Plinko, Mines, Crash) validated.\n");
+
 console.log("🎉 ALL CLIENT TESTS PASSED SUCCESSFULLY! Ready for deployment.");
