@@ -1,4 +1,4 @@
-# ⚡ KarmaCrunch: 1-100 Level Reddit Community Game & AI Suite
+# ⚡ ONLYSONS: 1-100 Level Reddit Community Game & AI Suite
 
 [![Reddit Devvit](https://img.shields.io/badge/Platform-Reddit_Devvit_2.0-FF4500?logo=reddit&logoColor=white)](https://developers.reddit.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-0079D3.svg)](LICENSE)
