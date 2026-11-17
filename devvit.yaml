@@ -1,6 +1,6 @@
-name: karmacrunch
+name: onlysons
 version: 2.0.0
-description: "KarmaCrunch: AI Reddit Profiler, 100-Level Karma Tycoon & 3D Interactive Game"
+description: "ONLYSONS: The Reddit Dynasty Saga & 1-100 Level 3D Game Suite"
 entry: src/engine/gameEngine.js
 capabilities:
   posts: true

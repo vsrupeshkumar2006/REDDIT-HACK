@@ -1,4 +1,4 @@
-# ⚡ ONLYSONS: 1-100 Level Reddit Community Game & AI Suite
+# ⚡ ONLYSONS: The Reddit Dynasty Saga & 1-100 Level 3D Game Suite
 
 > **Built for the Reddit Developer Platform Hackathon**  
 >
@@ -16,18 +16,138 @@
 
 ---
 
-## 🌟 Executive Summary
+## 📖 The Tale of ONLYSONS: A Family Saga on Reddit
 
-**KarmaCrunch** is an AI-powered Reddit community game and profiling suite that transforms any Reddit account into an interactive, 100-level RPG experience. Engineered as an authentic **Devvit interactive post application**, it integrates live Reddit scraping, token-level constrained GPT-4o mini structured outputs, and a 3D isometric architecture.
+```
+                  👑 u/PatriarchPrime (The Father - Shadowbanned)
+                                        │
+     ┌──────────────┬───────────────────┼───────────────────┬──────────────┐
+     ▼              ▼                   ▼                   ▼              ▼
+🧙‍♂️ Son I       🐈 Son II           🐕 Son III          🦍 Son IV      🦫 Son V
+The Eldest     The Chaos Cat       The Wholesome Doge  The WSB Ape    The Zen Capybara
+(Mod Wizard)   (Middle Rebel)      (Family Peacemaker) (High-Roller)  (Ancestral Tank)
+```
+
+### Prologue: The Fall of the Patriarch
+For eighteen long internet years, **u/PatriarchPrime** ruled the frontpages of Reddit in peace. His comments were legends of wisdom; his upvote count exceeded ten million; and in his hands rested the ancient, glowing **Ternion Staff**. 
+
+Then came the dark night of the **Great Algorithmic Purge**. 
+
+Without warning, a rogue AutoMod sentinel locked the gates of `r/All` and banished the patriarch into the abyssal depths of the **ModQueue Nether**. All that remained in the family estate was an unread modmail message left for his five sons:
+
+> *"My sons, the timeline has fragmented. Rival karma barons, repost bot syndicates, and power-tripping enforcers have seized the subreddits. Only sons who conquer the 100 levels of the Reddit Hivemind shall break my shadowban and claim the Ternion Crown."*
+
+Now, setting aside their bitter sibling rivalries, the **Five Onlysons** must run the 3D tracks, dodge the banhammers, and battle through 100 progressive levels to save their father and restore the family honor.
 
 ---
 
-## 📊 System Architecture & Data Flow
+## 👨‍👦‍👦 Meet the Five Onlysons Brothers
 
-### 1. High-Level System Architecture
+```mermaid
+graph TD
+    Father["👑 u/PatriarchPrime (Shadowbanned Patriarch)"] --> S1["🧙‍♂️ Son I: The Eldest Mod Wizard"]
+    Father --> S2["🐈 Son II: The Chaos Shitpost Cat"]
+    Father --> S3["🐕 Son III: The Wholesome Doge"]
+    Father --> S4["🦍 Son IV: The Diamond-Hands Ape"]
+    Father --> S5["🦫 Son V: Zen Master Capybara"]
+
+    S1 ---|"Weapon: Sticky Pin Rule & Rulebook Shield"| D1["Lawful Leader"]
+    S2 ---|"Weapon: 3 AM Zoomies & Unhinged Memes"| D2["Trickster Rebel"]
+    S3 ---|"Weapon: Infinite Karma Tail Wag"| D3["Family Peacemaker"]
+    S4 ---|"Weapon: 0DTE Inheritance Rocket"| D4["High-Stakes Gambler"]
+    S5 ---|"Weapon: Hot Spring Immunity Barrier"| D5["Unbothered Stoic"]
+
+    style Father fill:#1a1100,stroke:#ffd700,stroke-width:3px,color:#ffd700
+    style S1 fill:#0d1b2a,stroke:#0079d3,stroke-width:2px,color:#fff
+    style S2 fill:#2a0d1b,stroke:#ff4500,stroke-width:2px,color:#fff
+    style S3 fill:#1b2a0d,stroke:#46d160,stroke-width:2px,color:#fff
+    style S4 fill:#2a1b0d,stroke:#ffd700,stroke-width:2px,color:#fff
+    style S5 fill:#142228,stroke:#00b0ff,stroke-width:2px,color:#fff
+```
+
+1. **Son I: The Eldest Mod Wizard (u/ModBrother)**  
+   *The Crown Prince.* Strict, lawful, and burdened with the family mantle. Wields the *Rulebook Shield* and *Sticky Post Pin*.
+2. **Son II: The Chaos Shitpost Cat (u/CatSon)**  
+   *The Middle Child Rebel.* Knocks over family heirlooms, pushes controversial memes at 3 AM, and boasts an astronomical critical-strike multiplier.
+3. **Son III: The Wholesome Doge (u/GoodBoySon)**  
+   *The Loyal Peacemaker.* Animal-friendly starter role. Upvotes every single thread, heals family feuds, and provides passive health regeneration.
+4. **Son IV: The Diamond-Hands WSB Ape (u/ApeSon)**  
+   *The Prodigal Gambler.* Put the entire family inheritance into out-of-the-money call options. Can trigger a 5x score multiplier or a catastrophic backfire.
+5. **Son V: Zen Master Capybara (u/ChillSon)**  
+   *The Youngest Prodigy.* Completely immune to downvote brigades, toxic flamewars, and internet drama. Absorbs 100% of damage in hot springs.
+
+---
+
+## 🗺️ The 5-Act Epic Campaign: Across 100 Levels
+
+The family saga unfolds across 100 progressive levels through five ancestral biomes:
+
+```mermaid
+flowchart LR
+    subgraph Act1["Act I: Wholesome Meadow (Lvl 1-10)"]
+        A1["The Brothers Assemble<br>Soft emerald track<br>Beginner & Pet Friendly"]
+    end
+
+    subgraph Act2["Act II: Neon Cyber Reddit (Lvl 11-25)"]
+        A2["The Algorithmic Grid<br>Cyan synthwave obstacles<br>Sibling combo streaks"]
+    end
+
+    subgraph Act3["Act III: WallStreetBets Floor (Lvl 26-50)"]
+        A3["Risking the Inheritance<br>Golden tracks & green candles<br>5x Viral Gamble Multiplier"]
+    end
+
+    subgraph Act4["Act IV: ModQueue Citadel (Lvl 51-75)"]
+        A4["The Banhammer Gauntlet<br>Volcanic crimson nether<br>Raid on AutoMod Sentinels"]
+    end
+
+    subgraph Act5["Act V: Cosmic Hivemind (Lvl 76-100)"]
+        A5["Saving the Patriarch<br>Interstellar space rift<br>Unlocking the Ternion Crown"]
+    end
+
+    Act1 -->|"Clear Lvl 10"| Act2
+    Act2 -->|"Clear Lvl 25"| Act3
+    Act3 -->|"Clear Lvl 50"| Act4
+    Act4 -->|"Clear Lvl 75"| Act5
+```
+
+---
+
+## 🎮 Game Modes & Features
+
+### 1. 🏃 3D Karma Surfers (Three.js WebGL Runner)
+* **True 3D Perspective & Physics:** 3-lane continuous runner built with WebGL Three.js. Smooth lane switching (`A`/`D` or `←`/`→`), jumping over Downvote Spikes (`Space`/`W`/`↑`), and sliding under AutoMod Banhammers (`S`/`↓`).
+* **Deep 3D Environment:** Flanked by illuminated 3D monolith buildings, overhead track archways, and particle speed trails.
+* **Family Power-Ups:**
+  * 🧲 **Ancestral Karma Magnet:** Draws all nearby upvotes toward you for 6 seconds.
+  * ⚡ **2x Sibling Multiplier:** Doubles all score earnings during fever streaks.
+  * 🛡️ **AutoMod Shield:** Protective energy bubble absorbing 1 fatal collision.
+* **100% Offline Three.js:** Bundled locally (`src/engine/three.min.js`) with zero external CDN dependency.
+
+### 2. 📱 The Family Council & Karma Tycoon
+* **Live Interactive Reddit Thread (`r/OnlysonsDynasty`):** Functional upvote, downvote, and award mechanics.
+* **Family Banter Stream:** Live comments from the Onlysons brothers, reacting in real-time as you play and level up.
+* **Fast-Karma Upgrades:** Upgrade Meme Bots, Snark Comeback Engines, Moderator Shields, and Cosmic Ternions.
+
+### 3. 🗺️ 100-Level Interactive World Map
+* Full visual roadmap of all 100 levels with 3-star performance ratings and boss checkpoints at Levels 10, 25, 50, 75, and 100.
+* Click any unlocked node to jump directly into that level's 3D runner track!
+
+### 4. 🤖 Reddit AI Agent & Family Arbiter
+* Chat directly with the AI copilot powered by GPT-4o mini.
+* Type `u/username` to scrape user histories and evaluate which Onlyson brother's archetype they belong to.
+* Type `r/subreddit` to perform live sentiment and trend audits.
+* Request scorch-earth comedy roasts or viral post headline recommendations.
+
+### 5. 📐 3D Builder Tribute Architecture (Downside)
+* An interactive 3D Isometric Depth Card situated at the bottom of the app with mouse-tracking gyro tilt physics, celebrating creators **Prashant**, **Rishir Kartik**, and **Rupesh Kumar**.
+
+---
+
+## 🏗️ Technical Architecture & Data Flow
+
 ```mermaid
 flowchart TD
-    subgraph Client["Frontend Client (Reddit Devvit 2.0 Webview)"]
+    subgraph Client["Frontend Client (Devvit Interactive Post)"]
         UI["Master UI (index.html)"]
         subgraph EngineGroup["Game Engines"]
             SURF["3D Karma Surfers (karmaSurfers3D.js)"]
@@ -63,8 +183,7 @@ flowchart TD
 
 ---
 
-### 2. Android & Mobile Timeout Prevention Sequence
-Mobile networks (OkHttp, Android webviews, and Devvit) terminate requests with `SocketTimeoutException` if operations exceed 10–15s. KarmaCrunch solves this with a two-phase async queue:
+## 🛡️ Android & Mobile Timeout Prevention
 
 ```mermaid
 sequenceDiagram
@@ -98,121 +217,6 @@ sequenceDiagram
 
 ---
 
-### 3. 100-Level Progression & Procedural Biomes Flow
-The game scales dynamically across 5 progressive brackets up to Level 100:
-
-```mermaid
-flowchart LR
-    subgraph Tier1["Tier 1: Wholesome Meadow (Lvl 1-10)"]
-        T1["Pups & Casual Lurkers<br>Soft emerald track<br>Gentle speed"]
-    end
-
-    subgraph Tier2["Tier 2: Neon Cyber Reddit (Lvl 11-25)"]
-        T2["Meme Uprising<br>Cyan grid & night skyline<br>Snarky comment streams"]
-    end
-
-    subgraph Tier3["Tier 3: r/wallstreetbets (Lvl 26-50)"]
-        T3["Stonk Market Floor<br>Golden tracks & green candles<br>5x Viral Gamble Moves"]
-    end
-
-    subgraph Tier4["Tier 4: ModQueue Citadel (Lvl 51-75)"]
-        T4["Volcanic Crimson Track<br>AutoMod Banhammers<br>High-speed Obstacles"]
-    end
-
-    subgraph Tier5["Tier 5: Cosmic Hivemind (Lvl 76-100)"]
-        T5["Interstellar Space Nebula<br>Algorithmic Hivemind Raid<br>Ternion God Mode"]
-    end
-
-    Tier1 -->|"Pass Lvl 10"| Tier2
-    Tier2 -->|"Pass Lvl 25"| Tier3
-    Tier3 -->|"Pass Lvl 50"| Tier4
-    Tier4 -->|"Pass Lvl 75"| Tier5
-```
-
----
-
-### 4. 3D Karma Surfers Real-Time Gameplay State Machine
-```mermaid
-stateDiagram-v2
-    [*] --> IdleMenu : Launch 3D Surfers
-    IdleMenu --> Running : Start Level
-    
-    state Running {
-        [*] --> InLaneCenter
-        InLaneCenter --> LaneLeft : Press A or Left Arrow
-        LaneLeft --> InLaneCenter : Press D or Right Arrow
-        InLaneCenter --> LaneRight : Press D or Right Arrow
-        LaneRight --> InLaneCenter : Press A or Left Arrow
-        
-        InLaneCenter --> Jumping : Press W, Space, or Up Arrow
-        Jumping --> InLaneCenter : Gravity Landing
-        
-        InLaneCenter --> Sliding : Press S or Down Arrow
-        Sliding --> InLaneCenter : Slide Duration Ends
-    }
-    
-    Running --> PowerupCollected : Touch Gem, Magnet, Shield, 2x
-    PowerupCollected --> Running : Buff Applied
-    
-    Running --> ObstacleCollision : Hit Downvote Spike or Banhammer
-    
-    state ObstacleCollision <<choice>>
-    ObstacleCollision --> ShieldAbsorbed : Shield Active
-    ShieldAbsorbed --> Running : Shield Broken (Continue)
-    ObstacleCollision --> Defeat : No Shield
-    
-    Running --> LevelClear : Distance Target Reached
-    LevelClear --> IdleMenu : Unlock Next Level on Map
-    Defeat --> IdleMenu : Retry Level
-```
-
----
-
-### 5. OpenAI Structured Outputs & AI Dossier Pipeline
-```mermaid
-flowchart LR
-    A["Raw User Reddit Data<br>(Posts, Comments, Karma)"] --> B["System Prompt Interpolator<br>(Sarcasm Slider 0-100%)"]
-    B --> C["GPT-4o mini<br>(Constrained Grammar Decoder)"]
-    C --> D["Pydantic Validation<br>(Strict JSON Schema)"]
-    D --> E["KarmaCrunch Dossier<br>• RPG Stats & Class<br>• AI Scorched Earth Roast<br>• 3D Portrait Prompt"]
-    E --> F["Interactive UI Preview<br>& r/KarmaCrunch Post"]
-```
-
----
-
-## 🏆 Key Features
-
-### 1. 3D Karma Surfers (WebGL Three.js Endless & Level Runner)
-* **Full 3D WebGL Camera & Physics:** 3-lane runner with smooth lane switching, jumping over Downvote Spikes, and sliding under AutoMod Banhammers.
-* **Procedural Biomes across Levels 1-100:**
-  * **Levels 1–10 (Wholesome Meadow):** Soft emerald track, gentle speed for pups and beginner players.
-  * **Levels 11–25 (Neon Cyber Reddit):** Cyan wireframes and synthwave neon obstacles.
-  * **Levels 26–50 (r/wallstreetbets Floor):** Golden tracks with floating green candle charts and high-speed multipliers.
-  * **Levels 51–75 (ModQueue Fortress):** Volcanic crimson track with rotating banhammers.
-  * **Levels 76–100 (Cosmic Hivemind):** Interstellar space rift and warp speed obstacles.
-* **Power-Ups:** 🧲 *Karma Magnet*, ⚡ *2x Multiplier*, and 🛡️ *AutoMod Shield*.
-* **100-Level World Map:** Interactive visual progression map with star ratings for all 100 levels.
-
-### 2. Animal & Player Roles
-* 🐕 **Wholesome Doge:** High health, passive healing, and loyal upvotes.
-* 🐈 **Chaos Shitpost Cat:** High critical strike rate with chaotic 3 AM Zoomies.
-* 🦫 **Zen Capybara:** Maximum defense against internet downvotes and toxic flamewars.
-* 🦍 **Diamond-Hands Ape:** r/wallstreetbets high-roller with 5x viral gamble moves.
-* 🧙‍♂️ **Cosmic Reddit Wizard:** Master of Reddit Gold and the Ternion All-Powerful relic.
-
-### 3. 🤖 Reddit AI Agent Chat & Scraper
-* Type `u/username` to scrape real Reddit user dossiers and calculate karma velocity.
-* Type `r/subreddit` to perform live sentiment and trend audits.
-* Request scorch-earth comedy roasts or viral post headline recommendations.
-
-### 4. 📐 3D Interactive Builder Tribute Architecture
-* At the bottom of the interface lies a responsive **3D Isometric Depth Card** featuring WebGL particle core rendering and mouse-tracking gyro tilt physics, celebrating creators **Rupesh Kumar**, **Eshwar Kartik**, and **Prashant**.
-
-### 5. 🔊 Web Audio API Procedural Synthesizer
-* Zero external audio files or mp3 dependencies! Generates procedural 8-bit chiptune sound effects in real-time.
-
----
-
 ## 📁 Repository Structure
 
 ```
@@ -229,8 +233,8 @@ reddit-hack/
 │   └── main.py                    # FastAPI server & route handlers
 ├── src/
 │   ├── data/
-│   │   ├── animalRoles.js         # Playable animal & Redditor archetypes
-│   │   └── levelsData.js          # 1-100 level curve & boss generator
+│   │   ├── animalRoles.js         # The Five Onlysons brothers archetypes
+│   │   └── levelsData.js          # 1-100 level curves & progressive boss scaler
 │   └── engine/
 │       ├── karmaSurfers3D.js      # 3D WebGL runner engine
 │       ├── levelMap.js            # 100-Level interactive world map
@@ -238,18 +242,19 @@ reddit-hack/
 │       ├── gameEngine.js          # Master game & point combo engine
 │       ├── soundEngine.js         # Procedural Web Audio chiptune synthesizer
 │       ├── threeVisuals.js        # WebGL 3D Karma Core & Tilt Physics
-│       ├── three.min.js           # Offline Three.js library
+│       ├── three.min.js           # Offline Three.js library (603 KB)
 │       └── redditAgent.js         # Interactive Reddit AI Chat & Scraper
 ├── tests/
 │   ├── test_backend.py            # Pytest test suite for backend APIs
 │   └── test_game.js               # Node.js progression & formula tests
 ├── devvit.yaml                    # Official Reddit Devvit App manifest
+├── favicon.ico                    # Clean SVG Reddit icon
 ├── index.html                     # Unified master frontend application
 ├── LICENSE                        # MIT License
 ├── package.json                   # Node.js dependencies & scripts
 ├── pyproject.toml                 # Python project configuration
 ├── requirements.txt               # Python package dependencies
-└── README.md                      # Complete project documentation
+└── README.md                      # Complete project story & technical documentation
 ```
 
 ---

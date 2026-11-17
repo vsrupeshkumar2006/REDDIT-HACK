@@ -7,7 +7,7 @@ import os
 from pydantic import BaseModel
 
 class Settings(BaseModel):
-    APP_NAME: str = "KarmaCrunch"
+    APP_NAME: str = "ONLYSONS"
     VERSION: str = "2.0.0"
     AUTHORS: list[str] = ["Prashant", "Rishir Kartik", "Rupesh Kumar"]
     

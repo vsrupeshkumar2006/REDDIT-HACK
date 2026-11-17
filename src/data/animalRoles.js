@@ -1,101 +1,111 @@
 /**
- * KarmaCrunch: Animal & Player Archetype Roles
- * Built by Rupesh Kumar, Eshwar Kartik, and Prashant
+ * ONLYSONS: The Five Brothers of the Reddit Dynasty
+ * Built by Prashant, Rishir Kartik, and Rupesh Kumar
  */
 
 export const ANIMAL_ROLES = [
   {
     id: "doge",
-    name: "Wholesome Doge",
+    name: "Son III: The Wholesome Doge",
+    title: "The Loyal Heir",
     emoji: "🐕",
-    tier: "Beginner / Animal Friendly",
-    description: "Much karma, very wholesome! High health, passive healing, and generous upvote bonuses.",
+    tier: "Family Peacekeeper",
+    storyQuote: "Dad taught us to upvote with our hearts. I won't let our family name be tarnished!",
+    description: "The golden retriever son. Much loyalty, very wholesome. High HP, passive healing, and generous upvote bonuses to heal family feuds.",
     baseStats: {
-      hp: 120,
-      attack: 16,
-      defense: 25,
+      hp: 130,
+      attack: 18,
+      defense: 28,
       critChance: 0.15,
-      passivePerSec: 3
+      passivePerSec: 4
     },
     specialMove: {
-      name: "Tail Wag Upvote",
-      desc: "Heals 20 HP and gives +20 Upvote Shield",
+      name: "Family Bond Tail Wag",
+      desc: "Heals 25 HP and fortifies family shield with +25 Defense",
       heatCost: 20
     }
   },
   {
     id: "cat",
-    name: "Chaos Shitpost Cat",
+    name: "Son II: The Chaos Shitpost Cat",
+    title: "The Middle Child Terror",
     emoji: "🐈",
-    tier: "Trickster",
-    description: "Knocks glasses off tables and derails comment sections. High critical strike rate.",
+    tier: "Trickster Rebel",
+    storyQuote: "If Dad didn't want me to derail the ModQueue, he shouldn't have given me the password.",
+    description: "Knocks over family heirlooms and derails frontpage threads. Insanely high critical strike multiplier and unpredictable speed.",
     baseStats: {
-      hp: 95,
-      attack: 26,
-      defense: 12,
-      critChance: 0.35,
-      passivePerSec: 5
+      hp: 100,
+      attack: 28,
+      defense: 14,
+      critChance: 0.38,
+      passivePerSec: 6
     },
     specialMove: {
-      name: "3 AM Zoomies",
-      desc: "Deals 32 chaotic damage and scrambles enemy shields",
+      name: "3 AM Family Zoomies",
+      desc: "Scrambles all obstacles and deals 36 chaotic critical damage",
       heatCost: 30
     }
   },
   {
     id: "capybara",
-    name: "Zen Master Capybara",
+    name: "Son V: Zen Master Capybara",
+    title: "The Unbothered Prodigy",
     emoji: "🦫",
-    tier: "Tank",
-    description: "Completely immune to drama, toxic downvotes, and internet arguments. Maximum defense.",
+    tier: "Ancestral Tank",
+    storyQuote: "Arguments on the internet are temporary. Hot springs and family karma are eternal.",
+    description: "Completely immune to toxic comment flame-wars, drama, and downvote brigades. Highest base defense in the family.",
     baseStats: {
-      hp: 160,
-      attack: 14,
-      defense: 40,
+      hp: 170,
+      attack: 15,
+      defense: 45,
       critChance: 0.10,
-      passivePerSec: 4
+      passivePerSec: 5
     },
     specialMove: {
-      name: "Hot Spring Chill",
-      desc: "Blocks 100% of incoming damage for next turn",
+      name: "Hot Spring Barrier",
+      desc: "Absorbs 100% of damage and converts downvotes into healing",
       heatCost: 25
     }
   },
   {
     id: "ape",
-    name: "Diamond-Hands Ape",
+    name: "Son IV: Diamond-Hands Ape",
+    title: "The WallStreetBets Prodigal",
     emoji: "🦍",
-    tier: "High Stakes",
-    description: "Apes together strong. HODLs through downvote dips and gambles for 5x multipliers.",
+    tier: "High-Roller Son",
+    storyQuote: "I put the entire family inheritance into 0DTE options. We're going to the moon, brothers!",
+    description: "The prodigal brother who HODLs through downvote dips and gambles for 5x viral score multipliers.",
     baseStats: {
-      hp: 110,
-      attack: 30,
-      defense: 18,
-      critChance: 0.25,
-      passivePerSec: 8
+      hp: 115,
+      attack: 32,
+      defense: 20,
+      critChance: 0.28,
+      passivePerSec: 10
     },
     specialMove: {
-      name: "Rocket to the Moon",
-      desc: "50% chance to deal 60 massive damage, 50% backfire",
+      name: "Inheritance Rocket",
+      desc: "50% chance to detonate for 65 massive damage; 50% backfire",
       heatCost: 40
     }
   },
   {
     id: "snoo",
-    name: "Cosmic Reddit Wizard",
+    name: "Son I: The Eldest Mod Wizard",
+    title: "The Crown Prince",
     emoji: "🧙‍♂️",
-    tier: "Legendary",
-    description: "An enlightened archmage wielding the sacred Upvote Staff and Reddit Gold.",
+    tier: "Dynasty Archmage",
+    storyQuote: "As the firstborn, I bear the weight of Dad's Ternion Staff. The ModQueue Citadel will answer to us.",
+    description: "The eldest son trained in the ancient ways of CSS, AutoMod regex, and Reddit Gold. The pinnacle of the Onlysons bloodline.",
     baseStats: {
-      hp: 140,
-      attack: 34,
-      defense: 28,
-      critChance: 0.30,
-      passivePerSec: 15
+      hp: 150,
+      attack: 36,
+      defense: 32,
+      critChance: 0.32,
+      passivePerSec: 18
     },
     specialMove: {
-      name: "Ternion All-Powerful",
-      desc: "Detonates enemy for 45 damage and gains +35 Shield",
+      name: "Ancestral Ternion Strike",
+      desc: "Calls down the ancestral light for 50 damage and grants +40 Shield",
       heatCost: 50
     }
   }

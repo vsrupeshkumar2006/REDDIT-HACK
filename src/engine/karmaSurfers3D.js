@@ -205,10 +205,52 @@ export class KarmaSurfers3D {
     // Outer Guardrails
     for (let rx of [-5.5, 5.5]) {
       const railGeo = new THREE.BoxGeometry(0.3, 0.8, 18);
-      const railMat = new THREE.MeshStandardMaterial({ color: 0x0079d3 });
+      const railMat = new THREE.MeshStandardMaterial({ color: 0x0079d3, roughness: 0.3, metalness: 0.5 });
       const rail = new THREE.Mesh(railGeo, railMat);
       rail.position.set(rx, 0.4, zPos);
       section.add(rail);
+    }
+
+    // 3D Scenery Buildings & Monoliths on both sides for deep 3D perspective
+    const buildingHeights = [6, 10, 14, 8, 12];
+    for (let side of [-1, 1]) {
+      const bHeight = buildingHeights[Math.floor(Math.random() * buildingHeights.length)];
+      const bGeo = new THREE.BoxGeometry(4.5, bHeight, 16);
+      const bMat = new THREE.MeshStandardMaterial({
+        color: this.currentBiome.track,
+        roughness: 0.5,
+        metalness: 0.2
+      });
+      const building = new THREE.Mesh(bGeo, bMat);
+      building.position.set(side * 8.8, bHeight / 2, zPos);
+      building.castShadow = true;
+      building.receiveShadow = true;
+      section.add(building);
+
+      // Glowing Neon Windows / Sign
+      const winGeo = new THREE.PlaneGeometry(0.8, bHeight * 0.7);
+      const winMat = new THREE.MeshBasicMaterial({
+        color: side === -1 ? 0xff4500 : 0x0079d3,
+        transparent: true,
+        opacity: 0.75
+      });
+      const windowStrip = new THREE.Mesh(winGeo, winMat);
+      windowStrip.rotation.y = side === -1 ? Math.PI / 2 : -Math.PI / 2;
+      windowStrip.position.set(side * 6.5, bHeight / 2, zPos);
+      section.add(windowStrip);
+    }
+
+    // Overhead 3D Archway every 3 sections
+    if (Math.abs(zPos) % 54 === 0) {
+      const arch = new THREE.Group();
+      const p1 = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 6), new THREE.MeshStandardMaterial({ color: 0x334455 }));
+      p1.position.set(-5.5, 3, zPos);
+      const p2 = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 6), new THREE.MeshStandardMaterial({ color: 0x334455 }));
+      p2.position.set(5.5, 3, zPos);
+      const beam = new THREE.Mesh(new THREE.BoxGeometry(11.5, 0.6, 0.8), new THREE.MeshStandardMaterial({ color: 0xff4500, roughness: 0.2 }));
+      beam.position.set(0, 5.8, zPos);
+      arch.add(p1, p2, beam);
+      section.add(arch);
     }
 
     this.scene.add(section);
@@ -281,16 +323,37 @@ export class KarmaSurfers3D {
   }
 
   spawnGem(x, z) {
-    // 3D Rotating Upvote Gem
-    const geo = new THREE.OctahedronGeometry(0.45);
-    const mat = new THREE.MeshStandardMaterial({
-      color: 0xff4500,
-      emissive: 0x331100,
-      roughness: 0.2
-    });
-    const gem = new THREE.Mesh(geo, mat);
-    gem.position.set(x, 1.1, z);
-    gem.userData = { type: 'gem', value: 10 };
+    const isGold = Math.random() < 0.35;
+    let gem;
+
+    if (isGold) {
+      // 3D Spinning Reddit Gold Coin
+      const coinGeo = new THREE.CylinderGeometry(0.45, 0.45, 0.12, 16);
+      const coinMat = new THREE.MeshStandardMaterial({
+        color: 0xffd700,
+        metalness: 0.8,
+        roughness: 0.2,
+        emissive: 0x554400,
+        emissiveIntensity: 0.25
+      });
+      gem = new THREE.Mesh(coinGeo, coinMat);
+      gem.rotation.x = Math.PI / 2;
+      gem.position.set(x, 1.1, z);
+      gem.userData = { type: 'coin', value: 25 };
+    } else {
+      // 3D Glowing Orange Upvote Octahedron Crystal
+      const geo = new THREE.OctahedronGeometry(0.45);
+      const mat = new THREE.MeshStandardMaterial({
+        color: 0xff4500,
+        emissive: 0xff4500,
+        emissiveIntensity: 0.4,
+        roughness: 0.2
+      });
+      gem = new THREE.Mesh(geo, mat);
+      gem.position.set(x, 1.1, z);
+      gem.userData = { type: 'gem', value: 10 };
+    }
+
     this.scene.add(gem);
     this.collectibles.push(gem);
   }
@@ -546,6 +609,9 @@ export class KarmaSurfers3D {
     if (item.userData.type === 'gem') {
       this.score += 25 * this.scoreMultiplier;
       this.coins += 1;
+    } else if (item.userData.type === 'coin') {
+      this.score += 75 * this.scoreMultiplier;
+      this.coins += 3;
     } else if (item.userData.type === 'powerup') {
       const p = item.userData.powerType;
       if (p === 'shield') {

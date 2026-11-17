@@ -1,8 +1,8 @@
 {
-  "name": "karmacrunch",
+  "name": "onlysons",
   "version": "2.0.0",
   "type": "module",
-  "description": "KarmaCrunch: An AI-Powered Reddit Analytics Engine & 100-Level RPG Community Game Suite built for Devvit",
+  "description": "ONLYSONS: The Reddit Dynasty Saga & 1-100 Level 3D Game Suite",
   "main": "index.html",
   "scripts": {
     "start": "python -m http.server 8000",

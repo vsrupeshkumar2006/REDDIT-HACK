@@ -14,7 +14,7 @@ def test_root():
     response = client.get("/")
     assert response.status_code == 200
     data = response.json()
-    assert data["app"] == "KarmaCrunch"
+    assert data["app"] == "ONLYSONS"
     assert "Prashant" in data["authors"]
     assert "Rishir Kartik" in data["authors"]
     assert "Rupesh Kumar" in data["authors"]
