@@ -8,7 +8,7 @@
 [![Tests Passing](https://img.shields.io/badge/Tests-5/5_Passed-46D160.svg)](tests/)
 
 > **Built for the Reddit Developer Platform Hackathon**  
-> **Creators & Architects:** **Eshwar Karthik**,**Prashanth**and **Rupesh Kumar**, 
+> **Creators & Architects:** **Eshwar Karthik**, **Prashanth** and **Rupesh Kumar**
 
 ---
 
