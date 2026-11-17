@@ -3,10 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KarmaCrunch: 1-100 Level Reddit Community Game Suite</title>
+  <title>KarmaCrunch: 3D Reddit Game Suite & 1-100 Level Surfer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Local Three.js with fallback -->
+  <script src="src/engine/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
   <style>
     :root {
       --bg-dark: #080d0f;
@@ -18,7 +25,7 @@
       --reddit-blue: #0079d3;
       --reddit-blue-glow: rgba(0, 121, 211, 0.4);
       --reddit-gold: #ffd700;
-      --reddit-green: #24a0ed;
+      --reddit-gold-glow: rgba(255, 215, 0, 0.4);
       --health-color: #46d160;
       --shield-color: #00b0ff;
       --sarcasm-color: #ff9100;
@@ -110,7 +117,7 @@
     .nav-stats {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
 
     .points-pill {
@@ -123,7 +130,6 @@
       border-radius: 20px;
       font-weight: 800;
       font-size: 14px;
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.4);
     }
 
     .points-pill span.num {
@@ -132,26 +138,24 @@
       font-size: 16px;
     }
 
-    .combo-badge {
-      background: var(--reddit-gold);
-      color: #000;
-      font-size: 11px;
-      font-weight: 900;
-      padding: 2px 8px;
-      border-radius: 10px;
-      animation: pulse 1s infinite alternate;
-    }
-
-    @keyframes pulse {
-      from { transform: scale(1); }
-      to { transform: scale(1.08); }
+    .coins-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #142024;
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 13px;
+      color: var(--reddit-gold);
     }
 
     .btn-sound {
       background: #142024;
       border: 1px solid var(--border);
       color: #fff;
-      padding: 6px 14px;
+      padding: 6px 12px;
       border-radius: 10px;
       cursor: pointer;
       font-size: 13px;
@@ -165,36 +169,24 @@
     .main-layout {
       width: 100%;
       max-width: 1200px;
-      margin: 20px auto;
+      margin: 18px auto;
       padding: 0 16px 40px;
       display: flex;
       flex-direction: column;
-      gap: 22px;
+      gap: 20px;
     }
 
-    /* Level 1-100 Progression Bar */
+    /* 1-100 Level Progression Header Banner */
     .progression-banner {
       background: linear-gradient(135deg, #101c20 0%, #17282e 100%);
       border: 2px solid var(--border);
       border-radius: 18px;
-      padding: 18px 24px;
+      padding: 16px 22px;
       display: flex;
       flex-direction: column;
       gap: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.35);
       position: relative;
-      overflow: hidden;
-    }
-
-    .progression-banner::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 250px;
-      height: 100%;
-      background: radial-gradient(circle, rgba(255, 69, 0, 0.12) 0%, transparent 70%);
-      pointer-events: none;
     }
 
     .prog-top-row {
@@ -226,7 +218,7 @@
     }
 
     .tier-details h2 {
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 900;
       display: flex;
       align-items: center;
@@ -238,22 +230,27 @@
       color: var(--text-muted);
     }
 
-    .role-picker-btn {
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .pill-btn {
       background: #18272d;
       border: 1px solid var(--border-bright);
       color: #fff;
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-radius: 12px;
       font-size: 13px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       transition: all 0.2s;
     }
 
-    .role-picker-btn:hover {
+    .pill-btn:hover {
       background: #23373f;
       border-color: var(--reddit-orange);
       transform: translateY(-2px);
@@ -274,9 +271,9 @@
     }
 
     .xp-bar-outer {
-      height: 14px;
+      height: 12px;
       background: #080e10;
-      border-radius: 8px;
+      border-radius: 6px;
       overflow: hidden;
       border: 1px solid var(--border);
     }
@@ -285,15 +282,15 @@
       height: 100%;
       width: 15%;
       background: linear-gradient(90deg, #ff4500, #ff8700, #ffd700);
-      border-radius: 7px;
-      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 0 12px var(--reddit-orange-glow);
+      border-radius: 6px;
+      transition: width 0.4s ease;
+      box-shadow: 0 0 10px var(--reddit-orange-glow);
     }
 
     /* Navigation Tabs */
     .nav-tabs {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       border-bottom: 2px solid var(--border);
       padding-bottom: 8px;
       overflow-x: auto;
@@ -303,7 +300,7 @@
       background: transparent;
       border: none;
       color: var(--text-muted);
-      padding: 10px 20px;
+      padding: 10px 18px;
       border-radius: 12px;
       font-size: 15px;
       font-weight: 700;
@@ -330,7 +327,7 @@
 
     .tab-btn.active span.icon { color: var(--reddit-orange); }
 
-    /* Screen Views */
+    /* Screen Panels */
     .screen-panel {
       display: none;
       animation: fadeIn 0.2s ease-out;
@@ -343,7 +340,145 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Screen 1: Game & Tycoon */
+    /* =====================================================================
+       SCREEN 1: 3D KARMA SURFERS (THREE.JS 3D RUNNER)
+       ===================================================================== */
+    .surfers-3d-wrapper {
+      background: #000;
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.7);
+    }
+
+    .surfers-viewport {
+      width: 100%;
+      height: 520px;
+      position: relative;
+    }
+
+    .surfers-hud {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      right: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .hud-stat-box {
+      background: rgba(13, 21, 24, 0.85);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .hud-stat-box span.val {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      color: var(--reddit-orange);
+    }
+
+    .hud-powerups {
+      display: flex;
+      gap: 8px;
+    }
+
+    .powerup-pill {
+      background: rgba(0, 176, 255, 0.25);
+      border: 1px solid var(--shield-color);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 8px;
+    }
+
+    .surfers-controls-overlay {
+      position: absolute;
+      bottom: 16px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      z-index: 10;
+    }
+
+    .ctrl-key-btn {
+      width: 60px;
+      height: 60px;
+      background: rgba(20, 32, 36, 0.85);
+      border: 2px solid var(--border-bright);
+      color: #fff;
+      border-radius: 16px;
+      font-size: 20px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 0.15s;
+    }
+
+    .ctrl-key-btn:active {
+      transform: scale(0.92);
+      border-color: var(--reddit-orange);
+      background: var(--reddit-orange);
+    }
+
+    /* Game Over / Start Overlay */
+    .surfers-menu-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      z-index: 20;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .surfers-menu-overlay.hidden { display: none; }
+
+    .btn-play-surfers {
+      background: linear-gradient(135deg, var(--reddit-orange), #d43800);
+      border: none;
+      color: #fff;
+      padding: 16px 36px;
+      border-radius: 16px;
+      font-size: 20px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 8px 30px var(--reddit-orange-glow);
+      transition: transform 0.2s;
+    }
+
+    .btn-play-surfers:hover { transform: scale(1.05); }
+
+    /* =====================================================================
+       SCREEN 2: REDDIT LIFE SIMULATOR & KARMA TYCOON
+       ===================================================================== */
     .game-grid {
       display: grid;
       grid-template-columns: 2fr 1fr;
@@ -465,7 +600,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      max-height: 280px;
+      max-height: 240px;
       overflow-y: auto;
     }
 
@@ -547,66 +682,77 @@
 
     .upg-item:disabled { opacity: 0.45; cursor: not-allowed; }
 
-    /* Screen 2: Boss Arena */
-    .arena-grid {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 20px;
-      align-items: center;
-    }
-
-    @media (max-width: 800px) {
-      .arena-grid { grid-template-columns: 1fr; }
-    }
-
-    .combat-box {
+    /* =====================================================================
+       SCREEN 3: 100-LEVEL WORLD MAP
+       ===================================================================== */
+    .level-map-container {
       background: var(--bg-card);
-      border: 2px solid var(--border);
+      border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 22px;
+      padding: 24px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      position: relative;
+      gap: 16px;
     }
 
-    .combat-box.player { border-color: rgba(0, 121, 211, 0.5); }
-    .combat-box.boss { border-color: rgba(255, 69, 0, 0.5); }
-
-    .card-deck {
+    .level-map-scroll-track {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 14px;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 12px;
+      max-height: 500px;
+      overflow-y: auto;
+      padding-right: 6px;
     }
 
-    @media (max-width: 768px) {
-      .card-deck { grid-template-columns: 1fr; }
-    }
-
-    .move-btn {
-      background: var(--bg-card);
+    .level-node-item {
+      background: #091012;
       border: 2px solid var(--border);
       border-radius: 14px;
-      padding: 16px;
+      padding: 12px 6px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
       cursor: pointer;
-      color: #fff;
-      text-align: left;
-      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.2s;
     }
 
-    .move-btn:hover:not(:disabled) {
-      transform: translateY(-5px);
+    .level-node-item.unlocked:hover {
       border-color: var(--reddit-orange);
-      box-shadow: 0 8px 20px var(--reddit-orange-glow);
+      transform: translateY(-4px);
     }
 
-    .move-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .level-node-item.current {
+      border-color: var(--reddit-gold);
+      box-shadow: 0 0 16px var(--reddit-gold-glow);
+    }
 
-    /* Screen 3: Reddit AI Agent Chat */
+    .level-node-item.locked {
+      opacity: 0.35;
+      cursor: not-allowed;
+      filter: grayscale(1);
+    }
+
+    .level-node-item.boss {
+      border-color: #ff5252;
+      background: rgba(255, 82, 82, 0.1);
+    }
+
+    .node-icon {
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .node-label {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    /* =====================================================================
+       SCREEN 4: REDDIT AI AGENT CHAT
+       ===================================================================== */
     .chat-layout {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -621,11 +767,10 @@
     .chat-stream {
       flex: 1;
       overflow-y: auto;
-      max-height: 400px;
+      max-height: 380px;
       display: flex;
       flex-direction: column;
       gap: 12px;
-      padding-right: 6px;
     }
 
     .chat-msg {
@@ -679,10 +824,9 @@
       font-weight: 800;
       cursor: pointer;
       font-size: 15px;
-      transition: all 0.2s;
     }
 
-    /* 3D Holographic Builder Tribute Box (Downside) */
+    /* 3D BUILDER TRIBUTE CARD (DOWNSIDE) */
     .builder-3d-wrapper {
       margin-top: 30px;
       perspective: 1000px;
@@ -710,12 +854,6 @@
       .builder-card-3d { grid-template-columns: 1fr; }
     }
 
-    .builder-info-col {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
     .builder-headline {
       font-size: 24px;
       font-weight: 900;
@@ -731,6 +869,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      margin-top: 10px;
     }
 
     .member-pill {
@@ -749,22 +888,6 @@
       transform: translateX(4px);
     }
 
-    .member-name {
-      font-weight: 800;
-      font-size: 15px;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .member-role {
-      font-size: 12px;
-      color: var(--reddit-gold);
-      font-family: var(--font-mono);
-      font-weight: 700;
-    }
-
     .builder-canvas-box {
       height: 220px;
       border-radius: 16px;
@@ -774,7 +897,7 @@
       position: relative;
     }
 
-    /* Modal for Role Selection */
+    /* Modal Backdrop */
     .modal-backdrop {
       position: fixed;
       top: 0;
@@ -804,50 +927,6 @@
       gap: 20px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.8);
     }
-
-    .role-grid-modal {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 12px;
-    }
-
-    .role-choice-card {
-      background: #0d1619;
-      border: 2px solid var(--border);
-      border-radius: 14px;
-      padding: 14px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      transition: all 0.2s;
-    }
-
-    .role-choice-card:hover {
-      border-color: var(--reddit-orange);
-      transform: translateY(-3px);
-    }
-
-    .role-choice-card.selected {
-      border-color: var(--reddit-orange);
-      background: #142228;
-    }
-
-    /* Floating points effect */
-    .floater-num {
-      position: fixed;
-      font-weight: 900;
-      font-size: 22px;
-      pointer-events: none;
-      z-index: 999;
-      animation: floatUp 0.8s ease-out forwards;
-    }
-
-    @keyframes floatUp {
-      0% { opacity: 0; transform: translateY(0) scale(0.6); }
-      20% { opacity: 1; transform: translateY(-20px) scale(1.2); }
-      100% { opacity: 0; transform: translateY(-50px) scale(1); }
-    }
   </style>
 </head>
 <body>
@@ -856,54 +935,64 @@
   <header class="navbar">
     <div class="brand">
       <div class="brand-icon">⚡</div>
-      <div class="brand-title">Karma<span>Crunch</span> <span class="badge-devvit">Devvit 2.0</span></div>
+      <div class="brand-title">Karma<span>Crunch</span> <span class="badge-devvit">3D Studio</span></div>
     </div>
     <div class="nav-stats">
       <div class="points-pill" title="Karma Points Earned">
         <span>▲</span>
         <span class="num" id="globalPoints">1,420</span>
-        <span class="combo-badge" id="comboBadge" style="display:none;">x2 STREAK</span>
+      </div>
+      <div class="coins-pill" title="Reddit Gold Coins">
+        <span>🌟</span>
+        <span id="globalCoins">18</span> Gold
       </div>
       <button class="btn-sound" id="btnAudioToggle">🔊 Audio: ON</button>
     </div>
   </header>
 
   <div class="main-layout">
-    <!-- 1-100 PROGRESSIVE LEVEL BAR -->
+    <!-- 1-100 LEVEL PROGRESSION BANNER -->
     <section class="progression-banner">
       <div class="prog-top-row">
         <div class="level-badge-large">
           <div class="level-circle" id="lvlCircle">1</div>
           <div class="tier-details">
             <h2 id="tierTitle">🐾 Wholesome Meadow <span style="font-size:12px; color:var(--reddit-gold); font-family:var(--font-mono);">[Bracket: Lvl 1-10]</span></h2>
-            <p id="tierDesc">Easy play for pups, kittens, and casual lurkers.</p>
+            <p id="tierDesc">Animal-friendly runner tracks & gentle karma boosts.</p>
           </div>
         </div>
-        <button class="role-picker-btn" id="btnOpenRoleModal">
-          <span id="currentRoleEmoji">🐕</span>
-          <span>Role: <strong id="currentRoleName">Wholesome Doge</strong></span>
-          <span style="font-size:11px; opacity:0.6;">(Change)</span>
-        </button>
+        <div class="header-actions">
+          <button class="pill-btn" id="btnOpenRoleModal">
+            <span id="currentRoleEmoji">🐕</span>
+            <span>Role: <strong id="currentRoleName">Wholesome Doge</strong></span>
+          </button>
+          <button class="pill-btn" id="btnOpenTrophies">
+            <span>🏆 Trophies</span>
+          </button>
+        </div>
       </div>
 
       <div class="xp-track-wrapper">
         <div class="xp-labels">
-          <span style="color:var(--reddit-orange);">PROGRESS TO LEVEL <span id="nextLvlText">2</span></span>
+          <span style="color:var(--reddit-orange);">LEVEL <span id="currentLvlText">1</span> PROGRESS</span>
           <span id="xpNumbers">0 / 60 XP</span>
         </div>
         <div class="xp-bar-outer">
-          <div class="xp-bar-inner" id="xpBarInner" style="width: 0%;"></div>
+          <div class="xp-bar-inner" id="xpBarInner" style="width: 15%;"></div>
         </div>
       </div>
     </section>
 
     <!-- NAVIGATION TABS -->
     <nav class="nav-tabs">
-      <button class="tab-btn active" data-tab="tab-tycoon">
+      <button class="tab-btn active" data-tab="tab-surfers">
+        <span class="icon">🏃</span> 3D Karma Surfers (Runner)
+      </button>
+      <button class="tab-btn" data-tab="tab-tycoon">
         <span class="icon">📱</span> Reddit Life & Karma Tycoon
       </button>
-      <button class="tab-btn" data-tab="tab-arena">
-        <span class="icon">⚔️</span> 100-Level Boss Arena
+      <button class="tab-btn" data-tab="tab-map">
+        <span class="icon">🗺️</span> 100-Level World Map
       </button>
       <button class="tab-btn" data-tab="tab-agent">
         <span class="icon">🤖</span> Reddit AI Agent Chat & Scraper
@@ -911,9 +1000,58 @@
     </nav>
 
     <!-- ================================================================= -->
-    <!-- SCREEN 1: REDDIT LIFE SIMULATOR & KARMA TYCOON                   -->
+    <!-- TAB 1: 3D KARMA SURFERS (THREE.JS RUNNER)                        -->
     <!-- ================================================================= -->
-    <section id="tab-tycoon" class="screen-panel active">
+    <section id="tab-surfers" class="screen-panel active">
+      <div class="surfers-3d-wrapper">
+        <!-- 3D Canvas Viewport -->
+        <div class="surfers-viewport" id="surfersContainer">
+          <!-- WebGL Canvas injected here -->
+        </div>
+
+        <!-- In-game HUD -->
+        <div class="surfers-hud">
+          <div class="hud-stat-box">
+            <span>KARMA SCORE</span>
+            <span class="val" id="hudScore">0</span>
+          </div>
+          <div class="hud-powerups" id="hudPowerups">
+            <!-- Active powerups like Shield or 2x Multiplier -->
+          </div>
+          <div class="hud-stat-box">
+            <span>DISTANCE</span>
+            <span class="val" id="hudDistance">0 m</span>
+          </div>
+        </div>
+
+        <!-- On-screen Touch Controls -->
+        <div class="surfers-controls-overlay">
+          <button class="ctrl-key-btn" id="ctrlLeft" title="Left (A / ←)">◀</button>
+          <button class="ctrl-key-btn" id="ctrlJump" title="Jump (W / Space / ↑)">▲</button>
+          <button class="ctrl-key-btn" id="ctrlSlide" title="Slide (S / ↓)">▼</button>
+          <button class="ctrl-key-btn" id="ctrlRight" title="Right (D / →)">▶</button>
+        </div>
+
+        <!-- Start / Game Over Overlay -->
+        <div class="surfers-menu-overlay" id="surfersOverlay">
+          <h1 style="font-size:34px; font-weight:900; color:#fff;" id="overlayTitle">⚡ 3D KARMA SURFERS</h1>
+          <p style="font-size:15px; color:#d0dbe0; max-width:480px;" id="overlayDesc">
+            Dodge Downvote Spikes, slide under AutoMod Banhammers, and collect glowing Upvotes across 100 progressive levels!
+          </p>
+          <button class="btn-play-surfers" id="btnStartSurfers">
+            RUN LEVEL <span id="overlayLevelNum">1</span> 🚀
+          </button>
+          <div style="font-size:12px; color:var(--text-muted); font-family:var(--font-mono); margin-top:8px;">
+            Controls: Arrow Keys / WASD / Space / Touch buttons
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- TAB 2: REDDIT LIFE SIMULATOR & KARMA TYCOON                      -->
+    <!-- ================================================================= -->
+    <section id="tab-tycoon" class="screen-panel">
       <div class="game-grid">
         <div class="post-container">
           <div class="post-meta">
@@ -972,7 +1110,7 @@
           </div>
 
           <div class="box-card">
-            <h3 style="font-size:16px; font-weight:800; color:#fff;">🛠️ Reddit Hackathon Upgrades</h3>
+            <h3 style="font-size:16px; font-weight:800; color:#fff;">🛠️ Upgrades Shop</h3>
             <div class="upgrades-col">
               <button class="upg-item" id="upgBot">
                 <div>
@@ -1012,123 +1150,32 @@
     </section>
 
     <!-- ================================================================= -->
-    <!-- SCREEN 2: 100-LEVEL PROGRESSIVE BOSS ARENA                       -->
+    <!-- TAB 3: 100-LEVEL WORLD MAP                                       -->
     <!-- ================================================================= -->
-    <section id="tab-arena" class="screen-panel">
-      <div style="display:flex; flex-direction:column; gap:16px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-card); padding:12px 20px; border-radius:14px; border:1px solid var(--border);">
-          <div style="font-family:var(--font-mono); font-size:14px; color:var(--reddit-gold);">
-            ⚔️ ENCOUNTER: <strong id="arenaBossTitle">The Repost Bot 3000 (Lvl 1)</strong>
+    <section id="tab-map" class="screen-panel">
+      <div class="level-map-container">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <h2 style="font-size:20px; font-weight:900; color:#fff;">🗺️ 100-Level Reddit World Map</h2>
+            <p style="font-size:13px; color:var(--text-muted);">Click any unlocked level to play in the 3D Surfers arena.</p>
           </div>
-          <div id="arenaTurnNotice" style="font-size:13px; font-weight:800; color:var(--health-color); background:#0c171a; padding:4px 12px; border-radius:8px;">
-            YOUR TURN - CHOOSE MOVE
-          </div>
+          <span style="font-family:var(--font-mono); font-size:13px; color:var(--reddit-gold);">Levels 1 to 100</span>
         </div>
-
-        <div class="arena-grid">
-          <!-- Player Card -->
-          <div class="combat-box player" id="boxPlayer">
-            <div style="display:flex; align-items:center; gap:12px;">
-              <div style="font-size:36px;" id="arenaRoleAvatar">🐕</div>
-              <div>
-                <h3 style="font-size:18px; font-weight:900;" id="arenaRoleName">Wholesome Doge</h3>
-                <div style="font-size:12px; color:var(--text-muted); font-family:var(--font-mono);">Role Tier: Animal / Beginner</div>
-              </div>
-            </div>
-
-            <div style="display:flex; flex-direction:column; gap:8px;">
-              <div>
-                <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:700;">
-                  <span>❤️ Karma HP</span>
-                  <span id="playerHpText">120 / 120</span>
-                </div>
-                <div class="xp-bar-outer"><div class="xp-bar-inner" id="playerHpBar" style="width:100%; background:var(--health-color);"></div></div>
-              </div>
-              <div>
-                <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:700;">
-                  <span>🛡️ Upvote Shield</span>
-                  <span id="playerShieldText">0 Shield</span>
-                </div>
-                <div class="xp-bar-outer"><div class="xp-bar-inner" id="playerShieldBar" style="width:0%; background:var(--shield-color);"></div></div>
-              </div>
-            </div>
-
-            <div style="font-size:12px; font-style:italic; color:#b0c0c6; background:#080e10; padding:10px; border-radius:8px; border:1px dashed var(--border);" id="playerSpeech">
-              "Much karma, very wholesome! Upvoting everyone in the thread."
-            </div>
-          </div>
-
-          <div style="font-size:18px; font-weight:900; color:var(--reddit-gold); text-align:center;">VS</div>
-
-          <!-- Boss Card -->
-          <div class="combat-box boss" id="boxBoss">
-            <div style="display:flex; align-items:center; gap:12px;">
-              <div style="font-size:36px;" id="bossAvatar">🤖</div>
-              <div>
-                <h3 style="font-size:18px; font-weight:900;" id="bossName">The Repost Bot 3000</h3>
-                <div style="font-size:12px; color:var(--text-muted); font-family:var(--font-mono);" id="bossRole">Automated Content Scraper</div>
-              </div>
-            </div>
-
-            <div style="display:flex; flex-direction:column; gap:8px;">
-              <div>
-                <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:700;">
-                  <span>🖤 Boss Karma</span>
-                  <span id="bossHpText">75 / 75</span>
-                </div>
-                <div class="xp-bar-outer"><div class="xp-bar-inner" id="bossHpBar" style="width:100%; background:var(--reddit-orange);"></div></div>
-              </div>
-              <div>
-                <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:700;">
-                  <span>🛡️ Bot Plating</span>
-                  <span id="bossShieldText">0 Shield</span>
-                </div>
-                <div class="xp-bar-outer"><div class="xp-bar-inner" id="bossShieldBar" style="width:0%; background:var(--shield-color);"></div></div>
-              </div>
-            </div>
-
-            <div style="font-size:12px; font-style:italic; color:#b0c0c6; background:#080e10; padding:10px; border-radius:8px; border:1px dashed var(--border);" id="bossQuote">
-              "DOWNLOADING MEME FROM 2017... CROPPING WATERMARK..."
-            </div>
-          </div>
-        </div>
-
-        <!-- Action Card Deck -->
-        <div class="card-deck">
-          <button class="move-btn" id="btnMoveAttack">
-            <div style="font-size:24px;">💬</div>
-            <div style="font-weight:800; font-size:15px;">Upvote Strike</div>
-            <div style="font-size:12px; color:var(--text-muted);">Deals base damage + chance of critical hit.</div>
-          </button>
-
-          <button class="move-btn" id="btnMoveShield">
-            <div style="font-size:24px;">🛡️</div>
-            <div style="font-weight:800; font-size:15px;">Ratio Barrier</div>
-            <div style="font-size:12px; color:var(--text-muted);">Grants defense shield to absorb incoming attacks.</div>
-          </button>
-
-          <button class="move-btn" id="btnMoveSpecial">
-            <div style="font-size:24px;">✨</div>
-            <div style="font-weight:800; font-size:15px;" id="specialMoveTitle">Tail Wag Upvote</div>
-            <div style="font-size:12px; color:var(--text-muted);" id="specialMoveDesc">Heals 20 HP and gives +20 Shield!</div>
-          </button>
-        </div>
-
-        <div style="background:#091012; border:1px solid var(--border); border-radius:12px; padding:12px; font-family:var(--font-mono); font-size:12px; height:100px; overflow-y:auto; display:flex; flex-direction:column-reverse; gap:4px;" id="arenaTranscript">
-          <div style="color:var(--text-muted);">⚔️ Ready for duel. Choose an action card above!</div>
+        <div id="levelMapTrack">
+          <!-- Rendered dynamically by levelMap.js -->
         </div>
       </div>
     </section>
 
     <!-- ================================================================= -->
-    <!-- SCREEN 3: REDDIT AI AGENT CHAT & SCRAPER                         -->
+    <!-- TAB 4: REDDIT AI AGENT CHAT & SCRAPER                            -->
     <!-- ================================================================= -->
     <section id="tab-agent" class="screen-panel">
       <div class="chat-layout">
         <div>
           <h2 style="font-size:20px; font-weight:800; color:#fff;">🤖 Reddit AI Agent & Scraper</h2>
           <p style="font-size:13px; color:var(--text-muted);">
-            Ask questions, scrape user profiles (e.g. <code>u/spez</code>), analyze subreddits (e.g. <code>r/AskReddit</code>), or ask for viral post suggestions.
+            Type <code>u/username</code> to scrape user profiles, <code>r/subreddit</code> to analyze sentiment, or ask any question.
           </p>
         </div>
 
@@ -1159,7 +1206,7 @@
             ⚡ Karma<span>Crunch</span> 3D Architecture
           </div>
           <p style="font-size:14px; color:var(--text-muted); line-height:1.5;">
-            Engineered for the Reddit Developer Platform Hackathon. Integrating real-time Reddit API scrapers, GPT-4o mini structured outputs, and a 1-100 level progressive community game suite.
+            Engineered for the Reddit Developer Platform Hackathon. Integrating real-time Reddit API scrapers, GPT-4o mini structured outputs, 3D WebGL runner gameplay, and a 1-100 level progressive community game suite.
           </p>
 
           <div style="font-size:12px; font-weight:800; color:var(--reddit-orange); text-transform:uppercase; letter-spacing:0.5px;">
@@ -1173,7 +1220,7 @@
             </div>
             <div class="member-pill">
               <div class="member-name"><span>⚡</span> Eshwar Kartik</div>
-              <div class="member-role">Game Engine & Full-Stack</div>
+              <div class="member-role">3D Game Engine & Full-Stack</div>
             </div>
             <div class="member-pill">
               <div class="member-name"><span>🎨</span> Prashant</div>
@@ -1190,15 +1237,15 @@
     </div>
   </div>
 
-  <!-- ROLE PICKER MODAL -->
+  <!-- ROLE MODAL -->
   <div class="modal-backdrop" id="roleModalBackdrop">
     <div class="modal-sheet">
       <div>
         <h2 style="font-size:22px; font-weight:900; color:#fff;">Choose Your Role</h2>
         <p style="font-size:14px; color:var(--text-muted);">From animal-friendly starter companions to cosmic Reddit wizards:</p>
       </div>
-      <div class="role-grid-modal" id="rolesGridContainer">
-        <!-- Rendered dynamically from ANIMAL_ROLES -->
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px;" id="rolesGridContainer">
+        <!-- Injected dynamically -->
       </div>
       <div style="display:flex; justify-content:flex-end;">
         <button class="action-pill" id="btnCloseRoleModal">Done</button>
@@ -1206,40 +1253,138 @@
     </div>
   </div>
 
-  <!-- LOAD MODULAR ENGINES -->
+  <!-- TROPHIES MODAL -->
+  <div class="modal-backdrop" id="trophiesModalBackdrop">
+    <div class="modal-sheet">
+      <div>
+        <h2 style="font-size:22px; font-weight:900; color:#fff;">🏆 Reddit Achievements</h2>
+        <p style="font-size:14px; color:var(--text-muted);">Unlock milestones across the 3D runner and community feed:</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px; max-height:360px; overflow-y:auto;" id="trophiesListContainer">
+        <!-- Injected dynamically -->
+      </div>
+      <div style="display:flex; justify-content:flex-end;">
+        <button class="action-pill" id="btnCloseTrophiesModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOAD SCRIPTS -->
   <script type="module">
     import { GameEngine } from './src/engine/gameEngine.js';
     import { KarmaVisuals3D, setup3dTiltCard } from './src/engine/threeVisuals.js';
     import { RedditAgent } from './src/engine/redditAgent.js';
+    import { KarmaSurfers3D } from './src/engine/karmaSurfers3D.js';
+    import { LevelMapEngine } from './src/engine/levelMap.js';
+    import { AchievementManager } from './src/engine/achievements.js';
     import { ANIMAL_ROLES } from './src/data/animalRoles.js';
 
-    // Initialize core instances
+    // Core instances
     const game = new GameEngine();
     const agent = new RedditAgent();
     const visuals = new KarmaVisuals3D('threeCanvasContainer');
+    const achievements = new AchievementManager((ach) => {
+      alert(`🏆 ACHIEVEMENT UNLOCKED: ${ach.name}!\nReward: +${ach.reward} Karma Points!`);
+      game.addPoints(ach.reward);
+    });
 
-    // Attach 3D Gyro Tilt effect to builder card
     setup3dTiltCard('builderTiltCard');
     visuals.init();
 
-    // DOM bindings
+    // 3D Surfers Game Setup
+    const surfersOverlay = document.getElementById('surfersOverlay');
+    const overlayTitle = document.getElementById('overlayTitle');
+    const overlayDesc = document.getElementById('overlayDesc');
+    const btnStartSurfers = document.getElementById('btnStartSurfers');
+    const overlayLevelNum = document.getElementById('overlayLevelNum');
+    const hudScore = document.getElementById('hudScore');
+    const hudDistance = document.getElementById('hudDistance');
+    const hudPowerups = document.getElementById('hudPowerups');
+
+    let currentSurferLevel = 1;
+
+    const surfers = new KarmaSurfers3D(
+      'surfersContainer',
+      // Score update callback
+      (data) => {
+        hudScore.innerText = data.score.toLocaleString();
+        hudDistance.innerText = `${data.distance} / ${data.targetDistance} m`;
+
+        let powHtml = '';
+        if (data.hasShield) powHtml += `<span class="powerup-pill">🛡️ SHIELD ACTIVE</span>`;
+        if (data.multiplier > 1) powHtml += `<span class="powerup-pill" style="border-color:#46d160; background:rgba(70,209,96,0.25);">⚡ 2x POINTS</span>`;
+        hudPowerups.innerHTML = powHtml;
+      },
+      // Game Over callback
+      (finalScore, finalCoins, dist) => {
+        game.sound.defeat();
+        overlayTitle.innerText = "💥 DOWNVOTE COLLISION!";
+        overlayDesc.innerText = `You survived ${dist} meters and earned ${finalScore} score points and ${finalCoins} gold coins!`;
+        btnStartSurfers.innerText = "TRY AGAIN 🔄";
+        surfersOverlay.classList.remove('hidden');
+
+        // Add points and check achievements
+        game.addPoints(finalScore);
+        if (dist >= 100) achievements.unlock("runner_100m");
+        if (finalCoins >= 25) achievements.unlock("gold_rush");
+      },
+      // Level Complete callback
+      (lvl, finalScore, finalCoins) => {
+        game.sound.levelUp();
+        overlayTitle.innerText = `🎉 LEVEL ${lvl} CLEARED!`;
+        overlayDesc.innerText = `Spectacular run! You earned ${finalScore} points and ${finalCoins} gold coins. Ready for Level ${lvl + 1}!`;
+        currentSurferLevel = Math.min(100, lvl + 1);
+        levelMap.setUnlockedLevel(currentSurferLevel);
+        levelMap.setLevelStars(lvl, 3);
+        overlayLevelNum.innerText = currentSurferLevel;
+        btnStartSurfers.innerText = `START LEVEL ${currentSurferLevel} 🚀`;
+        surfersOverlay.classList.remove('hidden');
+
+        game.addPoints(finalScore + 500);
+        game.addXp(300);
+        if (lvl >= 10) achievements.unlock("level_10");
+        if (lvl >= 50) achievements.unlock("level_50");
+        if (lvl >= 100) achievements.unlock("level_100");
+      }
+    );
+
+    surfers.init();
+
+    btnStartSurfers.addEventListener('click', () => {
+      surfersOverlay.classList.add('hidden');
+      surfers.start(currentSurferLevel);
+    });
+
+    // Touch controls
+    document.getElementById('ctrlLeft').addEventListener('click', () => surfers.moveLane(-1));
+    document.getElementById('ctrlRight').addEventListener('click', () => surfers.moveLane(1));
+    document.getElementById('ctrlJump').addEventListener('click', () => surfers.jump());
+    document.getElementById('ctrlSlide').addEventListener('click', () => surfers.slide());
+
+    // 100-Level Map Setup
+    const levelMap = new LevelMapEngine('levelMapTrack', (selectedLvl) => {
+      currentSurferLevel = selectedLvl;
+      overlayLevelNum.innerText = selectedLvl;
+      overlayTitle.innerText = `⚡ LEVEL ${selectedLvl}`;
+      overlayDesc.innerText = `Ready to conquer Level ${selectedLvl} of Reddit Surfers?`;
+      btnStartSurfers.innerText = `START LEVEL ${selectedLvl} 🚀`;
+      surfersOverlay.classList.remove('hidden');
+      document.querySelector('[data-tab="tab-surfers"]').click();
+    });
+    levelMap.render();
+
+    // DOM Elements for Tycoon & UI
     const globalPoints = document.getElementById('globalPoints');
-    const comboBadge = document.getElementById('comboBadge');
+    const globalCoins = document.getElementById('globalCoins');
     const lvlCircle = document.getElementById('lvlCircle');
+    const currentLvlText = document.getElementById('currentLvlText');
     const tierTitle = document.getElementById('tierTitle');
     const tierDesc = document.getElementById('tierDesc');
-    const nextLvlText = document.getElementById('nextLvlText');
     const xpNumbers = document.getElementById('xpNumbers');
     const xpBarInner = document.getElementById('xpBarInner');
 
     const currentRoleEmoji = document.getElementById('currentRoleEmoji');
     const currentRoleName = document.getElementById('currentRoleName');
-    const arenaRoleAvatar = document.getElementById('arenaRoleAvatar');
-    const arenaRoleName = document.getElementById('arenaRoleName');
-    const playerSpeech = document.getElementById('playerSpeech');
-    const specialMoveTitle = document.getElementById('specialMoveTitle');
-    const specialMoveDesc = document.getElementById('specialMoveDesc');
-
     const btnFarmKarma = document.getElementById('btnFarmKarma');
     const btnPostUpvote = document.getElementById('btnPostUpvote');
     const btnPostDownvote = document.getElementById('btnPostDownvote');
@@ -1251,26 +1396,6 @@
     const commentsStream = document.getElementById('commentsStream');
     const feedCommentCount = document.getElementById('feedCommentCount');
     const btnAudioToggle = document.getElementById('btnAudioToggle');
-
-    // Arena elements
-    const arenaBossTitle = document.getElementById('arenaBossTitle');
-    const bossAvatar = document.getElementById('bossAvatar');
-    const bossName = document.getElementById('bossName');
-    const bossRole = document.getElementById('bossRole');
-    const bossQuote = document.getElementById('bossQuote');
-    const bossHpText = document.getElementById('bossHpText');
-    const bossHpBar = document.getElementById('bossHpBar');
-    const bossShieldText = document.getElementById('bossShieldText');
-    const bossShieldBar = document.getElementById('bossShieldBar');
-    const playerHpText = document.getElementById('playerHpText');
-    const playerHpBar = document.getElementById('playerHpBar');
-    const playerShieldText = document.getElementById('playerShieldText');
-    const playerShieldBar = document.getElementById('playerShieldBar');
-    const arenaTranscript = document.getElementById('arenaTranscript');
-
-    const btnMoveAttack = document.getElementById('btnMoveAttack');
-    const btnMoveShield = document.getElementById('btnMoveShield');
-    const btnMoveSpecial = document.getElementById('btnMoveSpecial');
 
     // Upgrades
     const upgBot = document.getElementById('upgBot');
@@ -1288,65 +1413,26 @@
     let tapKarma = 5;
     let costObj = { bot: 50, snark: 120, mod: 350, ternion: 1000 };
 
-    // Game state sync
     game.onStateChange = (state) => {
       globalPoints.innerText = state.points.toLocaleString();
       postUpvoteCount.innerText = state.points.toLocaleString();
       lvlCircle.innerText = state.level;
+      currentLvlText.innerText = state.level;
       tierTitle.innerHTML = `${state.tier.name} <span style="font-size:12px; color:var(--reddit-gold); font-family:var(--font-mono);">[${state.tier.bracket}]</span>`;
       tierDesc.innerText = state.tier.desc;
-      nextLvlText.innerText = state.level < 100 ? state.level + 1 : 100;
       xpNumbers.innerText = `${state.xp} / ${state.nextXp} XP`;
       xpBarInner.style.width = `${state.progressPercent}%`;
 
-      if (state.combo > 1) {
-        comboBadge.style.display = "inline-block";
-        comboBadge.innerText = `x${state.combo} STREAK`;
-      } else {
-        comboBadge.style.display = "none";
-      }
-
-      // Role info
       currentRoleEmoji.innerText = state.role.emoji;
       currentRoleName.innerText = state.role.name;
-      arenaRoleAvatar.innerText = state.role.emoji;
-      arenaRoleName.innerText = state.role.name;
-      specialMoveTitle.innerText = state.role.specialMove.name;
-      specialMoveDesc.innerText = state.role.specialMove.desc;
 
-      // Boss info
-      arenaBossTitle.innerText = state.boss.name;
-      bossAvatar.innerText = state.boss.avatar;
-      bossName.innerText = state.boss.name;
-      bossRole.innerText = state.boss.role;
-      bossQuote.innerText = `"${state.boss.quote}"`;
-
-      bossHpText.innerText = `${state.boss.hp} / ${state.boss.maxHp}`;
-      bossHpBar.style.width = `${Math.max(0, (state.boss.hp / state.boss.maxHp) * 100)}%`;
-      bossShieldText.innerText = `${state.boss.shield} Shield`;
-      bossShieldBar.style.width = `${Math.min(100, (state.boss.shield / 60) * 100)}%`;
-
-      playerHpText.innerText = `${state.playerHp} / ${state.role.baseStats.hp}`;
-      playerHpBar.style.width = `${Math.max(0, (state.playerHp / state.role.baseStats.hp) * 100)}%`;
-      playerShieldText.innerText = `${state.playerShield} Shield`;
-      playerShieldBar.style.width = `${Math.min(100, (state.playerShield / 60) * 100)}%`;
-
-      // Update upgrades buttons
       upgBot.disabled = state.points < costObj.bot;
       upgSnark.disabled = state.points < costObj.snark;
       upgMod.disabled = state.points < costObj.mod;
       upgTernion.disabled = state.points < costObj.ternion;
     };
 
-    game.onLevelUp = (lvl, perk) => {
-      alert(`🎉 LEVEL UP! You reached Level ${lvl}!\n${perk ? perk.title + ": " + perk.bonus : "Stats increased!"}`);
-    };
-
-    game.onBossDefeated = (boss, lvl) => {
-      addCombatLog(`🏆 VICTORY! Vanquished ${boss.name}! (+${250 + lvl * 20} Karma Points)`, "var(--reddit-gold)");
-    };
-
-    // Passive points loop
+    // Passive loop
     setInterval(() => {
       if (passiveSec > 0) {
         game.points += passiveSec;
@@ -1355,35 +1441,30 @@
       }
     }, 1000);
 
-    // Click handler for karma tap
-    btnFarmKarma.addEventListener('click', (e) => {
-      const res = game.addPoints(tapKarma);
-      spawnPointFloater(e.clientX, e.clientY, `+${res.earned}`);
+    btnFarmKarma.addEventListener('click', () => {
+      game.addPoints(tapKarma);
     });
 
-    btnPostUpvote.addEventListener('click', (e) => {
-      const res = game.addPoints(10);
+    btnPostUpvote.addEventListener('click', () => {
+      game.addPoints(10);
       btnPostUpvote.classList.toggle('active');
-      spawnPointFloater(e.clientX, e.clientY, `+${res.earned}`);
     });
 
-    btnPostDownvote.addEventListener('click', (e) => {
+    btnPostDownvote.addEventListener('click', () => {
       game.sound.downvote();
       game.points = Math.max(0, game.points - 5);
       game.triggerState();
-      spawnPointFloater(e.clientX, e.clientY, `-5`, '#7193ff');
     });
 
-    btnGiveAward.addEventListener('click', (e) => {
+    btnGiveAward.addEventListener('click', () => {
       if (game.points >= 100) {
         game.points -= 100;
         game.sound.award();
         game.addXp(80);
         addComment("u/AwardGiver", "Take my gold award for this top tier post! 🌟", true);
-        spawnPointFloater(e.clientX, e.clientY, `🌟 AWARDED (+80 XP)`, '#ffd700');
         game.triggerState();
       } else {
-        alert("You need at least 100 Karma Points to give an award!");
+        alert("You need at least 100 Karma Points to bestow an award!");
       }
     });
 
@@ -1436,22 +1517,6 @@
       }
     });
 
-    // Post generator
-    const POSTS_SYNTHETIC = [
-      { t: "I ran my entire Reddit post history through GPT-4o mini. It called my debate style 'weaponized pedantry'.", b: "The model analyzed 3,000 comments across r/technology and concluded I have an unyielding urge to correct people who use the word 'literally' metaphorically." },
-      { t: "TIL: You can reach Level 100 on Reddit without ever looking at the sun.", b: "Confirmed in our 1-100 level progression engine. The final boss is the Algorithmic Hivemind itself." },
-      { t: "Our Reddit Devvit game won the hackathon and AutoMod did not even remove it.", b: "Built with passion by Rupesh Kumar, Eshwar Kartik, and Prashant. Clean code, strict schemas, zero mobile timeouts." }
-    ];
-
-    btnDraftNewPost.addEventListener('click', () => {
-      game.sound.upvote();
-      const p = POSTS_SYNTHETIC[Math.floor(Math.random() * POSTS_SYNTHETIC.length)];
-      mainPostTitle.innerText = `"${p.t}"`;
-      mainPostContent.innerText = p.b;
-      game.addPoints(75);
-      addComment("u/ViralHunter", "This is hitting r/all by tonight for sure.", true);
-    });
-
     function addComment(author, text, isHot = false) {
       const bubble = document.createElement('div');
       bubble.className = `comment-bubble ${isHot ? 'hot' : ''}`;
@@ -1463,72 +1528,19 @@
       feedCommentCount.innerText = parseInt(feedCommentCount.innerText) + 1;
     }
 
-    // Battle Actions
-    btnMoveAttack.addEventListener('click', () => {
-      const res = game.executeBattleMove("strike");
-      if (res) {
-        addCombatLog(`👉 [YOU] ${res.text}`, res.crit ? "var(--reddit-gold)" : "#fff");
-        triggerBossCounter();
-      }
-    });
-
-    btnMoveShield.addEventListener('click', () => {
-      const res = game.executeBattleMove("shield");
-      if (res) {
-        addCombatLog(`🛡️ [YOU] ${res.text}`, "var(--shield-color)");
-        triggerBossCounter();
-      }
-    });
-
-    btnMoveSpecial.addEventListener('click', () => {
-      const res = game.executeBattleMove("special");
-      if (res) {
-        addCombatLog(`✨ [YOU] ${res.text}`, "var(--reddit-gold)");
-        triggerBossCounter();
-      }
-    });
-
-    function triggerBossCounter() {
-      if (game.boss.hp <= 0) return;
-      setTimeout(() => {
-        const bRes = game.executeBossTurn();
-        if (bRes) {
-          addCombatLog(`💥 [BOSS] ${bRes.text} (-${bRes.dmg} HP)`, "var(--reddit-orange)");
-          if (bRes.playerHp <= 0) {
-            alert("💀 Your karma collapsed! Regrouping and restoring health...");
-            game.playerHp = game.currentRole.baseStats.hp;
-            game.triggerState();
-          }
-        }
-      }, 700);
-    }
-
-    function addCombatLog(text, color) {
-      const line = document.createElement('div');
-      line.style.color = color;
-      line.innerText = text;
-      arenaTranscript.prepend(line);
-    }
-
-    // Role Selection Modal
+    // Role modal
     const roleModalBackdrop = document.getElementById('roleModalBackdrop');
     const rolesGridContainer = document.getElementById('rolesGridContainer');
-    const btnOpenRoleModal = document.getElementById('btnOpenRoleModal');
-    const btnCloseRoleModal = document.getElementById('btnCloseRoleModal');
-
-    btnOpenRoleModal.addEventListener('click', () => {
+    document.getElementById('btnOpenRoleModal').addEventListener('click', () => {
       rolesGridContainer.innerHTML = '';
       ANIMAL_ROLES.forEach(r => {
         const c = document.createElement('div');
-        c.className = `role-choice-card ${r.id === game.currentRole.id ? 'selected' : ''}`;
+        c.style.cssText = `background:#0d1619; border:2px solid ${r.id === game.currentRole.id ? 'var(--reddit-orange)' : 'var(--border)'}; border-radius:14px; padding:14px; cursor:pointer;`;
         c.innerHTML = `
           <div style="font-size:26px;">${r.emoji}</div>
           <div style="font-weight:900; font-size:15px; color:#fff;">${r.name}</div>
           <div style="font-size:11px; color:var(--reddit-gold);">${r.tier}</div>
-          <div style="font-size:12px; color:var(--text-muted); line-height:1.3;">${r.description}</div>
-          <div style="font-size:11px; font-family:var(--font-mono); color:var(--health-color); margin-top:4px;">
-            HP: ${r.baseStats.hp} | ATK: ${r.baseStats.attack} | DEF: ${r.baseStats.defense}
-          </div>
+          <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">${r.description}</div>
         `;
         c.addEventListener('click', () => {
           game.updateRole(r.id);
@@ -1539,43 +1551,68 @@
       roleModalBackdrop.classList.add('active');
     });
 
-    btnCloseRoleModal.addEventListener('click', () => {
+    document.getElementById('btnCloseRoleModal').addEventListener('click', () => {
       roleModalBackdrop.classList.remove('active');
     });
 
-    // Chat Agent System
+    // Trophies modal
+    const trophiesModalBackdrop = document.getElementById('trophiesModalBackdrop');
+    const trophiesListContainer = document.getElementById('trophiesListContainer');
+    document.getElementById('btnOpenTrophies').addEventListener('click', () => {
+      trophiesListContainer.innerHTML = '';
+      achievements.achievements.forEach(a => {
+        const item = document.createElement('div');
+        item.style.cssText = `background:#091012; border:1px solid var(--border); border-radius:12px; padding:10px 14px; display:flex; align-items:center; justify-content:space-between; opacity:${a.unlocked ? '1' : '0.45'};`;
+        item.innerHTML = `
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="font-size:22px;">${a.icon}</div>
+            <div>
+              <div style="font-weight:800; font-size:14px; color:#fff;">${a.name}</div>
+              <div style="font-size:11px; color:var(--text-muted);">${a.desc}</div>
+            </div>
+          </div>
+          <div style="font-family:var(--font-mono); font-size:12px; color:var(--reddit-gold);">${a.unlocked ? 'CLAIMED' : '+' + a.reward + ' Pts'}</div>
+        `;
+        trophiesListContainer.appendChild(item);
+      });
+      trophiesModalBackdrop.classList.add('active');
+    });
+
+    document.getElementById('btnCloseTrophiesModal').addEventListener('click', () => {
+      trophiesModalBackdrop.classList.remove('active');
+    });
+
+    // Chat agent
     const chatStream = document.getElementById('chatStream');
     const chatInput = document.getElementById('chatInput');
     const btnSendChat = document.getElementById('btnSendChat');
 
-    async function handleChatSubmit() {
+    async function handleChat() {
       const q = chatInput.value.trim();
       if (!q) return;
       chatInput.value = '';
 
-      // User bubble
-      const userBubble = document.createElement('div');
-      userBubble.className = 'chat-msg user';
-      userBubble.innerText = q;
-      chatStream.appendChild(userBubble);
+      const u = document.createElement('div');
+      u.className = 'chat-msg user';
+      u.innerText = q;
+      chatStream.appendChild(u);
 
-      const agentBubble = document.createElement('div');
-      agentBubble.className = 'chat-msg agent';
-      agentBubble.innerHTML = `<em>Scraping Reddit and synthesizing response...</em>`;
-      chatStream.appendChild(agentBubble);
+      const ag = document.createElement('div');
+      ag.className = 'chat-msg agent';
+      ag.innerHTML = '<em>Consulting Reddit API and neural analyzer...</em>';
+      chatStream.appendChild(ag);
       chatStream.scrollTop = chatStream.scrollHeight;
 
       const reply = await agent.processQuery(q);
-      agentBubble.innerHTML = `<strong>${reply.title}</strong><br>${reply.text.replace(/\n/g, '<br>')}`;
+      ag.innerHTML = `<strong>${reply.title}</strong><br>${reply.text.replace(/\n/g, '<br>')}`;
       chatStream.scrollTop = chatStream.scrollHeight;
+      achievements.unlock("agent_chat");
     }
 
-    btnSendChat.addEventListener('click', handleChatSubmit);
-    chatInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') handleChatSubmit();
-    });
+    btnSendChat.addEventListener('click', handleChat);
+    chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleChat(); });
 
-    // Tab Navigation
+    // Tab buttons
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1583,28 +1620,20 @@
         btn.classList.add('active');
         const target = btn.getAttribute('data-tab');
         document.getElementById(target).classList.add('active');
+
+        if (target === 'tab-surfers') {
+          surfers.onResize();
+        }
       });
     });
 
-    // Sound toggle
     btnAudioToggle.addEventListener('click', () => {
       game.sound.enabled = !game.sound.enabled;
       btnAudioToggle.innerText = game.sound.enabled ? "🔊 Audio: ON" : "🔇 Audio: OFF";
       if (game.sound.enabled) game.sound.upvote();
     });
 
-    function spawnPointFloater(x, y, text, color = '#ff4500') {
-      const el = document.createElement('div');
-      el.className = 'floater-num';
-      el.innerText = text;
-      el.style.color = color;
-      el.style.left = `${x}px`;
-      el.style.top = `${y}px`;
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 750);
-    }
-
-    // Initialize game
+    // Initialize
     game.init();
   </script>
 </body>

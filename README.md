@@ -20,14 +20,16 @@
 
 ## 🏆 Key Features
 
-### 1. 1-100 Progressive Level Engine
-* **Smooth Polynomial Scaling:** XP requirements follow $XP_{req}(lvl) = \lfloor 60 \times (lvl - 1)^{1.45} \rfloor$.
-* **Brackets from Animal Friendly to Cosmic Reddit Gods:**
-  * **Levels 1–10 (Wholesome Meadow):** Designed for beginner lurkers, pups, and kittens. Simple mechanics, gentle bosses, high upvote rewards.
-  * **Levels 11–25 (Meme Uprising):** Unlocks combo multipliers, snarky comment streams, and ratio counters.
-  * **Levels 26–50 (Frontpage Crucible):** Raid encounters with The Armchair Expert and The Downvote Troll.
-  * **Levels 51–75 (ModQueue Citadel):** High-stakes encounters against rule-enforcing AutoMods.
-  * **Levels 76–100 (Reddit Ascension):** God-tier battles against the Algorithmic Hivemind.
+### 1. 3D Karma Surfers (WebGL Three.js Endless & Level Runner)
+* **Full 3D WebGL Camera & Physics:** 3-lane runner with smooth lane switching, jumping over Downvote Spikes, and sliding under AutoMod Banhammers.
+* **Procedural Biomes across Levels 1-100:**
+  * **Levels 1–10 (Wholesome Meadow):** Soft emerald track, gentle speed for pups and beginner players.
+  * **Levels 11–25 (Neon Cyber Reddit):** Cyan wireframes and synthwave neon obstacles.
+  * **Levels 26–50 (r/wallstreetbets Floor):** Golden tracks with floating green candle charts and high-speed multipliers.
+  * **Levels 51–75 (ModQueue Fortress):** Volcanic crimson track with rotating banhammers.
+  * **Levels 76–100 (Cosmic Hivemind):** Interstellar space rift and warp speed obstacles.
+* **Power-Ups:** 🧲 *Karma Magnet*, ⚡ *2x Multiplier*, and 🛡️ *AutoMod Shield*.
+* **100-Level World Map:** Interactive visual progression map with star ratings for all 100 levels.
 
 ### 2. Animal & Player Roles
 * 🐕 **Wholesome Doge:** High health, passive healing, and loyal upvotes.
