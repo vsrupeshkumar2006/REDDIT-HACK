@@ -18,6 +18,164 @@
 
 ---
 
+## 📊 System Architecture & Data Flow
+
+### 1. High-Level System Architecture
+```mermaid
+flowchart TD
+    subgraph Client["Frontend Client (Reddit Devvit 2.0 Webview)"]
+        UI["Master UI (index.html)"]
+        subgraph EngineGroup["Game Engines"]
+            SURF["3D Karma Surfers (karmaSurfers3D.js)"]
+            MAP["100-Level World Map (levelMap.js)"]
+            GE["Points & Combo Core (gameEngine.js)"]
+            SE["Web Audio Synthesizer (soundEngine.js)"]
+            T3["3D Visuals & Tilt (threeVisuals.js)"]
+            RA["Reddit AI Agent (redditAgent.js)"]
+            ACH["Achievements & Trophies (achievements.js)"]
+        end
+    end
+
+    subgraph Backend["FastAPI Production Backend (backend/main.py)"]
+        API["FastAPI REST & SSE Gateway"]
+        JQ["Asynchronous Job Queue (Timeout Safeguard)"]
+        PRAW["Reddit Scraper (reddit_scraper.py)"]
+        LLM["GPT-4o mini Engine (ai_agent.py)"]
+        SCH["Strict Pydantic Validation (schemas.py)"]
+    end
+
+    subgraph External["External Cloud & API Infrastructure"]
+        RD["Reddit Official API / PRAW"]
+        OA["OpenAI API (GPT-4o mini)"]
+    end
+
+    UI --> EngineGroup
+    UI -.->|"Async HTTP / SSE"| API
+    API --> JQ
+    JQ --> PRAW --> RD
+    JQ --> LLM --> OA
+    LLM --> SCH
+```
+
+---
+
+### 2. Android & Mobile Timeout Prevention Sequence
+Mobile networks (OkHttp, Android webviews, and Devvit) terminate requests with `SocketTimeoutException` if operations exceed 10–15s. KarmaCrunch solves this with a two-phase async queue:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Android as Android App / Devvit Webview
+    participant Gateway as FastAPI Gateway
+    participant Worker as BackgroundTask Worker
+    participant Reddit as Reddit API
+    participant OpenAI as OpenAI GPT-4o mini
+
+    Android->>Gateway: POST /api/report/enqueue {username, sarcasm: 75}
+    Gateway->>Worker: Enqueue background job (job_id: "job_9421")
+    Gateway-->>Android: 202 Accepted {job_id: "job_9421", eta: 3s}
+
+    par Background Pipeline
+        Worker->>Reddit: Fetch top submissions & comment history
+        Reddit-->>Worker: Raw Reddit JSON
+        Worker->>OpenAI: Structured Output parse (Strict Pydantic)
+        OpenAI-->>Worker: Validated KarmaCrunchReport
+        Worker->>Worker: Cache completed report (TTL: 24h)
+    and Heartbeat Polling Loop
+        loop Every 1.5 seconds
+            Android->>Gateway: GET /api/report/status/job_9421
+            Gateway-->>Android: {status: "processing", progress: 70%}
+        end
+    end
+
+    Android->>Gateway: GET /api/report/status/job_9421
+    Gateway-->>Android: 200 OK {status: "completed", data: KarmaCrunchReport}
+```
+
+---
+
+### 3. 100-Level Progression & Procedural Biomes Flow
+The game scales dynamically across 5 progressive brackets up to Level 100:
+
+```mermaid
+flowchart LR
+    subgraph Tier1["Tier 1: Wholesome Meadow (Lvl 1-10)"]
+        T1["Pups & Casual Lurkers<br>Soft emerald track<br>Gentle speed"]
+    end
+
+    subgraph Tier2["Tier 2: Neon Cyber Reddit (Lvl 11-25)"]
+        T2["Meme Uprising<br>Cyan grid & night skyline<br>Snarky comment streams"]
+    end
+
+    subgraph Tier3["Tier 3: r/wallstreetbets (Lvl 26-50)"]
+        T3["Stonk Market Floor<br>Golden tracks & green candles<br>5x Viral Gamble Moves"]
+    end
+
+    subgraph Tier4["Tier 4: ModQueue Citadel (Lvl 51-75)"]
+        T4["Volcanic Crimson Track<br>AutoMod Banhammers<br>High-speed Obstacles"]
+    end
+
+    subgraph Tier5["Tier 5: Cosmic Hivemind (Lvl 76-100)"]
+        T5["Interstellar Space Nebula<br>Algorithmic Hivemind Raid<br>Ternion God Mode"]
+    end
+
+    Tier1 -->|"Pass Lvl 10"| Tier2
+    Tier2 -->|"Pass Lvl 25"| Tier3
+    Tier3 -->|"Pass Lvl 50"| Tier4
+    Tier4 -->|"Pass Lvl 75"| Tier5
+```
+
+---
+
+### 4. 3D Karma Surfers Real-Time Gameplay State Machine
+```mermaid
+stateDiagram-v2
+    [*] --> IdleMenu : Launch 3D Surfers
+    IdleMenu --> Running : Start Level
+    
+    state Running {
+        [*] --> InLaneCenter
+        InLaneCenter --> LaneLeft : Press A or Left Arrow
+        LaneLeft --> InLaneCenter : Press D or Right Arrow
+        InLaneCenter --> LaneRight : Press D or Right Arrow
+        LaneRight --> InLaneCenter : Press A or Left Arrow
+        
+        InLaneCenter --> Jumping : Press W, Space, or Up Arrow
+        Jumping --> InLaneCenter : Gravity Landing
+        
+        InLaneCenter --> Sliding : Press S or Down Arrow
+        Sliding --> InLaneCenter : Slide Duration Ends
+    }
+    
+    Running --> PowerupCollected : Touch Gem, Magnet, Shield, 2x
+    PowerupCollected --> Running : Buff Applied
+    
+    Running --> ObstacleCollision : Hit Downvote Spike or Banhammer
+    
+    state ObstacleCollision <<choice>>
+    ObstacleCollision --> ShieldAbsorbed : Shield Active
+    ShieldAbsorbed --> Running : Shield Broken (Continue)
+    ObstacleCollision --> Defeat : No Shield
+    
+    Running --> LevelClear : Distance Target Reached
+    LevelClear --> IdleMenu : Unlock Next Level on Map
+    Defeat --> IdleMenu : Retry Level
+```
+
+---
+
+### 5. OpenAI Structured Outputs & AI Dossier Pipeline
+```mermaid
+flowchart LR
+    A["Raw User Reddit Data<br>(Posts, Comments, Karma)"] --> B["System Prompt Interpolator<br>(Sarcasm Slider 0-100%)"]
+    B --> C["GPT-4o mini<br>(Constrained Grammar Decoder)"]
+    C --> D["Pydantic Validation<br>(Strict JSON Schema)"]
+    D --> E["KarmaCrunch Dossier<br>• RPG Stats & Class<br>• AI Scorched Earth Roast<br>• 3D Portrait Prompt"]
+    E --> F["Interactive UI Preview<br>& r/KarmaCrunch Post"]
+```
+
+---
+
 ## 🏆 Key Features
 
 ### 1. 3D Karma Surfers (WebGL Three.js Endless & Level Runner)
@@ -51,46 +209,7 @@
 
 ---
 
-## 🏗️ Technical Architecture & Solutions
-
-```mermaid
-flowchart TD
-    subgraph Client["Frontend Client (Devvit Interactive Post)"]
-        UI["Master UI (index.html)"]
-        GE["Game Engine (gameEngine.js)"]
-        SE["Audio Synthesizer (soundEngine.js)"]
-        T3["3D Visuals & Tilt (threeVisuals.js)"]
-        RA["Reddit Agent (redditAgent.js)"]
-    end
-
-    subgraph Backend["FastAPI Production Backend"]
-        API["FastAPI Gateway (main.py)"]
-        JQ["Async Job Queue (Android Timeout Safeguard)"]
-        PRAW["Reddit Scraper (reddit_scraper.py)"]
-        LLM["GPT-4o mini Engine (ai_agent.py)"]
-        SCH["Strict Pydantic Schemas (schemas.py)"]
-    end
-
-    subgraph External["External Infrastructure"]
-        RD["Reddit API / PRAW"]
-        OA["OpenAI API"]
-    end
-
-    UI --> GE & SE & T3 & RA
-    UI -.-> API
-    API --> JQ
-    JQ --> PRAW --> RD
-    JQ --> LLM --> OA
-    LLM --> SCH
-```
-
-1. **Eliminating Android & Mobile Timeouts:** Uses an asynchronous job queue (`POST /api/report/enqueue` returning within 150ms with a `job_id`, followed by heartbeat status polling) to avoid mobile socket drops.
-2. **Guaranteed LLM Schema Adherence:** Leverages OpenAI Structured Outputs (`response_format: { type: "json_schema", strict: true }`) with Pydantic models. Zero regex, zero parsing crashes.
-3. **GDPR & Reddit Policy Compliance:** Automatic webhook handler (`POST /api/webhooks/reddit-delete`) purges cached dossiers when a Reddit post is deleted.
-
----
-
-## 📁 Repository Structure (20 Dedicated Files)
+## 📁 Repository Structure
 
 ```
 reddit-hack/
@@ -109,9 +228,13 @@ reddit-hack/
 │   │   ├── animalRoles.js         # Playable animal & Redditor archetypes
 │   │   └── levelsData.js          # 1-100 level curve & boss generator
 │   └── engine/
+│       ├── karmaSurfers3D.js      # 3D WebGL runner engine
+│       ├── levelMap.js            # 100-Level interactive world map
+│       ├── achievements.js        # 9 unlockable Reddit achievements
 │       ├── gameEngine.js          # Master game & point combo engine
 │       ├── soundEngine.js         # Procedural Web Audio chiptune synthesizer
 │       ├── threeVisuals.js        # WebGL 3D Karma Core & Tilt Physics
+│       ├── three.min.js           # Offline Three.js library
 │       └── redditAgent.js         # Interactive Reddit AI Chat & Scraper
 ├── tests/
 │   ├── test_backend.py            # Pytest test suite for backend APIs
@@ -157,9 +280,9 @@ pytest tests/test_backend.py -v
 ## 👥 Authors & Team Credits
 
 Built with pride for the Reddit Community:
-* **Rupesh Kumar** – *System Architecture & AI Engineering*
-* **Eshwar Kartik** – *Game Engine, Level Progression & Full-Stack*
-* **Prashant** – *3D Holographic Visuals, UI/UX & Web Audio*
+* **Rupesh Kumar** – *Architecture & AI Systems*
+* **Eshwar Kartik** – *3D Game Engine & Full-Stack*
+* **Prashant** – *3D Visuals & UI/UX*
 
 ---
 
