@@ -1757,6 +1757,634 @@
       font-size: 13px;
       color: #f1c40f;
     }
+
+    /* =========================================================================
+       3D ROAMABLE OPEN WORLD & ALL-IN-ONE REALM STYLING
+       ========================================================================= */
+    .openworld-viewport-wrap {
+      width: 100%;
+      height: 560px;
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #0a0e16;
+    }
+
+    #openWorldCanvasContainer {
+      width: 100%;
+      height: 100%;
+    }
+
+    .openworld-hud-top {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      right: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .telemetry-pill-world {
+      background: rgba(13, 21, 28, 0.85);
+      border: 1px solid var(--border-bright);
+      backdrop-filter: blur(8px);
+      padding: 8px 16px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 12px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .in-world-interaction-banner {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, rgba(255, 69, 0, 0.95), rgba(255, 107, 53, 0.95));
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 24px;
+      font-weight: 900;
+      font-size: 14px;
+      box-shadow: 0 8px 24px rgba(255, 69, 0, 0.6);
+      cursor: pointer;
+      z-index: 20;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      animation: pulse 0.6s infinite alternate;
+      border: 2px solid #fff;
+    }
+
+    .minimap-radar {
+      position: absolute;
+      bottom: 18px;
+      left: 18px;
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: rgba(10, 16, 24, 0.85);
+      border: 2px solid var(--reddit-orange);
+      box-shadow: 0 0 16px rgba(0,0,0,0.8), inset 0 0 10px rgba(255, 69, 0, 0.2);
+      backdrop-filter: blur(8px);
+      z-index: 10;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .radar-crosshair-v { position: absolute; width: 1px; height: 100%; background: rgba(255,255,255,0.1); }
+    .radar-crosshair-h { position: absolute; width: 100%; height: 1px; background: rgba(255,255,255,0.1); }
+    .radar-player-dot {
+      width: 10px;
+      height: 10px;
+      background: #00d2d3;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #00d2d3;
+      z-index: 2;
+    }
+
+    /* =========================================================================
+       MOA GPU BILLING & FINTECH ARCHITECTURE STYLING (IMAGE 1 & 2)
+       ========================================================================= */
+    .fintech-master-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .fintech-nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #111822;
+      border: 1px solid var(--border);
+      padding: 12px 18px;
+      border-radius: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .fintech-title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .fintech-logo-icon { font-size: 26px; }
+    .fintech-head-title { font-size: 15px; font-weight: 900; color: #fff; letter-spacing: 0.5px; }
+    .fintech-sub-title { font-size: 11px; color: var(--text-muted); }
+
+    .fintech-tabs-row {
+      display: flex;
+      gap: 6px;
+      background: #090e15;
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .fin-tab-btn {
+      background: transparent;
+      border: none;
+      color: #95afc0;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .fin-tab-btn.active {
+      background: var(--reddit-orange);
+      color: #fff;
+    }
+
+    .btn-simulate-event {
+      background: linear-gradient(135deg, #0984e3, #00cec9);
+      border: none;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(9, 132, 227, 0.4);
+    }
+
+    /* MOA AUDIT GRID */
+    .moa-audit-grid {
+      display: grid;
+      grid-template-columns: 1fr 310px;
+      gap: 18px;
+    }
+    @media (max-width: 900px) { .moa-audit-grid { grid-template-columns: 1fr; } }
+
+    .moa-pipeline-panel {
+      background: #101620;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .pipeline-breadcrumb {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .pipeline-breadcrumb strong { color: #fff; }
+
+    .audit-stages-flow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .stage-card {
+      background: #16202c;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      min-width: 160px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .stage-card.highlight {
+      border-color: #2ecc71;
+      background: rgba(46, 204, 113, 0.08);
+    }
+
+    .stage-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #fff;
+    }
+    .status-indicator-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .status-indicator-dot.green { background: #2ecc71; box-shadow: 0 0 6px #2ecc71; }
+    .status-indicator-dot.yellow { background: #f1c40f; box-shadow: 0 0 6px #f1c40f; }
+
+    .mono-line {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #95afc0;
+    }
+    .stage-badge-price {
+      background: #090e15;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #fff;
+      margin-top: 4px;
+      display: inline-block;
+    }
+
+    .stage-arrow {
+      color: #95afc0;
+      font-size: 18px;
+    }
+
+    .timeline-bar-wrap {
+      display: flex;
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 6px 0;
+    }
+    .timeline-bar-active { background: #2ecc71; }
+    .timeline-bar-flagged { background: #e74c3c; }
+
+    .btn-claim-refund {
+      background: #2ecc71;
+      border: none;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 11px;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+
+    .audit-ledger-box {
+      background: #0a0e15;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .ledger-records-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .ledger-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: #141b26;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .item-col { display: flex; flex-direction: column; gap: 2px; }
+    .badge-reclaimed {
+      background: rgba(46, 204, 113, 0.2);
+      color: #2ecc71;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 10px;
+    }
+
+    /* MOA SIDEBAR */
+    .moa-sidebar-panel {
+      background: #101620;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .agent-profile-header { display: flex; align-items: center; gap: 10px; }
+    .sidebar-section-title { font-size: 10px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.6px; }
+
+    .connections-list-box {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .conn-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #fff;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .conn-reads { font-size: 10px; color: #95afc0; }
+
+    .guidance-box {
+      background: #090e15;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+    }
+    .guidance-text { font-size: 11px; color: #d0dbe0; line-height: 1.4; margin-top: 4px; font-style: italic; }
+
+    /* =========================================================================
+       RECCE DATA LINEAGE & SPREADSHEET STYLING (IMAGE 3)
+       ========================================================================= */
+    .recce-data-wrapper {
+      background: #101620;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .recce-scenario-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .lineage-graph-container {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: #0a0e16;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      overflow-x: auto;
+    }
+    .lineage-node-box {
+      background: #16202c;
+      border: 1px solid var(--border-bright);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 13px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+    }
+    .lineage-node-box.orange-node {
+      border-color: var(--reddit-orange);
+      background: rgba(255, 69, 0, 0.15);
+      color: #ff6b35;
+    }
+    .lineage-arrow { color: #95afc0; font-family: var(--font-mono); font-size: 14px; }
+
+    .spreadsheet-container {
+      background: #0a0e15;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow-x: auto;
+    }
+    .spreadsheet-header-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: #131b26;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .sh-title { color: #fff; }
+    .sh-badge { color: #2ecc71; font-size: 11px; }
+
+    .recce-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      text-align: left;
+    }
+    .recce-table th {
+      background: #16202c;
+      padding: 10px 14px;
+      color: #95afc0;
+      font-size: 10px;
+      letter-spacing: 0.6px;
+      border-bottom: 1px solid var(--border);
+    }
+    .recce-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: #d0dbe0;
+    }
+    .bool-pill {
+      font-size: 10px;
+      font-weight: 900;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .bool-pill.true { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+    .bool-pill.false { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+
+    /* =========================================================================
+       CIRCULAR MULTI-AGENT COUNCIL & TALKING AGENT (IMAGE 2)
+       ========================================================================= */
+    .council-master-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 18px;
+    }
+    @media (max-width: 900px) { .council-master-layout { grid-template-columns: 1fr; } }
+
+    .council-graph-panel {
+      background: #101620;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .council-header { display: flex; align-items: center; gap: 10px; }
+    .council-crown { font-size: 26px; }
+
+    .radial-network-stage {
+      width: 100%;
+      height: 380px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #090e15;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .radial-spokes-svg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
+    .network-center-node {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #16202c;
+      border: 2px solid var(--reddit-orange);
+      box-shadow: 0 0 20px rgba(255, 69, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+    }
+    .node-avatar { font-size: 24px; }
+    .node-label { font-size: 11px; font-weight: 900; color: #fff; margin-top: 2px; }
+    .node-sub { font-size: 9px; color: #95afc0; }
+
+    .radial-agent-node {
+      position: absolute;
+      width: 74px;
+      height: 74px;
+      border-radius: 50%;
+      background: #131b26;
+      border: 1px solid var(--border-bright);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 5;
+      transition: all 0.2s;
+    }
+    .radial-agent-node:hover { transform: scale(1.1); border-color: #00d2d3; }
+    .radial-agent-node.active {
+      border-color: #00d2d3;
+      box-shadow: 0 0 16px rgba(0, 210, 211, 0.6);
+      background: #182433;
+    }
+
+    .pos-top { top: 22px; left: calc(50% - 37px); }
+    .pos-top-right { top: 68px; right: 48px; }
+    .pos-bottom-right { bottom: 68px; right: 48px; }
+    .pos-bottom { bottom: 22px; left: calc(50% - 37px); }
+    .pos-bottom-left { bottom: 68px; left: 48px; }
+    .pos-top-left { top: 68px; left: 48px; }
+
+    .council-agent-feed-panel {
+      background: #101620;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .feed-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+    .voice-talk-btn {
+      background: linear-gradient(135deg, #ff4500, #ff6b35);
+      border: none;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 11px;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(255, 69, 0, 0.4);
+    }
+
+    .agent-transcript-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    .transcript-entry {
+      background: #0a0e15;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12px;
+    }
+    .entry-meta { display: flex; justify-content: space-between; font-size: 11px; }
+    .entry-time { color: #95afc0; }
+    .entry-body { color: #d0dbe0; line-height: 1.4; }
+
+    .directive-input-wrap {
+      display: flex;
+      gap: 6px;
+      margin-top: auto;
+    }
+    .directive-input-wrap input {
+      flex: 1;
+      background: #0a0e15;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: #fff;
+      font-size: 12px;
+      outline: none;
+    }
+    .btn-save-memory {
+      background: #1e2837;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 0 14px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .btn-save-memory:hover { background: var(--reddit-orange); }
+
+    /* PROVABLY FAIR VERIFIER CARD */
+    .provably-fair-layout {
+      background: #101620;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .pf-header-banner { display: flex; align-items: center; gap: 14px; }
+    .pf-verification-card {
+      background: #0a0e15;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .hash-display-box {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #00d2d3;
+      background: #141b26;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      word-break: break-all;
+    }
   </style>
 </head>
 <body>
@@ -1815,8 +2443,17 @@
 
     <!-- NAVIGATION TABS -->
     <nav class="nav-tabs">
-      <button class="tab-btn active" data-tab="tab-arcade">
+      <button class="tab-btn active" data-tab="tab-world">
+        <span class="icon">🌍</span> 3D Roamable World (All-in-One)
+      </button>
+      <button class="tab-btn" data-tab="tab-arcade">
         <span class="icon">🎰</span> Only Sons Arcade (8 Games)
+      </button>
+      <button class="tab-btn" data-tab="tab-fintech">
+        <span class="icon">💼</span> Fintech & GPU Billing (MOA)
+      </button>
+      <button class="tab-btn" data-tab="tab-council">
+        <span class="icon">👑</span> Multi-Agent Council (Talking Copilot)
       </button>
       <button class="tab-btn" data-tab="tab-surfers">
         <span class="icon">🏎️</span> 3D GTA Freeway Pursuit
@@ -1833,10 +2470,57 @@
     </nav>
 
     <!-- ================================================================= -->
-    <!-- TAB 0: ONLY SONS DYNASTY ARCADE (8 FULLY WORKING MINI-GAMES)      -->
+    <!-- TAB 0: 3D ROAMABLE OPEN WORLD (ALL-IN-ONE MERGED REALM)           -->
     <!-- ================================================================= -->
-    <section id="tab-arcade" class="screen-panel active">
+    <section id="tab-world" class="screen-panel active">
+      <div class="openworld-viewport-wrap">
+        <div id="openWorldCanvasContainer"></div>
+        <!-- HUD -->
+        <div class="openworld-hud-top">
+          <div class="telemetry-pill-world">
+            <span>📍 COORDS: <strong id="worldCoords">X: 0, Z: 0</strong></span>
+            <span>⚡ SPEED: <strong id="worldSpeed">0 m/s</strong></span>
+          </div>
+          <div class="telemetry-pill-world" style="border-color:#ff4500;">
+            <span>👑 3D ALL-IN-ONE ROAMABLE REALM</span>
+          </div>
+        </div>
+        <!-- Floating Interactive Prompt -->
+        <div class="in-world-interaction-banner" id="inWorldPrompt">
+          <span style="font-size:20px;" id="promptEmoji">✨</span>
+          <span id="promptText">[E] ENTER DISTRICT</span>
+        </div>
+        <!-- Minimap Radar -->
+        <div class="minimap-radar">
+          <div class="radar-crosshair-v"></div>
+          <div class="radar-crosshair-h"></div>
+          <div class="radar-player-dot" id="radarPlayerDot"></div>
+        </div>
+      </div>
+      <div style="font-size:12px; color:var(--text-muted); font-family:var(--font-mono); margin-top:8px; text-align:center;">
+        🎮 <strong>Open World Controls:</strong> WASD / Arrows to Walk & Turn | [SHIFT] Sprint | [SPACE] Jump | [E] Enter District
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- TAB 1: ONLY SONS DYNASTY ARCADE (8 FULLY WORKING MINI-GAMES)      -->
+    <!-- ================================================================= -->
+    <section id="tab-arcade" class="screen-panel">
       <div id="arcadeMasterContainer"></div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- TAB 2: FINTECH & GPU CLOUD BILLING (MOA ARCHITECTURE)             -->
+    <!-- ================================================================= -->
+    <section id="tab-fintech" class="screen-panel">
+      <div id="fintechMasterContainer"></div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- TAB 3: CIRCULAR MULTI-AGENT COUNCIL & TALKING COPILOT             -->
+    <!-- ================================================================= -->
+    <section id="tab-council" class="screen-panel">
+      <div id="councilMasterContainer"></div>
     </section>
 
     <!-- ================================================================= -->
@@ -2146,12 +2830,17 @@
     import { AchievementManager } from './src/engine/achievements.js';
     import { ANIMAL_ROLES } from './src/data/animalRoles.js';
     import { OnlySonsArcade } from './src/engine/onlySonsArcade.js';
+    import { OpenWorld3D } from './src/engine/openWorld3D.js';
+    import { FintechEngine } from './src/engine/fintechEngine.js';
+    import { AgentCouncilEngine } from './src/engine/agentCouncil.js';
 
     // Core instances
     const game = new GameEngine();
     const agent = new RedditAgent();
     const visuals = new KarmaVisuals3D('threeCanvasContainer');
     const arcade = new OnlySonsArcade('arcadeMasterContainer', game);
+    const fintech = new FintechEngine('fintechMasterContainer', game);
+    const council = new AgentCouncilEngine('councilMasterContainer', game);
     const achievements = new AchievementManager((ach) => {
       alert(`🏆 ACHIEVEMENT UNLOCKED: ${ach.name}!\nReward: +${ach.reward} Karma Points!`);
       game.addPoints(ach.reward);
@@ -2160,6 +2849,58 @@
     setup3dTiltCard('builderTiltCard');
     visuals.init();
     arcade.init();
+    fintech.init();
+    council.init();
+
+    // 3D Roamable Open World Setup (All-in-One Merged Realm)
+    const worldCoords = document.getElementById('worldCoords');
+    const worldSpeed = document.getElementById('worldSpeed');
+    const inWorldPrompt = document.getElementById('inWorldPrompt');
+    const promptEmoji = document.getElementById('promptEmoji');
+    const promptText = document.getElementById('promptText');
+    const radarDot = document.getElementById('radarPlayerDot');
+
+    const openWorld = new OpenWorld3D(
+      'openWorldCanvasContainer',
+      // Interaction callback: when entering a district
+      (zone) => {
+        if (zone.type === 'tarot_limbo' || zone.type === 'mines_chicken' || zone.type === 'plinko_dice' || zone.type === 'crash_keno') {
+          // Switch to Arcade and open that son's game
+          document.querySelector('[data-tab="tab-arcade"]').click();
+          if (zone.id === 'wizard') arcade.openGame('tarot');
+          else if (zone.id === 'cat') arcade.openGame('mines');
+          else if (zone.id === 'doge') arcade.openGame('plinko');
+          else if (zone.id === 'ape') arcade.openGame('crash');
+        } else if (zone.type === 'council_fintech') {
+          document.querySelector('[data-tab="tab-fintech"]').click();
+        }
+      },
+      // Stats update callback
+      (stats) => {
+        if (worldCoords) worldCoords.innerText = `X: ${stats.x}, Z: ${stats.z}`;
+        if (worldSpeed) worldSpeed.innerText = `${stats.speed} m/s`;
+
+        // Update radar
+        if (radarDot) {
+          const normX = (stats.x / 80) * 44;
+          const normZ = (stats.z / 80) * 44;
+          radarDot.style.transform = `translate(${normX}px, ${normZ}px)`;
+        }
+
+        if (stats.activeZone) {
+          inWorldPrompt.style.display = 'flex';
+          promptEmoji.innerText = stats.activeZone.emoji;
+          promptText.innerText = `[E] ENTER ${stats.activeZone.name.toUpperCase()}`;
+        } else {
+          inWorldPrompt.style.display = 'none';
+        }
+      }
+    );
+    openWorld.init();
+
+    inWorldPrompt?.addEventListener('click', () => {
+      openWorld.triggerCurrentInteraction();
+    });
 
     // 3D Surfers Game Setup
     const surfersOverlay = document.getElementById('surfersOverlay');
@@ -2528,7 +3269,9 @@
         const target = btn.getAttribute('data-tab');
         document.getElementById(target).classList.add('active');
 
-        if (target === 'tab-surfers') {
+        if (target === 'tab-world') {
+          openWorld.onResize();
+        } else if (target === 'tab-surfers') {
           surfers.onResize();
         }
       });

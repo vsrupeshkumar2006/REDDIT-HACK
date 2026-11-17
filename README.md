@@ -114,7 +114,54 @@ flowchart LR
 
 ## 🎮 Game Modes & Features
 
-### 1. 🎰 Only Sons Dynasty Arcade (8 Fully Working Dynamic Mini-Games)
+### 1. 🌍 3D Roamable Open World ("All-In-One" Merged Realm)
+* **360-Degree Free Roaming City Plaza:** Full 3D environment built with Three.js. Roam freely using `WASD`/Arrows, sprint with `Shift`, and jump with `Space`.
+* **5 Interactive Brother Districts:**
+  * 🧙‍♂️ **District I: Mod Wizard's Arcane Spire** – Provably Fair Cryptographic Oracle & Tarot Altar.
+  * 🐈 **District II: Chaos Cat's Cyber Alley** – Infiltration Mines & Brainrot surveillance feeds.
+  * 🐕 **District III: Wholesome Doge Plaza** – Giant 3D Plinko Pegboard & spinning dice rotunda.
+  * 🦍 **District IV: WSB Ape Stock Exchange** – High-stakes Moon Crash rocket launchpad & GPU cloud billing terminal.
+  * 🦫 **District V: Zen Capybara Central Vault** – Multi-Agent Circular Council Citadel & Recce Data Lineage Terminal.
+* **In-World Physical Interaction Triggers:** Walk up to any district beacon and press `[E]` (or tap the floating banner) to seamlessly launch into that brother's domain without leaving the world.
+* **In-Game Brainrot Memes & Surveillance:** Native in-world holographic LED billboards displaying *Giga Doge*, *Skibidi AutoMod*, and *WSB Diamond Hands* directly inside the 3D scene.
+* **Minimap Radar:** Real-time HUD radar tracking coordinates (`X, Z`), velocity, and active landmark zones.
+
+### 2. 💼 Fintech & GPU Cloud Billing Infrastructure (MOA Architecture)
+Built directly from the MOA cloud auditor specification (as featured in production agent workflows):
+* **4-Stage Automated Reconciliation Pipeline:**
+  * `Invoice`: Ingests vendor invoices (e.g., `HEL-2026-10-118-L3` from Lambda Labs GPU Cloud).
+  * `Rule Checks`: Evaluates contract clauses (Clause 4.2 ceiling) and flags unauthorized meter runs.
+  * `Timeline`: Reconciles cluster termination events (`i-hel-4471` termination at Oct 15, 08:00 UTC vs 36h provider meter).
+  * `Findings`: Pinpoints unauthorized overage (**$1,200.00 of $3,600.00 not supported**), claims the refund, and credits **+2,400 Karma Points** into the Dynasty Vault.
+* **Active Cloud Connections:** Lambda Labs, Kubernetes, Weights & Biases, Ironclad Contracts, CoreWeave, Nebius AI, and Slack.
+* **Simulate Billing Event:** Click to dynamically audit synthetic cloud overcharges and systematically earn verified points.
+
+### 3. 📊 Spreadsheet Innovator & Data Lineage (RECCE Architecture)
+Built directly from the constraint-aware data contract replanning specification:
+* **Interactive Data Lineage Graph:** Visualizes data lineage flows from `stg_karma_events` and `stg_reddit_posts` through `dynasty_ledger` to `user_reputation_mart`.
+* **Database Spreadsheet Table:** Detailed schema table with columns `name`, `base_type`, `current_type`, `is_unique`, `distinct_count`, `min`, `max`, and `median`.
+* **Schema Contract Auditing:** Run live contract checks to discover breaking schema changes and claim analytical Karma bounties.
+
+### 4. 👑 Circular Multi-Agent Council & Prioritized Talking Agent
+* **Radial Orchestrator Topology:** "You" (the Commander) at the center node, connected radially via active orbital arcs to:
+  * 🦍 **WSB Ape (GPU Auditor):** Audits cloud instance lifecycles and over-billing.
+  * 🦫 **Zen Capybara (Cost Allocator):** Reclaims funds and manages persistent ledger capacity.
+  * 🐕 **Wholesome Doge (Vendor Liaison):** Distributes community upvote dividends.
+  * 🧙‍♂️ **Mod Wizard (Controls Lead):** Monitors automated spam heuristics and contract ceilings.
+  * 🐈 **Chaos Cat (Capacity Planner):** Scans vulnerability loopholes across AutoMod barriers.
+* **Prioritized Talking Voice Agent:** Uses the Web Speech API and Web Audio procedural synthesis to speak verbal directives and audit findings aloud!
+* **Persistent Agent Memory Stream:** Add live guidance directives (e.g. *"Always cite contract clause 4.2"*) stored persistently in the SQLite database.
+
+### 5. 🔐 Provably Fair Cryptographic Verification & Statistical Ledger
+* **100% Auditable Provably Fair System:** Every dice roll, minefield, plinko drop, and crash multiplier generates a verifiable SHA-256 HMAC proof ($ServerSeed : ClientSeed : Nonce : Outcome$).
+* **Mathematical Probability & House Edge Metrics:**
+  * Dice: 99.0% RTP (1.0% Edge) | Uniform Distribution
+  * Plinko: 98.9% RTP (1.1% Edge) | Binomial Galton Board
+  * Mines: 98.5% RTP (1.5% Edge) | Hypergeometric Combinatorial
+  * Crash: 97.0% RTP (3.0% Edge) | Pareto Exponential Decay
+* **Interactive Proof Verifier:** Real-time client-side and backend cryptographic verification tools.
+
+### 6. 🎰 Only Sons Dynasty Arcade (8 Fully Working Dynamic Mini-Games)
 Built in the signature Reddit Dark UX style (matching the community mini-game arcade standard). In the story, each of the **Five Onlysons** brothers oversees their own games to amass Karma points to rescue their father **u/PatriarchPrime**:
 
 1. 🎲 **KARMA DICE (Son III: Wholesome Doge):**
