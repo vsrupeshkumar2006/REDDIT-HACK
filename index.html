@@ -867,6 +867,11 @@
       line-height: 1.5;
     }
 
+    .chat-msg:has(.verifiable-analytics-card) {
+      max-width: 96%;
+      width: 96%;
+    }
+
     .chat-msg.user {
       align-self: flex-end;
       background: var(--reddit-orange);
@@ -2951,24 +2956,51 @@
     </section>
 
     <!-- ================================================================= -->
-    <!-- TAB 4: REDDIT AI AGENT CHAT & SCRAPER                            -->
+    <!-- TAB 4: REDDIT AI AGENT CHAT & VERIFIABLE SCRAPER SUITE            -->
     <!-- ================================================================= -->
     <section id="tab-agent" class="screen-panel">
       <div class="chat-layout">
         <div>
-          <h2 style="font-size:20px; font-weight:800; color:#fff;">🤖 Reddit AI Agent & Scraper</h2>
-          <p style="font-size:13px; color:var(--text-muted);">
-            Type <code>u/username</code> to scrape user profiles, <code>r/subreddit</code> to analyze sentiment, or ask any question.
-          </p>
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div>
+              <h2 style="font-size:20px; font-weight:800; color:#fff;">🤖 Reddit AI Agent & Verifiable Scraper</h2>
+              <p style="font-size:13px; color:var(--text-muted); margin-top:2px;">
+                Metrics computed from returned records • Explicit sample size & freshness • Inspectable source posts • Low-sample guards • Reproducible aggregates
+              </p>
+            </div>
+            <div style="display:flex; gap:6px;">
+              <span style="font-size:11px; background:rgba(0,229,255,0.12); color:#00e5ff; padding:4px 10px; border-radius:12px; border:1px solid rgba(0,229,255,0.3); font-weight:700;">
+                ✓ Strict Data Traceability
+              </span>
+              <span style="font-size:11px; background:rgba(46,204,113,0.12); color:#a3e635; padding:4px 10px; border-radius:12px; border:1px solid rgba(46,204,113,0.3); font-weight:700;">
+                ✓ Zero Mock Numbers
+              </span>
+            </div>
+          </div>
+
+          <!-- Quick Action & Statistical Verification Toolbar -->
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
+            <button class="agent-quick-btn" data-query="r/technology" style="background:#13151b; border:1px solid #2a3142; color:#00e5ff; font-size:11px; font-weight:700; padding:5px 12px; border-radius:14px; cursor:pointer; transition:all 0.2s;">
+              🔍 Scrape r/technology (N=10)
+            </button>
+            <button class="agent-quick-btn" data-query="u/SnooMaster" style="background:#13151b; border:1px solid #2a3142; color:#ffb000; font-size:11px; font-weight:700; padding:5px 12px; border-radius:14px; cursor:pointer; transition:all 0.2s;">
+              👤 Scrape u/SnooMaster (N=8)
+            </button>
+            <button class="agent-quick-btn" data-query="test low sample" style="background:rgba(255,69,0,0.15); border:1px solid #ff4500; color:#ff7a45; font-size:11px; font-weight:700; padding:5px 12px; border-radius:14px; cursor:pointer; transition:all 0.2s;">
+              ⚠️ Test Low Sample (N=3 &lt; 5 - Insufficient Evidence)
+            </button>
+            <button class="agent-quick-btn" data-query="audit reproducibility" style="background:rgba(46,204,113,0.15); border:1px solid #2ecc71; color:#a3e635; font-size:11px; font-weight:700; padding:5px 12px; border-radius:14px; cursor:pointer; transition:all 0.2s;">
+              🔒 Audit Reproducibility Hash
+            </button>
+          </div>
         </div>
 
         <div class="chat-stream" id="chatStream">
           <div class="chat-msg agent">
-            <strong>🤖 KarmaCrunch AI:</strong> Welcome! I am your Reddit hackathon copilot. You can type queries like:
-            <br>• <code>u/SnooMaster</code> to scrape and audit a profile
-            <br>• <code>r/technology</code> to analyze subreddit sentiment
-            <br>• <code>roast me</code> for a scorched-earth comedy critique
-            <br>• <code>viral title tips</code> for algorithm-optimized headlines
+            <strong>🤖 KarmaCrunch AI:</strong> Welcome to the Verifiable Reddit Intelligence System! Every statistic presented is computed strictly from returned post/comment records with full mathematical traceability.
+            <br>• Click any quick verification pill above or type <code>r/subreddit</code>, <code>u/username</code>, or <code>test low sample</code>.
+            <br>• Try <strong>Test Low Sample (N=3)</strong> to observe the <em>⚠️ INSUFFICIENT EVIDENCE</em> statistical guard.
+            <br>• Try <strong>Audit Reproducibility Hash</strong> to verify identical aggregates with SHA-256 signatures.
           </div>
         </div>
 
@@ -4025,10 +4057,10 @@
     const chatInput = document.getElementById('chatInput');
     const btnSendChat = document.getElementById('btnSendChat');
 
-    async function handleChat() {
-      const q = chatInput.value.trim();
+    async function handleChat(overrideText = null) {
+      const q = typeof overrideText === 'string' ? overrideText.trim() : chatInput.value.trim();
       if (!q) return;
-      chatInput.value = '';
+      if (typeof overrideText !== 'string') chatInput.value = '';
 
       const u = document.createElement('div');
       u.className = 'chat-msg user';
@@ -4037,18 +4069,30 @@
 
       const ag = document.createElement('div');
       ag.className = 'chat-msg agent';
-      ag.innerHTML = '<em>Consulting Reddit API and neural analyzer...</em>';
+      ag.innerHTML = '<em>Consulting Reddit API records and computing verifiable metrics...</em>';
       chatStream.appendChild(ag);
       chatStream.scrollTop = chatStream.scrollHeight;
 
       const reply = await agent.processQuery(q);
-      ag.innerHTML = `<strong>${reply.title}</strong><br>${reply.text.replace(/\n/g, '<br>')}`;
+      let content = `<strong>${reply.title}</strong><br>${reply.text.replace(/\n/g, '<br>')}`;
+      if (reply.htmlCard) {
+        content += reply.htmlCard;
+      }
+      ag.innerHTML = content;
       chatStream.scrollTop = chatStream.scrollHeight;
       achievements.unlock("agent_chat");
     }
 
-    btnSendChat.addEventListener('click', handleChat);
+    btnSendChat.addEventListener('click', () => handleChat());
     chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleChat(); });
+
+    // Quick action verification buttons
+    document.querySelectorAll('.agent-quick-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const query = btn.getAttribute('data-query');
+        if (query) handleChat(query);
+      });
+    });
 
     // Tab buttons
     document.querySelectorAll('.tab-btn').forEach(btn => {

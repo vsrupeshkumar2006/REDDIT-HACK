@@ -14,10 +14,13 @@ from .schemas import (
     ChatAgentRequest,
     ChatAgentResponse,
     EnqueueJobResponse,
-    JobStatusResponse
+    JobStatusResponse,
+    VerifiableAnalyticsResponse,
+    ComputeAnalyticsRequest
 )
 from .reddit_scraper import RedditScraper
 from .ai_agent import AIAgentEngine
+from .analytics import compute_verifiable_metrics
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -103,12 +106,32 @@ async def chat_with_reddit_agent(payload: ChatAgentRequest):
     return ai_engine.handle_chat_agent_query(payload.query, payload.username or "Redditor")
 
 # -------------------------------------------------------------
-# SUBREDDIT LIVE SCRAPER
+# SUBREDDIT LIVE SCRAPER & VERIFIABLE ANALYTICS SUITE
 # -------------------------------------------------------------
 @app.get("/api/scraper/subreddit/{subreddit}")
-async def scrape_subreddit(subreddit: str):
-    posts = await scraper.fetch_subreddit_hot(subreddit, limit=8)
+async def scrape_subreddit(subreddit: str, limit: int = 8):
+    posts = await scraper.fetch_subreddit_hot(subreddit, limit=limit)
     return {"subreddit": subreddit, "count": len(posts), "posts": posts}
+
+@app.get("/api/analytics/subreddit/{subreddit}", response_model=VerifiableAnalyticsResponse)
+async def get_subreddit_analytics(subreddit: str, limit: int = 10):
+    posts = await scraper.fetch_subreddit_hot(subreddit, limit=limit)
+    return compute_verifiable_metrics(posts, query_context=f"r/{subreddit}")
+
+@app.get("/api/analytics/user/{username}", response_model=VerifiableAnalyticsResponse)
+async def get_user_analytics(username: str, limit: int = 10):
+    user_data = await scraper.fetch_user_overview(username, limit=limit)
+    submissions = user_data.get("submissions", [])
+    return compute_verifiable_metrics(submissions, query_context=f"u/{username}")
+
+@app.post("/api/analytics/compute", response_model=VerifiableAnalyticsResponse)
+async def compute_custom_analytics(req: ComputeAnalyticsRequest):
+    return compute_verifiable_metrics(req.records, query_context=req.query_context or "custom_records")
+
+@app.get("/api/analytics/sample-state/{sample_size}", response_model=VerifiableAnalyticsResponse)
+async def test_sample_state(sample_size: int = 3):
+    records = scraper.generate_deterministic_records(f"sample_test_{sample_size}", count=sample_size)
+    return compute_verifiable_metrics(records, query_context=f"sample_test_N={sample_size}")
 
 # -------------------------------------------------------------
 # REDDIT POST DELETION COMPLIANCE WEBHOOK

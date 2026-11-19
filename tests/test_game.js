@@ -8,6 +8,8 @@ import { calculateXpForLevel, getTierForLevel, generateBossForLevel } from '../s
 import { ANIMAL_ROLES } from '../src/data/animalRoles.js';
 import { SpyStoryEngine } from '../src/engine/spyStoryEngine.js';
 import { SocialMediaEngine } from '../src/engine/socialMediaEngine.js';
+import { VerifiableAnalytics } from '../src/engine/verifiableAnalytics.js';
+import { RedditAgent } from '../src/engine/redditAgent.js';
 
 console.log("🧪 Running KarmaCrunch Game Logic Test Suite...\n");
 
@@ -141,5 +143,62 @@ const distFar = Math.hypot(playerFarX - carX, playerFarZ - carZ);
 assert(distFar > 4.2, "Player farther away cannot enter vehicle");
 console.log(`   Face Presets: [${humanFacePresets.join(', ')}] | Proximity: Close=${distClose.toFixed(2)}m (Enter), Far=${distFar.toFixed(2)}m`);
 console.log("   ✅ Real human face presets & vehicle transition validated.\n");
+
+// Test 10: Verifiable Analytics, Sample Sizes, Freshness, Low-Sample Guards & Reproducibility
+console.log("▶ Testing Verifiable Analytics Engine, Sample Sizes, Freshness, Low-Sample Guards & Reproducibility...");
+const testRecords = [
+  { title: "Great breakthrough in neural community engines", author: "alice", ups: 100, num_comments: 10, permalink: "/r/tech/1" },
+  { title: "Awesome update to webgl renderer", author: "bob", ups: 200, num_comments: 20, permalink: "/r/tech/2" },
+  { title: "Is this algorithm fair? Discussion?!", author: "charlie", ups: 300, num_comments: 30, permalink: "/r/tech/3" },
+  { title: "Worst bug in client driver /s", author: "dave", ups: 400, num_comments: 40, permalink: "/r/tech/4" },
+  { title: "Clean architecture milestone", author: "eve", ups: 500, num_comments: 50, permalink: "/r/tech/5" },
+  { title: "Terrible moderation issue", author: "frank", ups: 600, num_comments: 60, permalink: "/r/tech/6" }
+];
+
+// Test 10.1: Record-derived calculation
+const normalAnalytics = VerifiableAnalytics.computeVerifiableMetrics(testRecords, "r/tech_test");
+assert.strictEqual(normalAnalytics.sampleSize, 6, "Sample size N must equal 6 returned records");
+assert.strictEqual(normalAnalytics.metrics.meanScore, 350.0, "Mean score must be 2100 / 6 = 350.0");
+assert.strictEqual(normalAnalytics.metrics.medianScore, 350.0, "Median score must be 350.0");
+assert.strictEqual(normalAnalytics.metrics.minScore, 100, "Min score must equal 100");
+assert.strictEqual(normalAnalytics.metrics.maxScore, 600, "Max score must equal 600");
+assert.strictEqual(normalAnalytics.metrics.meanComments, 35.0, "Mean comments must equal 210 / 6 = 35.0");
+assert.strictEqual(normalAnalytics.isLowSample, false, "N=6 must not be low-sample");
+assert(normalAnalytics.evidenceStatus.includes("STATISTICALLY VALID"), "Evidence status must be STATISTICALLY VALID");
+assert(normalAnalytics.dataFreshness.utcString.length > 5, "Data freshness UTC string must be present");
+assert(normalAnalytics.traceability.meanScore.includes("2100 / 6 = 350.00"), "Traceability formula must exist");
+
+// Test 10.2: Low-Sample Guard (N < 5)
+const lowSampleRecords = testRecords.slice(0, 3); // N = 3
+const lowAnalytics = VerifiableAnalytics.computeVerifiableMetrics(lowSampleRecords, "low_sample_test");
+assert.strictEqual(lowAnalytics.sampleSize, 3, "Sample size N must equal 3");
+assert.strictEqual(lowAnalytics.isLowSample, true, "N=3 must trigger isLowSample = true");
+assert(lowAnalytics.evidenceStatus.includes("INSUFFICIENT EVIDENCE"), "Must flag INSUFFICIENT EVIDENCE");
+assert(lowAnalytics.lowSampleWarning !== null, "Must provide explicit low-sample warning");
+assert(lowAnalytics.lowSampleWarning.includes("below the required statistical threshold"), "Warning must explain threshold");
+
+// Test 10.3: Deterministic Reproducibility
+const passA = VerifiableAnalytics.computeVerifiableMetrics(testRecords, "reproducibility_test");
+const passB = VerifiableAnalytics.computeVerifiableMetrics(testRecords, "reproducibility_test");
+assert.strictEqual(passA.verificationHash, passB.verificationHash, "Identical inputs must yield 100% identical SHA-256 hashes");
+assert.strictEqual(passA.metrics.meanScore, passB.metrics.meanScore, "Aggregate metrics must be 100% identical");
+
+// Test 10.4: Source Posts Inspectability
+assert.strictEqual(normalAnalytics.sourceRecords.length, 6, "All 6 records must be inspectable");
+assert.strictEqual(normalAnalytics.sourceRecords[0].title, testRecords[0].title, "Record title must match");
+assert.strictEqual(normalAnalytics.sourceRecords[0].author, testRecords[0].author, "Record author must match");
+assert.strictEqual(normalAnalytics.sourceRecords[0].external_url, "https://reddit.com/r/tech/1", "External url must be generated");
+
+// Test 10.5: HTML Card rendering
+const html = VerifiableAnalytics.renderAnalyticsCardHTML(normalAnalytics);
+assert(html.includes("Sample Size: N = 6"), "Rendered HTML must show sample size");
+assert(html.includes("Freshness:"), "Rendered HTML must show data freshness");
+assert(html.includes("Inspect Source Records"), "Rendered HTML must have inspect source records toggle");
+assert(html.includes("Verification Hash:"), "Rendered HTML must show verification hash");
+
+console.log(`   Sample Size: N = ${normalAnalytics.sampleSize} | Freshness: ${normalAnalytics.dataFreshness.utcString}`);
+console.log(`   Mean: ▲ ${normalAnalytics.metrics.meanScore} | Median: ▲ ${normalAnalytics.metrics.medianScore} | Hash: ${normalAnalytics.verificationHash.slice(0, 24)}...`);
+console.log(`   Low-Sample Guard: N=3 -> ${lowAnalytics.evidenceStatus}`);
+console.log("   ✅ Verifiable record metrics, freshness, inspectability & reproducibility validated.\n");
 
 console.log("🎉 ALL CLIENT TESTS PASSED SUCCESSFULLY! Ready for deployment.");

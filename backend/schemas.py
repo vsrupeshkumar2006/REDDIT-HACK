@@ -3,7 +3,7 @@ KarmaCrunch Pydantic Data Models & Strict Schemas
 Built by Eshwar Karthik, Prashanth, and Rupesh Kumar
 """
 
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field
 
 class RPGCharacterStats(BaseModel):
@@ -27,6 +27,11 @@ class KarmaCrunchReport(BaseModel):
     fun_facts: List[str]
     rpg_stats: RPGCharacterStats
     ai_portrait_prompt: str = Field(description="Detailed image prompt to generate 3D avatar")
+    # Added verifiable audit fields
+    sample_size: Optional[int] = 10
+    data_freshness_utc: Optional[str] = None
+    verification_hash: Optional[str] = None
+    is_low_sample: Optional[bool] = False
 
 class ChatAgentRequest(BaseModel):
     query: str
@@ -38,6 +43,7 @@ class ChatAgentResponse(BaseModel):
     response: str
     tags: List[str]
     suggested_actions: List[str]
+    analytics: Optional[Dict[str, Any]] = None
 
 class EnqueueJobResponse(BaseModel):
     job_id: str
@@ -49,3 +55,33 @@ class JobStatusResponse(BaseModel):
     status: str
     progress: int
     data: Optional[KarmaCrunchReport] = None
+
+# -------------------------------------------------------------
+# VERIFIABLE ANALYTICS SCHEMAS (Traceability & Reproducibility)
+# -------------------------------------------------------------
+class InspectableRecordSchema(BaseModel):
+    index: int
+    title: str
+    author: str
+    ups: int
+    num_comments: int
+    permalink: str
+    created_utc: float
+    score_share_pct: float
+    external_url: str
+
+class VerifiableAnalyticsResponse(BaseModel):
+    query_context: str
+    sample_size: int = Field(description="Sample size N computed directly from returned records")
+    data_freshness: Dict[str, Any]
+    evidence_status: str
+    is_low_sample: bool
+    low_sample_warning: Optional[str] = None
+    metrics: Dict[str, Any]
+    traceability: Dict[str, str]
+    verification_hash: str = Field(description="Cryptographic SHA-256 hash for deterministic reproducibility")
+    source_records: List[InspectableRecordSchema]
+
+class ComputeAnalyticsRequest(BaseModel):
+    records: List[Dict[str, Any]]
+    query_context: Optional[str] = "custom_dataset"

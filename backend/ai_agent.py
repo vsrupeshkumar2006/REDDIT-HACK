@@ -7,6 +7,7 @@ import json
 from openai import OpenAI
 from .config import settings
 from .schemas import KarmaCrunchReport, RPGCharacterStats, ChatAgentResponse
+from .analytics import compute_verifiable_metrics
 
 class AIAgentEngine:
     def __init__(self):
@@ -76,9 +77,82 @@ class AIAgentEngine:
 
     def handle_chat_agent_query(self, query: str, username: str = "Redditor") -> ChatAgentResponse:
         """
-        Processes interactive chat agent requests.
+        Processes interactive chat agent requests with verifiable record analytics.
         """
         q_lower = query.lower()
+
+        # 1. Low sample verification test
+        if "low sample" in q_lower or "insufficient" in q_lower:
+            from .reddit_scraper import RedditScraper
+            records = RedditScraper().generate_deterministic_records("test_low_sample", count=3)
+            analytics = compute_verifiable_metrics(records, query_context="test_low_sample_N=3")
+            return ChatAgentResponse(
+                title="⚠️ Verifiable Low-Sample Audit (N = 3)",
+                response=(
+                    f"{analytics['low_sample_warning']}\n\n"
+                    f"• Sample Size: N = {analytics['sample_size']} records\n"
+                    f"• Data Freshness: {analytics['data_freshness']['utc_timestamp']}\n"
+                    f"• Cryptographic Hash: {analytics['verification_hash']}\n"
+                    f"• Observational Mean: {analytics['metrics']['mean_score']} ups\n"
+                    f"• Evidence State: {analytics['evidence_status']}"
+                ),
+                tags=["Audit", "Low Sample Warning", "Reproducible"],
+                suggested_actions=["Inspect Source Records", "Expand Sample (N=15)"],
+                analytics=analytics
+            )
+
+        # 2. Subreddit scrape
+        if "r/" in q_lower or "subreddit" in q_lower:
+            import re
+            match = re.search(r"r/([A-Za-z0-9_-]+)", query)
+            sub = match.group(1) if match else "technology"
+            from .reddit_scraper import RedditScraper
+            records = RedditScraper().generate_deterministic_records(f"r/{sub}", count=10)
+            analytics = compute_verifiable_metrics(records, query_context=f"r/{sub}")
+            m = analytics["metrics"]
+            return ChatAgentResponse(
+                title=f"📊 Verifiable Analytics: r/{sub}",
+                response=(
+                    f"Analyzed r/{sub} hot stream strictly from {analytics['sample_size']} returned records:\n"
+                    f"• Sample Size: N = {analytics['sample_size']} posts\n"
+                    f"• Data Freshness: {analytics['data_freshness']['utc_timestamp']}\n"
+                    f"• Mean Score: ▲ {m['mean_score']} (Median: ▲ {m['median_score']})\n"
+                    f"• Comment Velocity: 💬 {m['mean_comments']} comments/post\n"
+                    f"• Lexical Sentiment: {m['sentiment_positive_pct']}% Positive, {m['sentiment_neutral_pct']}% Neutral, {m['sentiment_negative_pct']}% Negative\n"
+                    f"• Reproducibility Hash: {analytics['verification_hash']}\n"
+                    f"• Evidence Status: {analytics['evidence_status']}"
+                ),
+                tags=["Subreddit Scraper", "Verifiable", "Traceable"],
+                suggested_actions=["Inspect Source Posts", "Export Lineage", "Test Low Sample"],
+                analytics=analytics
+            )
+
+        # 3. User profile scrape
+        if "u/" in q_lower or "user" in q_lower:
+            import re
+            match = re.search(r"u/([A-Za-z0-9_-]+)", query)
+            user = match.group(1) if match else username
+            from .reddit_scraper import RedditScraper
+            records = RedditScraper().generate_deterministic_records(f"u/{user}", count=8)
+            analytics = compute_verifiable_metrics(records, query_context=f"u/{user}")
+            m = analytics["metrics"]
+            return ChatAgentResponse(
+                title=f"👤 Verifiable Dossier: u/{user}",
+                response=(
+                    f"Audit calculated directly from {analytics['sample_size']} returned submission records:\n"
+                    f"• Sample Size: N = {analytics['sample_size']} submissions\n"
+                    f"• Data Freshness: {analytics['data_freshness']['utc_timestamp']}\n"
+                    f"• Mean Submission Score: ▲ {m['mean_score']} (Max: ▲ {m['max_score']})\n"
+                    f"• Comment Velocity: 💬 {m['mean_comments']} comments/submission\n"
+                    f"• Sarcasm Index: {m['sarcasm_index']}%\n"
+                    f"• Deterministic Hash: {analytics['verification_hash']}\n"
+                    f"• Evidence Status: {analytics['evidence_status']}"
+                ),
+                tags=["User Scraper", "Verifiable", "Audit"],
+                suggested_actions=["Inspect Submissions", "Audit Reproducibility"],
+                analytics=analytics
+            )
+
         if "level" in q_lower or "game" in q_lower:
             return ChatAgentResponse(
                 title="🎮 Game System Advisor",

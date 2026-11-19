@@ -178,3 +178,62 @@ def test_character_profile():
     assert get_resp.status_code == 200
     assert get_resp.json()["archetype"] == "human"
     assert get_resp.json()["paint_color"] == "#ff4500"
+
+def test_verifiable_analytics_endpoint():
+    # Subreddit analytics endpoint
+    resp = client.get("/api/analytics/subreddit/technology?limit=10")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["sample_size"] == 10
+    assert "data_freshness" in data
+    assert "utc_timestamp" in data["data_freshness"]
+    assert "metrics" in data
+    assert data["metrics"]["mean_score"] > 0
+    assert data["is_low_sample"] is False
+    assert "STATISTICALLY VALID" in data["evidence_status"]
+    assert "verification_hash" in data
+    assert data["verification_hash"].startswith("sha256:")
+    assert len(data["source_records"]) == 10
+    assert "traceability" in data
+    assert "mean_score" in data["traceability"]
+
+def test_verifiable_analytics_low_sample_guard():
+    # Low sample state N = 3 (< 5)
+    resp = client.get("/api/analytics/sample-state/3")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["sample_size"] == 3
+    assert data["is_low_sample"] is True
+    assert "INSUFFICIENT EVIDENCE" in data["evidence_status"]
+    assert data["low_sample_warning"] is not None
+    assert "below the required statistical threshold" in data["low_sample_warning"]
+
+def test_verifiable_analytics_reproducibility():
+    # Duplicate compute requests on identical custom records must produce identical hashes
+    custom_records = [
+        {"title": "Breakthrough in AI", "author": "dev1", "ups": 1500, "num_comments": 120, "permalink": "/p1"},
+        {"title": "Awesome new game engine", "author": "dev2", "ups": 2500, "num_comments": 220, "permalink": "/p2"},
+        {"title": "Is this fair?!", "author": "dev3", "ups": 3500, "num_comments": 320, "permalink": "/p3"},
+        {"title": "Clean codebase architecture", "author": "dev4", "ups": 4500, "num_comments": 420, "permalink": "/p4"},
+        {"title": "Great community milestones", "author": "dev5", "ups": 5500, "num_comments": 520, "permalink": "/p5"}
+    ]
+    resp1 = client.post("/api/analytics/compute", json={"records": custom_records, "query_context": "test_dataset"})
+    resp2 = client.post("/api/analytics/compute", json={"records": custom_records, "query_context": "test_dataset"})
+    assert resp1.status_code == 200
+    assert resp2.status_code == 200
+    d1 = resp1.json()
+    d2 = resp2.json()
+    assert d1["verification_hash"] == d2["verification_hash"]
+    assert d1["metrics"]["mean_score"] == 3500.0
+    assert d2["metrics"]["mean_score"] == 3500.0
+    assert d1["metrics"]["median_score"] == 3500.0
+    assert d1["is_low_sample"] is False
+
+def test_agent_chat_with_verifiable_analytics():
+    # Chatting with agent for subreddit or low sample query
+    resp = client.post("/api/agent/chat", json={"query": "test low sample"})
+    assert resp.status_code == 200
+    data = resp.json()
+    assert "INSUFFICIENT EVIDENCE" in data["response"]
+    assert data["analytics"] is not None
+    assert data["analytics"]["is_low_sample"] is True
